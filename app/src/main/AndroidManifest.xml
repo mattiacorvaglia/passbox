@@ -4,17 +4,13 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="21" />
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.mcdev.passbox.ui.LoginActivity"
+            android:name="ui.LoginActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait"
@@ -27,28 +23,28 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.mcdev.passbox.ui.SetLoginActivity"
+            android:name="ui.SetLoginActivity"
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeFocus"
             android:excludeFromRecents="true" >
         </activity>
         <activity
-            android:name="com.mcdev.passbox.ui.MainActivity"
+            android:name="ui.MainActivity"
             android:excludeFromRecents="true" >
         </activity>
         <activity
-            android:name="com.mcdev.passbox.ui.PasswordDetailActivity"
+            android:name="ui.PasswordDetailActivity"
             android:theme="@style/AppThemeDetail"
             android:excludeFromRecents="true" >
         </activity>
         <activity
-            android:name="com.mcdev.passbox.ui.AddPasswordActivity"
+            android:name="ui.AddPasswordActivity"
             android:theme="@style/AppThemeDetail"
             android:excludeFromRecents="true" >
         </activity>
         <activity
-            android:name="com.mcdev.passbox.ui.UpdatePasswordActivity"
+            android:name="ui.UpdatePasswordActivity"
             android:theme="@style/AppThemeDetail"
             android:excludeFromRecents="true" >
         </activity>
