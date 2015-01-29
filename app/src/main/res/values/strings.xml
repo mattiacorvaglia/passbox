@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Passbox</string>
+    <string name="desc">Image description</string>
+    
+    <string name="drawer_title">Navigation</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    
+    <string name="action_settings">Impostazioni</string>
+    <string name="action_edit">Modifica</string>
+    <string name="action_remove">Elimina</string>
+    <string name="action_color_picker">Cambia colore</string>
+    <string name="action_done">Salva</string>
+    <string name="action_add_recovery">Aggiungi una recovery password</string>
+    
+    <string name="error_add_pwd">Devi inserire una password</string>
+    <string name="error_add_title">Devi inserire un\'etichetta</string>
+    <string name="error_add_question">Devi inserire una domanda</string>
+    <string name="error_add_answer">Devi inserire una risposta</string>
+    
+    <string name="content_placeholder">\@Mattia Corvaglia\n\n\nPASSBOX\n\nPersonal Password Manager</string>
+    <string name="content_placeholder_preference">Impostazioni e preferenze</string>
+	<string name="ciao">Ciao</string>
+	
+	<string name="title">Etichetta</string>
+	<string name="description">Descrizione</string>
+	<string name="username">Username</string>
+	<string name="password">Password</string>
+	<string name="web_url">Website</string>
+	<string name="note">Note</string>
+	<string name="question">Domanda</string>
+	<string name="answer">Risposta segreta</string>
+
+	<string name="login">Accedi</string>
+	
+	<string name="k1">1</string>
+	<string name="k2">2</string>
+	<string name="k3">3</string>
+	<string name="k4">4</string>
+	<string name="k5">5</string>
+	<string name="k6">6</string>
+	<string name="k7">7</string>
+	<string name="k8">8</string>
+	<string name="k9">9</string>
+	<string name="k0">0</string>
+	
+	<string name="welcome">Benvenuto</string>
+	<string name="confirm">Conferma</string>
+	<string name="save">Salva</string>
+	<string name="set_auth_code">Imposta subito la tua password generale. Ti servirà a custodire tutti i tuoi codici segreti!</string>
+	<string name="set_password">Scegli la tua password. Deve avere almeno 4 o massimo 8 cifre.</string>
+	<string name="repeat_password">Ripeti la password per confermarla.</string>
+	<string name="repeat_process">Hai scritto due password diverse. Ripeti il procedimento. La password deve avere almeno 4 o massimo 8 cifre.</string>
+	<string name="ok_password">Congratulazioni. Sei al sicuro!</string>
+	<string name="wrong_password">Password errata. Riprova.</string>
+	<string name="empty_collection">Nessuna password salvata.</string>
+	
+    <string name="color_picker_default_title">Scegli un colore</string>
+    <string name="color_swatch_description">Color</string>
+    <string name="color_swatch_description_selected">Color selected</string>
+    
+    <string-array name="default_color_choice_values" translatable="false">
+        <item>#f44336</item> <!-- Red -->
+        <item>#e91e63</item> <!-- Pink -->
+        <item>#9c27b0</item> <!-- Purple -->
+        <item>#673ab7</item> <!-- Deep purple -->
+        <item>#3f51b5</item> <!-- Indigo -->
+        <item>#2196f3</item> <!-- Blue -->
+        <item>#03a9f4</item> <!-- Light blue -->
+        <item>#00bcd4</item> <!-- Cyan -->
+        <item>#009688</item> <!-- Teal -->
+        <item>#4caf50</item> <!-- Green -->
+        <item>#8bc34a</item> <!-- Light green -->
+        <item>#cddc39</item> <!-- Lime -->
+        <item>#ffeb3b</item> <!-- Yellow -->
+        <item>#ffc107</item> <!-- Amber -->
+        <item>#ff9800</item> <!-- Orange -->
+        <item>#ff5722</item> <!-- Deep orange -->
+        <item>#757575</item> <!-- Grey -->
+        <item>#cccccc</item> <!-- Light grey -->
+    </string-array>
+
+    <string-array name="homescreen_color_choice_values" translatable="false">
+        <item>#ffffff</item>
+        <item>#000000</item>
+    </string-array>
+	
+</resources>

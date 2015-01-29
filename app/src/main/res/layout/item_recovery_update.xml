@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pwd_update_recovery_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+    
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical"
+	    android:paddingBottom="8dp"
+	    android:paddingEnd="32dp"
+	    android:paddingLeft="16dp"
+	    android:paddingRight="32dp"
+	    android:paddingStart="16dp"
+	    android:paddingTop="8dp" >
+	
+	    <RelativeLayout
+	        android:id="@+id/pwd_update_question_layout"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="center_vertical"
+	        android:orientation="horizontal" >
+	
+	        <ImageView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentLeft="true"
+	            android:layout_alignParentStart="true"
+	            android:layout_centerVertical="true"
+	            android:contentDescription="@string/desc"
+	            android:src="@drawable/ic_lock_grey600_24dp" />
+	
+	        <LinearLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentLeft="true"
+	            android:layout_alignParentStart="true"
+	            android:layout_marginLeft="56dp"
+	            android:layout_marginStart="56dp"
+	            android:gravity="center_vertical"
+	            android:orientation="vertical"
+	            android:paddingBottom="16dp"
+	            android:paddingTop="16dp" >
+	
+	            <TextView
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:text="@string/question"
+	                android:textColor="@color/hints"
+	                android:textSize="13sp" />
+	
+	            <EditText
+	                android:id="@+id/pwd_update_question"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:singleLine="true"
+	                android:textColor="@color/body"
+	                android:textSize="14sp"
+	                android:inputType="text" />
+	            
+	        </LinearLayout>
+	        
+	    </RelativeLayout>
+	
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical" >
+	        
+	        <RelativeLayout
+		        android:id="@+id/pwd_update_answer_layout"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:gravity="center_vertical"
+		        android:orientation="horizontal" >
+	
+		        <ImageView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentLeft="true"
+		            android:layout_alignParentStart="true"
+		            android:layout_centerVertical="true"
+		            android:contentDescription="@string/desc"
+		            android:src="@drawable/ic_key_grey600_24dp" />
+		
+		        <LinearLayout
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentLeft="true"
+		            android:layout_alignParentStart="true"
+		            android:layout_marginLeft="56dp"
+		            android:layout_marginStart="56dp"
+		            android:gravity="center_vertical"
+		            android:orientation="vertical"
+		            android:paddingBottom="16dp"
+		            android:paddingTop="16dp" >
+		
+		            <TextView
+		                android:layout_width="match_parent"
+		                android:layout_height="wrap_content"
+		                android:text="@string/answer"
+		                android:textColor="@color/hints"
+		                android:textSize="13sp" />
+		
+		            <EditText
+		                android:id="@+id/pwd_update_answer"
+		                android:layout_width="match_parent"
+		                android:layout_height="wrap_content"
+		                android:singleLine="true"
+		                android:textColor="@color/body"
+		                android:textSize="14sp"
+		                android:inputType="textPassword" />
+		            
+				</LinearLayout>
+				
+		    </RelativeLayout>
+			
+	        <LinearLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="56dp"
+	            android:layout_marginStart="56dp"
+	            android:orientation="vertical"
+	            android:paddingBottom="8dp"
+	            android:paddingTop="8dp" >
+	            
+	            <Button
+			        android:id="@+id/pwd_update_remove_recovery"
+			        android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/action_remove"
+					android:layout_gravity="end" />
+	            
+	        </LinearLayout>
+	        
+	    </LinearLayout>
+	
+	</LinearLayout>
+	
+	<View
+	    android:id="@+id/pwd_update_recovery_divider"
+		android:layout_width="match_parent"
+		android:layout_height="1dp"
+		android:background="@color/dividers" />
+
+</LinearLayout>

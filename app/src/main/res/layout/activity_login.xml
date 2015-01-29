@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/cyan_500" >
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:padding="24dp"
+	    android:gravity="center"
+	    android:layout_marginTop="100dp" >
+    
+	    <EditText
+	        android:id="@+id/display"
+	        android:layout_width="150dp"
+	        android:layout_height="48dp"
+	        android:inputType="textPassword"
+	        android:gravity="center_horizontal|bottom"
+	       	android:textSize="32sp"
+	       	android:textColor="@android:color/white"
+	       	android:maxLength="8"
+	        android:layout_alignParentTop="true"
+	        android:layout_centerInParent="true" />
+	    
+	    <com.mcdev.passbox.utils.RippleView
+			android:layout_width="24dp"
+			android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+			app:rv_centered="true"
+			app:rv_color="@color/white"
+			app:rv_zoom="true"
+			app:rv_zoomScale="1.5"
+			app:rv_alpha="0"
+			android:layout_toEndOf="@+id/display"
+	        android:layout_toRightOf="@+id/display"
+	        android:layout_alignTop="@+id/display"
+	        android:layout_marginLeft="16dp"
+	        android:layout_marginStart="16dp" >
+		    <ImageButton
+		        android:id="@+id/del"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:src="@drawable/ic_backspace_white_24dp"
+		        android:background="@android:color/transparent"
+		        android:contentDescription="@string/desc" />
+		</com.mcdev.passbox.utils.RippleView>
+	    
+	    <android.support.v7.widget.GridLayout
+	        android:id="@+id/keys"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:layout_below="@+id/display"
+	    	android:layout_centerInParent="true"
+	    	android:layout_marginTop="24dp"
+	    	android:layout_marginBottom="24dp"
+	    	app:columnCount="3"
+	    	app:rowCount="4"
+	    	app:orientation="horizontal" >
+	    	
+	        <com.mcdev.passbox.utils.RippleView
+	            android:background="@android:color/transparent"
+				app:rv_centered="true"
+				app:rv_color="@color/white"
+				app:rv_alpha="120"
+				app:rv_rippleDuration="200"
+				app:rv_type="doubleRipple"
+				app:layout_column="0"
+				app:layout_row="0" >
+		        <Button
+		            android:layout_width="wrap_content"
+	    			android:layout_height="wrap_content"
+			        android:id="@+id/key1"
+			        android:text="@string/k1"
+			        android:background="@android:color/transparent"
+			        android:textColor="@android:color/white"
+			        android:textSize="24sp" />
+	        </com.mcdev.passbox.utils.RippleView>
+	        <com.mcdev.passbox.utils.RippleView
+	            android:background="@android:color/transparent"
+				app:rv_centered="true"
+				app:rv_color="@color/white"
+				app:rv_alpha="120"
+				app:rv_rippleDuration="200"
+				app:rv_type="doubleRipple"
+				app:layout_column="1"
+				app:layout_row="0" >
+		        <Button
+		            android:layout_width="wrap_content"
+	    			android:layout_height="wrap_content"
+			        android:id="@+id/key2"
+			        android:text="@string/k2"
+			        android:background="@android:color/transparent"
+			        android:textColor="@android:color/white"
+			        android:textSize="24sp" />
+		    </com.mcdev.passbox.utils.RippleView>
+		    <com.mcdev.passbox.utils.RippleView
+	            android:background="@android:color/transparent"
+				app:rv_centered="true"
+				app:rv_color="@color/white"
+				app:rv_alpha="120"
+				app:rv_rippleDuration="200"
+				app:rv_type="doubleRipple"
+				app:layout_column="2"
+				app:layout_row="0" >
+		        <Button
+		            android:layout_width="wrap_content"
+	    			android:layout_height="wrap_content"
+			        android:id="@+id/key3"
+			        android:text="@string/k3"
+			        android:background="@android:color/transparent"
+			        android:textColor="@android:color/white"
+			        android:textSize="24sp" />
+	        </com.mcdev.passbox.utils.RippleView>
+	        <com.mcdev.passbox.utils.RippleView
+	            android:background="@android:color/transparent"
+				app:rv_centered="true"
+				app:rv_color="@color/white"
+				app:rv_alpha="120"
+				app:rv_rippleDuration="200"
+				app:rv_type="doubleRipple"
+				app:layout_column="0"
+				app:layout_row="1" >
+		        <Button
+		            android:layout_width="wrap_content"
+	    			android:layout_height="wrap_content"
+			        android:id="@+id/key4"
+			        android:text="@string/k4"
+			        android:background="@android:color/transparent"
+			        android:textColor="@android:color/white"
+			        android:textSize="24sp" />
+	        </com.mcdev.passbox.utils.RippleView>
+	        <com.mcdev.passbox.utils.RippleView
+	            android:background="@android:color/transparent"
+				app:rv_centered="true"
+				app:rv_color="@color/white"
+				app:rv_alpha="120"
+				app:rv_rippleDuration="200"
+				app:rv_type="doubleRipple"
+				app:layout_column="1"
+				app:layout_row="1" >
+		        <Button
+		            android:layout_width="wrap_content"
+	    			android:layout_height="wrap_content"
+			        android:id="@+id/key5"
+			        android:text="@string/k5"
+			        android:background="@android:color/transparent"
+			        android:textColor="@android:color/white"
+			        android:textSize="24sp" />
+	        </com.mcdev.passbox.utils.RippleView>
+	        <com.mcdev.passbox.utils.RippleView
+	            android:background="@android:color/transparent"
+				app:rv_centered="true"
+				app:rv_color="@color/white"
+				app:rv_alpha="120"
+				app:rv_rippleDuration="200"
+				app:rv_type="doubleRipple"
+				app:layout_column="2"
+				app:layout_row="1" >
+		        <Button
+		            android:layout_width="wrap_content"
+	    			android:layout_height="wrap_content"
+			        android:id="@+id/key6"
+			        android:text="@string/k6"
+			        android:background="@android:color/transparent"
+			        android:textColor="@android:color/white"
+			        android:textSize="24sp" />
+		    </com.mcdev.passbox.utils.RippleView>
+	        <com.mcdev.passbox.utils.RippleView
+	            android:background="@android:color/transparent"
+				app:rv_centered="true"
+				app:rv_color="@color/white"
+				app:rv_alpha="120"
+				app:rv_rippleDuration="200"
+				app:rv_type="doubleRipple"
+				app:layout_column="0"
+				app:layout_row="2" >
+		        <Button
+		            android:layout_width="wrap_content"
+	    			android:layout_height="wrap_content"
+			        android:id="@+id/key7"
+			        android:text="@string/k7"
+			        android:background="@android:color/transparent"
+			        android:textColor="@android:color/white"
+			        android:textSize="24sp" />
+		    </com.mcdev.passbox.utils.RippleView>
+		    <com.mcdev.passbox.utils.RippleView
+	            android:background="@android:color/transparent"
+				app:rv_centered="true"
+				app:rv_color="@color/white"
+				app:rv_alpha="120"
+				app:rv_rippleDuration="200"
+				app:rv_type="doubleRipple"
+				app:layout_column="1"
+				app:layout_row="2" >
+		        <Button
+		            android:layout_width="wrap_content"
+	    			android:layout_height="wrap_content"
+			        android:id="@+id/key8"
+			        android:text="@string/k8"
+			        android:background="@android:color/transparent"
+			        android:textColor="@android:color/white"
+			        android:textSize="24sp" />
+		    </com.mcdev.passbox.utils.RippleView>
+		    <com.mcdev.passbox.utils.RippleView
+	            android:background="@android:color/transparent"
+				app:rv_centered="true"
+				app:rv_color="@color/white"
+				app:rv_alpha="120"
+				app:rv_rippleDuration="200"
+				app:rv_type="doubleRipple"
+				app:layout_column="2"
+				app:layout_row="2" >
+		        <Button
+		            android:layout_width="wrap_content"
+	    			android:layout_height="wrap_content"
+			        android:id="@+id/key9"
+			        android:text="@string/k9"
+			        android:background="@android:color/transparent"
+			        android:textColor="@android:color/white"
+			        android:textSize="24sp" />
+		    </com.mcdev.passbox.utils.RippleView>
+	        
+	        <android.support.v7.widget.Space
+			    android:layout_width="wrap_content"
+			    app:layout_column="0"
+			    app:layout_row="3" />
+	        <com.mcdev.passbox.utils.RippleView
+	            android:background="@android:color/transparent"
+				app:rv_centered="true"
+				app:rv_color="@color/white"
+				app:rv_alpha="120"
+				app:rv_rippleDuration="200"
+				app:rv_type="doubleRipple"
+				app:layout_column="1"
+				app:layout_row="3" >
+		        <Button
+		            android:layout_width="wrap_content"
+		    		android:layout_height="wrap_content"
+			        android:id="@+id/key0"
+			        android:text="@string/k0"
+			        android:background="@android:color/transparent"
+			        android:textColor="@android:color/white"
+			        android:textSize="24sp" />
+		    </com.mcdev.passbox.utils.RippleView>
+	        <android.support.v7.widget.Space
+			    android:layout_width="wrap_content"
+			    app:layout_column="2"
+			    app:layout_row="3" />
+	        
+	    </android.support.v7.widget.GridLayout>
+	    
+	    <com.mcdev.passbox.utils.RippleView
+	        android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_below="@+id/keys"
+			android:layout_centerInParent="true"
+			app:rv_centered="true"
+			app:rv_color="@color/white"
+			app:rv_zoom="true"
+			app:rv_zoomScale="1.1"
+			app:rv_alpha="120"
+			app:rv_rippleDuration="200"
+			app:rv_type="doubleRipple"
+			app:layout_column="2"
+			app:layout_row="0" >
+		    <Button
+		        android:id="@+id/ok"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/login"
+		        android:background="@android:color/transparent"
+		        android:textColor="@android:color/white"
+		        android:visibility="invisible" />
+	    </com.mcdev.passbox.utils.RippleView>
+	    
+    </RelativeLayout>
+
+</ScrollView>
