@@ -1,7 +1,7 @@
 package com.mcdev.passbox.ui;
 
 import com.mcdev.passbox.R;
-import com.mcdev.passbox.utils.LoginManager;
+import com.mcdev.passbox.utils.Loginer;
 
 import android.app.Activity;
 import android.content.Context;
@@ -34,7 +34,7 @@ public class LoginActivity extends Activity {
 		loginActivity = this;
 		
 		// Check if is the first time the app is launched
-		LoginManager.getInstance(mContext).checkLogin();
+		Loginer.getInstance(mContext).checkLogin();
 		
 		// Find Views
 		display = (EditText) findViewById(R.id.display);
@@ -128,7 +128,7 @@ public class LoginActivity extends Activity {
 	
 	/**
 	 * Append the char of the pressed button to the PIN
-	 * @param keyToAppend
+	 * @param keyToAppend the char to append
 	 */
 	private void appendChar(String keyToAppend) {
 		if (pin.length() < 8) {
@@ -164,7 +164,7 @@ public class LoginActivity extends Activity {
 	 * Verify the entered password
 	 */
 	private void checkPwd() {
-		String storedPwd = LoginManager.getInstance(mContext).getMainPwd();
+		String storedPwd = Loginer.getInstance(mContext).getMainPwd();
 		if (storedPwd.equals(pin.toString())) {
 			Intent mIntent = new Intent(mContext, MainActivity.class);
 			startActivity(mIntent);

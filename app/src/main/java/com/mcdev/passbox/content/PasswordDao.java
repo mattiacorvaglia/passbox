@@ -3,7 +3,7 @@ package com.mcdev.passbox.content;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.mcdev.passbox.utils.CommonResources;
+import com.mcdev.passbox.utils.Constants;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -38,7 +38,7 @@ public class PasswordDao {
 	// Constructor
 	protected PasswordDao(Context context) {
 		mDbHelper = new PassboxDbHelper(context);
-		Log.i(CommonResources.TAG_APPLICATION_LOG, "new PassboxDbHelper operation executed in PasswordDao class");
+		Log.i(Constants.TAG_APPLICATION_LOG, "new PassboxDbHelper operation executed in PasswordDao class");
 	}
 	
 	// Singleton Pattern
@@ -56,7 +56,7 @@ public class PasswordDao {
 	 */
     public void open() throws SQLException {
         database = mDbHelper.getWritableDatabase();
-        Log.i(CommonResources.TAG_APPLICATION_LOG, "getWritableDatabase() operation executed in PasswordDao class");
+        Log.i(Constants.TAG_APPLICATION_LOG, "getWritableDatabase() operation executed in PasswordDao class");
     }
 
     /**
@@ -64,7 +64,7 @@ public class PasswordDao {
      */
     public void close() {
         mDbHelper.close();
-        Log.i(CommonResources.TAG_APPLICATION_LOG, "database close() operation executed in PasswordDao class");
+        Log.i(Constants.TAG_APPLICATION_LOG, "database close() operation executed in PasswordDao class");
     }
     
     /**
@@ -79,7 +79,7 @@ public class PasswordDao {
     	
     	// Execute all the insert queries in a transaction
     	database.beginTransaction();
-    	Log.i(CommonResources.TAG_APPLICATION_LOG, "beginTransaction() executed in PasswordDao class");
+    	Log.i(Constants.TAG_APPLICATION_LOG, "beginTransaction() executed in PasswordDao class");
     	
     	try {
 	    	/*
@@ -101,7 +101,7 @@ public class PasswordDao {
 	        );
 	        
 	        if (newPasswordId == -1) {
-	        	Log.i(CommonResources.TAG_APPLICATION_LOG, "Error on insert a new password entry in the database");
+	        	Log.i(Constants.TAG_APPLICATION_LOG, "Error on insert a new password entry in the database");
             	throw new SQLException();
 			}
 	        
@@ -126,7 +126,7 @@ public class PasswordDao {
     		return -1;
     	} finally {
     		database.endTransaction();
-    		Log.i(CommonResources.TAG_APPLICATION_LOG, "endTransaction() executed in PasswordDao class");
+    		Log.i(Constants.TAG_APPLICATION_LOG, "endTransaction() executed in PasswordDao class");
     	}
     	
     	return newPasswordId;
@@ -186,7 +186,7 @@ public class PasswordDao {
         	cursor.close();
         	return result;
         } else {
-        	Log.i(CommonResources.TAG_APPLICATION_LOG, "Founded multiple entries with the same password id");
+        	Log.i(Constants.TAG_APPLICATION_LOG, "Founded multiple entries with the same password id");
         	cursor.close();
         	return null;
         }
@@ -205,7 +205,7 @@ public class PasswordDao {
     	
     	// Execute all the select queries in a transaction
     	database.beginTransaction();
-    	Log.i(CommonResources.TAG_APPLICATION_LOG, "beginTransaction() executed in PasswordDao class");
+    	Log.i(Constants.TAG_APPLICATION_LOG, "beginTransaction() executed in PasswordDao class");
     	
     	try {
     		String whereClause = PassboxContract.PasswordEntry.COLUMN_NAME_ENTRY_ID + " = ?";
@@ -228,7 +228,7 @@ public class PasswordDao {
             	cursor.close();
             } else {
             	cursor.close();
-            	Log.i(CommonResources.TAG_APPLICATION_LOG, "Founded multiple entries with the same password id");
+            	Log.i(Constants.TAG_APPLICATION_LOG, "Founded multiple entries with the same password id");
             	throw new SQLException();
             }
             
@@ -248,7 +248,7 @@ public class PasswordDao {
 			return null;
 		} finally {
 			database.endTransaction();
-			Log.i(CommonResources.TAG_APPLICATION_LOG, "endTransaction() executed in PasswordDao class");
+			Log.i(Constants.TAG_APPLICATION_LOG, "endTransaction() executed in PasswordDao class");
 		}
     	
     	return result;
@@ -283,7 +283,7 @@ public class PasswordDao {
         		cursor.moveToNext();
         	}
         } else {
-        	Log.i(CommonResources.TAG_APPLICATION_LOG, "None password entries founded in the database");
+        	Log.i(Constants.TAG_APPLICATION_LOG, "None password entries founded in the database");
         	return null;
         }
         cursor.close();
@@ -302,7 +302,7 @@ public class PasswordDao {
     	
     	// Execute all the select queries in a transaction
     	database.beginTransaction();
-    	Log.i(CommonResources.TAG_APPLICATION_LOG, "beginTransaction() executed in PasswordDao class");
+    	Log.i(Constants.TAG_APPLICATION_LOG, "beginTransaction() executed in PasswordDao class");
     	
     	try {
     		
@@ -334,7 +334,7 @@ public class PasswordDao {
             		cursor.moveToNext();
             	}
             } else {
-            	Log.i(CommonResources.TAG_APPLICATION_LOG, "None password entries founded in the database");
+            	Log.i(Constants.TAG_APPLICATION_LOG, "None password entries founded in the database");
             	throw new SQLException();
             }
             cursor.close();
@@ -346,7 +346,7 @@ public class PasswordDao {
 			return null;
 		} finally {
 			database.endTransaction();
-			Log.i(CommonResources.TAG_APPLICATION_LOG, "endTransaction() executed in PasswordDao class");
+			Log.i(Constants.TAG_APPLICATION_LOG, "endTransaction() executed in PasswordDao class");
 		}
     	
     	return results;
@@ -365,7 +365,7 @@ public class PasswordDao {
     	
     	// Execute all the update queries in a transaction
     	database.beginTransaction();
-    	Log.i(CommonResources.TAG_APPLICATION_LOG, "beginTransaction() executed in RecoveryDao class");
+    	Log.i(Constants.TAG_APPLICATION_LOG, "beginTransaction() executed in RecoveryDao class");
     	
     	try {
     		/*
@@ -388,9 +388,9 @@ public class PasswordDao {
     			whereClause,
     			whereArgs
     		);
-	    	Log.i(CommonResources.TAG_APPLICATION_LOG, "Affected rows = "+String.valueOf(affectedRows));
+	    	Log.i(Constants.TAG_APPLICATION_LOG, "Affected rows = "+String.valueOf(affectedRows));
     		if (affectedRows != 1) {
-    			Log.i(CommonResources.TAG_APPLICATION_LOG, "Error on update a password entry in the database");
+    			Log.i(Constants.TAG_APPLICATION_LOG, "Error on update a password entry in the database");
             	throw new SQLException();
 			}
 	    	
@@ -403,7 +403,7 @@ public class PasswordDao {
 	        	RecoveryDao.getInstance(mContext).close();
 	        	
 	        	if (affectedRecoveryRows == -1) {
-	        		Log.i(CommonResources.TAG_APPLICATION_LOG, "Error on update a password related recovery list the database");
+	        		Log.i(Constants.TAG_APPLICATION_LOG, "Error on update a password related recovery list the database");
 	            	throw new SQLException();
 				}
 	        }
@@ -415,7 +415,7 @@ public class PasswordDao {
     		return -1;
     	} finally {
     		database.endTransaction();
-    		Log.i(CommonResources.TAG_APPLICATION_LOG, "endTransaction() executed in RecoveryDao class");
+    		Log.i(Constants.TAG_APPLICATION_LOG, "endTransaction() executed in RecoveryDao class");
     	}
     	
     	return affectedRows;
@@ -447,7 +447,7 @@ public class PasswordDao {
 		);
     		
 		if (affectedRows != 1) {
-			Log.i(CommonResources.TAG_APPLICATION_LOG, "Error on update a password entry in the database");
+			Log.i(Constants.TAG_APPLICATION_LOG, "Error on update a password entry in the database");
         	return -1;
 		} else {
 			return affectedRows;
@@ -477,7 +477,7 @@ public class PasswordDao {
 
 	    	return mPassword;
     	} catch (IllegalArgumentException e) {
-    		Log.i(CommonResources.TAG_APPLICATION_LOG, "Some error occurred on retrieving a column name in the Password Table");
+    		Log.i(Constants.TAG_APPLICATION_LOG, "Some error occurred on retrieving a column name in the Password Table");
 			e.printStackTrace();
 			return null;
 		}
@@ -503,7 +503,7 @@ public class PasswordDao {
 
 	    	return mPassword;
     	} catch (IllegalArgumentException e) {
-    		Log.i(CommonResources.TAG_APPLICATION_LOG, "Some error occurred on retrieving a column name in the Password Table");
+    		Log.i(Constants.TAG_APPLICATION_LOG, "Some error occurred on retrieving a column name in the Password Table");
 			e.printStackTrace();
 			return null;
 		}

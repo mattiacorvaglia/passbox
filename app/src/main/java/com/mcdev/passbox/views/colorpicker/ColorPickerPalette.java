@@ -1,7 +1,7 @@
-package com.mcdev.passbox.utils.colorpicker;
+package com.mcdev.passbox.views.colorpicker;
 
 import com.mcdev.passbox.R;
-import com.mcdev.passbox.utils.colorpicker.ColorPickerSwatch.OnColorSelectedListener;
+import com.mcdev.passbox.views.colorpicker.ColorPickerSwatch.OnColorSelectedListener;
 
 import android.content.Context;
 import android.content.res.Resources;

@@ -9,11 +9,11 @@ import com.mcdev.passbox.R;
 import com.mcdev.passbox.content.PasswordDao;
 import com.mcdev.passbox.content.PasswordDto;
 import com.mcdev.passbox.content.RecoveryDto;
-import com.mcdev.passbox.utils.CommonResources;
-import com.mcdev.passbox.utils.FloatingActionButton;
-import com.mcdev.passbox.utils.colorpicker.ColorPickerDialog;
-import com.mcdev.passbox.utils.colorpicker.ColorPickerSwatch;
-import com.mcdev.passbox.utils.colorpicker.Utils;
+import com.mcdev.passbox.utils.Constants;
+import com.mcdev.passbox.views.FloatingActionButton;
+import com.mcdev.passbox.views.colorpicker.ColorPickerDialog;
+import com.mcdev.passbox.views.colorpicker.ColorPickerSwatch;
+import com.mcdev.passbox.utils.Util;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -65,22 +65,22 @@ public class PasswordDetailActivity extends ActionBarActivity {
 		// Get data from the calling intent
 		Bundle intentExtras = getIntent().getExtras();
 		if (intentExtras == null) {
-			Log.w(CommonResources.TAG_APPLICATION_LOG, "Error on retrieving extras from the calling intent");
+			Log.w(Constants.TAG_APPLICATION_LOG, "Error on retrieving extras from the calling intent");
 			Toast.makeText(this, "Error on retrieving extras from the calling intent", Toast.LENGTH_SHORT).show();
 			finish();
 		}
-		pwdId = intentExtras.getLong(CommonResources.TAG_EXTRA_PASSWORD_ID);
-		String pwdTitle = intentExtras.getString(CommonResources.TAG_EXTRA_PASSWORD_TITLE);
-		String pwdColor = intentExtras.getString(CommonResources.TAG_EXTRA_PASSWORD_COLOR);
+		pwdId = intentExtras.getLong(Constants.TAG_EXTRA_PASSWORD_ID);
+		String pwdTitle = intentExtras.getString(Constants.TAG_EXTRA_PASSWORD_TITLE);
+		String pwdColor = intentExtras.getString(Constants.TAG_EXTRA_PASSWORD_COLOR);
 		
 		// Initialize the context reference
 		mContext = this;
 		
-		colorSet = Utils.ColorUtils.getColorSet(mContext.getResources(), pwdColor);
+		colorSet = Util.Colors.getColorSet(mContext.getResources(), pwdColor);
 				
 		// set the status bar color
 		if (Build.VERSION.SDK_INT >= 21) {
-	        getWindow().setStatusBarColor(colorSet.get(Utils.ColorUtils.KEY_COLOR_PRIMARY_DARK));
+	        getWindow().setStatusBarColor(colorSet.get(Util.Colors.KEY_COLOR_PRIMARY_DARK));
 		}
 		
 		// Set the content View
@@ -89,7 +89,7 @@ public class PasswordDetailActivity extends ActionBarActivity {
 		// Toolbar
 		toolbar = (Toolbar) findViewById(R.id.toolbar_extended);
 		setSupportActionBar(toolbar);
-		toolbar.setBackgroundColor(colorSet.get(Utils.ColorUtils.KEY_COLOR_PRIMARY));
+		toolbar.setBackgroundColor(colorSet.get(Util.Colors.KEY_COLOR_PRIMARY));
 		
 		// Set the title
 		setTitle(pwdTitle);
@@ -111,7 +111,7 @@ public class PasswordDetailActivity extends ActionBarActivity {
 		description = (TextView) findViewById(R.id.pwd_detail_description);
 		
 		togglePasswordVisibility = (FloatingActionButton) findViewById(R.id.toggle_pwd_visibility);
-		togglePasswordVisibility.setColorNormal(colorSet.get(Utils.ColorUtils.KEY_COLOR_ACCENT));
+		togglePasswordVisibility.setColorNormal(colorSet.get(Util.Colors.KEY_COLOR_ACCENT));
 		
 		// Add the password EditText in the list
 		editTextToToggleVisibility = new ArrayList<EditText>();
@@ -213,7 +213,7 @@ public class PasswordDetailActivity extends ActionBarActivity {
 		PasswordDao.getInstance(mContext).close();
 		
 		if (pwd == null) {
-			Log.w(CommonResources.TAG_APPLICATION_LOG, "Error on retrieving the password detail from the database");
+			Log.w(Constants.TAG_APPLICATION_LOG, "Error on retrieving the password detail from the database");
 			Toast.makeText(mContext, "Wrong password id", Toast.LENGTH_SHORT).show();
 			finish();
 		} else {
@@ -307,7 +307,7 @@ public class PasswordDetailActivity extends ActionBarActivity {
 	 */
 	private void updatePassword() {
 		Intent mIntent = new Intent(mContext, UpdatePasswordActivity.class);
-		mIntent.putExtra(CommonResources.TAG_EXTRA_PASSWORD_ID, pwdId);
+		mIntent.putExtra(Constants.TAG_EXTRA_PASSWORD_ID, pwdId);
 		startActivityForResult(mIntent, REQUEST_CODE_UPDATE_PASSWORD);
 	}
 	
@@ -328,13 +328,13 @@ public class PasswordDetailActivity extends ActionBarActivity {
 	 */
 	private void showColorPicker() {
 		// Get the list of default colors to show
-		int[] mColorChoices = Utils.ColorUtils.colorChoice(this);
+		int[] mColorChoices = Util.Colors.colorChoice(this);
 		ColorPickerDialog colorcalendar = ColorPickerDialog.newInstance(
 				R.string.color_picker_default_title, 	// Dialog title
 				mColorChoices,							// List of colors choices
 				mSelectedColor,							// Actual selected color
 				4,										// Columns
-				(Utils.isTablet(this)) ? ColorPickerDialog.SIZE_LARGE : ColorPickerDialog.SIZE_SMALL);	// Size of the screen
+				(Util.isTablet(this)) ? ColorPickerDialog.SIZE_LARGE : ColorPickerDialog.SIZE_SMALL);	// Size of the screen
 
 		// Implement listener to get selected color value
 		colorcalendar.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
@@ -342,12 +342,12 @@ public class PasswordDetailActivity extends ActionBarActivity {
 			@Override
 			public void onColorSelected(int color) {
 				mSelectedColor = color;
-				String stringColor = Utils.ColorUtils.toString(mSelectedColor);
-				colorSet = Utils.ColorUtils.getColorSet(mContext.getResources(), stringColor);
-				toolbar.setBackgroundColor(colorSet.get(Utils.ColorUtils.KEY_COLOR_PRIMARY));
-				togglePasswordVisibility.setColorNormal(colorSet.get(Utils.ColorUtils.KEY_COLOR_ACCENT));
+				String stringColor = Util.Colors.toString(mSelectedColor);
+				colorSet = Util.Colors.getColorSet(mContext.getResources(), stringColor);
+				toolbar.setBackgroundColor(colorSet.get(Util.Colors.KEY_COLOR_PRIMARY));
+				togglePasswordVisibility.setColorNormal(colorSet.get(Util.Colors.KEY_COLOR_ACCENT));
 				if (Build.VERSION.SDK_INT >= 21) {
-			        getWindow().setStatusBarColor(colorSet.get(Utils.ColorUtils.KEY_COLOR_PRIMARY_DARK));
+			        getWindow().setStatusBarColor(colorSet.get(Util.Colors.KEY_COLOR_PRIMARY_DARK));
 				}
 				PasswordDao.getInstance(mContext).open();
 				int affectedRows = PasswordDao.getInstance(mContext).updatePasswordColor(pwdId, stringColor);

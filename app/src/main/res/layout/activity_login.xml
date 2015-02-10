@@ -26,7 +26,7 @@
 	        android:layout_alignParentTop="true"
 	        android:layout_centerInParent="true" />
 	    
-	    <com.mcdev.passbox.utils.RippleView
+	    <com.mcdev.passbox.views.RippleView
 			android:layout_width="24dp"
 			android:layout_height="48dp"
             android:layout_centerVertical="true"
@@ -49,7 +49,7 @@
 		        android:src="@drawable/ic_backspace_white_24dp"
 		        android:background="@android:color/transparent"
 		        android:contentDescription="@string/desc" />
-		</com.mcdev.passbox.utils.RippleView>
+		</com.mcdev.passbox.views.RippleView>
 	    
 	    <android.support.v7.widget.GridLayout
 	        android:id="@+id/keys"
@@ -63,7 +63,7 @@
 	    	app:rowCount="4"
 	    	app:orientation="horizontal" >
 	    	
-	        <com.mcdev.passbox.utils.RippleView
+	        <com.mcdev.passbox.views.RippleView
 	            android:background="@android:color/transparent"
 				app:rv_centered="true"
 				app:rv_color="@color/white"
@@ -80,8 +80,8 @@
 			        android:background="@android:color/transparent"
 			        android:textColor="@android:color/white"
 			        android:textSize="24sp" />
-	        </com.mcdev.passbox.utils.RippleView>
-	        <com.mcdev.passbox.utils.RippleView
+	        </com.mcdev.passbox.views.RippleView>
+	        <com.mcdev.passbox.views.RippleView
 	            android:background="@android:color/transparent"
 				app:rv_centered="true"
 				app:rv_color="@color/white"
@@ -98,8 +98,8 @@
 			        android:background="@android:color/transparent"
 			        android:textColor="@android:color/white"
 			        android:textSize="24sp" />
-		    </com.mcdev.passbox.utils.RippleView>
-		    <com.mcdev.passbox.utils.RippleView
+		    </com.mcdev.passbox.views.RippleView>
+		    <com.mcdev.passbox.views.RippleView
 	            android:background="@android:color/transparent"
 				app:rv_centered="true"
 				app:rv_color="@color/white"
@@ -116,8 +116,8 @@
 			        android:background="@android:color/transparent"
 			        android:textColor="@android:color/white"
 			        android:textSize="24sp" />
-	        </com.mcdev.passbox.utils.RippleView>
-	        <com.mcdev.passbox.utils.RippleView
+	        </com.mcdev.passbox.views.RippleView>
+	        <com.mcdev.passbox.views.RippleView
 	            android:background="@android:color/transparent"
 				app:rv_centered="true"
 				app:rv_color="@color/white"
@@ -134,8 +134,8 @@
 			        android:background="@android:color/transparent"
 			        android:textColor="@android:color/white"
 			        android:textSize="24sp" />
-	        </com.mcdev.passbox.utils.RippleView>
-	        <com.mcdev.passbox.utils.RippleView
+	        </com.mcdev.passbox.views.RippleView>
+	        <com.mcdev.passbox.views.RippleView
 	            android:background="@android:color/transparent"
 				app:rv_centered="true"
 				app:rv_color="@color/white"
@@ -152,8 +152,8 @@
 			        android:background="@android:color/transparent"
 			        android:textColor="@android:color/white"
 			        android:textSize="24sp" />
-	        </com.mcdev.passbox.utils.RippleView>
-	        <com.mcdev.passbox.utils.RippleView
+	        </com.mcdev.passbox.views.RippleView>
+	        <com.mcdev.passbox.views.RippleView
 	            android:background="@android:color/transparent"
 				app:rv_centered="true"
 				app:rv_color="@color/white"
@@ -170,8 +170,8 @@
 			        android:background="@android:color/transparent"
 			        android:textColor="@android:color/white"
 			        android:textSize="24sp" />
-		    </com.mcdev.passbox.utils.RippleView>
-	        <com.mcdev.passbox.utils.RippleView
+		    </com.mcdev.passbox.views.RippleView>
+	        <com.mcdev.passbox.views.RippleView
 	            android:background="@android:color/transparent"
 				app:rv_centered="true"
 				app:rv_color="@color/white"
@@ -188,8 +188,8 @@
 			        android:background="@android:color/transparent"
 			        android:textColor="@android:color/white"
 			        android:textSize="24sp" />
-		    </com.mcdev.passbox.utils.RippleView>
-		    <com.mcdev.passbox.utils.RippleView
+		    </com.mcdev.passbox.views.RippleView>
+		    <com.mcdev.passbox.views.RippleView
 	            android:background="@android:color/transparent"
 				app:rv_centered="true"
 				app:rv_color="@color/white"
@@ -206,8 +206,8 @@
 			        android:background="@android:color/transparent"
 			        android:textColor="@android:color/white"
 			        android:textSize="24sp" />
-		    </com.mcdev.passbox.utils.RippleView>
-		    <com.mcdev.passbox.utils.RippleView
+		    </com.mcdev.passbox.views.RippleView>
+		    <com.mcdev.passbox.views.RippleView
 	            android:background="@android:color/transparent"
 				app:rv_centered="true"
 				app:rv_color="@color/white"
@@ -224,13 +224,13 @@
 			        android:background="@android:color/transparent"
 			        android:textColor="@android:color/white"
 			        android:textSize="24sp" />
-		    </com.mcdev.passbox.utils.RippleView>
+		    </com.mcdev.passbox.views.RippleView>
 	        
 	        <android.support.v7.widget.Space
 			    android:layout_width="wrap_content"
 			    app:layout_column="0"
 			    app:layout_row="3" />
-	        <com.mcdev.passbox.utils.RippleView
+	        <com.mcdev.passbox.views.RippleView
 	            android:background="@android:color/transparent"
 				app:rv_centered="true"
 				app:rv_color="@color/white"
@@ -247,7 +247,7 @@
 			        android:background="@android:color/transparent"
 			        android:textColor="@android:color/white"
 			        android:textSize="24sp" />
-		    </com.mcdev.passbox.utils.RippleView>
+		    </com.mcdev.passbox.views.RippleView>
 	        <android.support.v7.widget.Space
 			    android:layout_width="wrap_content"
 			    app:layout_column="2"
@@ -255,7 +255,7 @@
 	        
 	    </android.support.v7.widget.GridLayout>
 	    
-	    <com.mcdev.passbox.utils.RippleView
+	    <com.mcdev.passbox.views.RippleView
 	        android:layout_width="wrap_content"
     		android:layout_height="wrap_content"
             android:background="@android:color/transparent"
@@ -278,7 +278,7 @@
 		        android:background="@android:color/transparent"
 		        android:textColor="@android:color/white"
 		        android:visibility="invisible" />
-	    </com.mcdev.passbox.utils.RippleView>
+	    </com.mcdev.passbox.views.RippleView>
 	    
     </RelativeLayout>
 

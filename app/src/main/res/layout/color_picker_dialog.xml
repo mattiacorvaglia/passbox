@@ -20,7 +20,7 @@
             android:layout_gravity="center"
             android:gravity="center" />
 
-        <com.mcdev.passbox.utils.colorpicker.ColorPickerPalette
+        <com.mcdev.passbox.views.colorpicker.ColorPickerPalette
             android:id="@+id/color_picker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

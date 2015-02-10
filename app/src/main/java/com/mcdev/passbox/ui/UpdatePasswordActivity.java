@@ -23,7 +23,7 @@ import com.mcdev.passbox.content.PasswordDao;
 import com.mcdev.passbox.content.PasswordDto;
 import com.mcdev.passbox.content.RecoveryDao;
 import com.mcdev.passbox.content.RecoveryDto;
-import com.mcdev.passbox.utils.CommonResources;
+import com.mcdev.passbox.utils.Constants;
 
 public class UpdatePasswordActivity extends ActionBarActivity {
 	
@@ -51,11 +51,11 @@ public class UpdatePasswordActivity extends ActionBarActivity {
 		// Get data from the calling intent
 		Bundle intentExtras = getIntent().getExtras();
 		if (intentExtras == null) {
-			Log.w(CommonResources.TAG_APPLICATION_LOG, "Error on retrieving extras from the calling intent");
+			Log.w(Constants.TAG_APPLICATION_LOG, "Error on retrieving extras from the calling intent");
 			Toast.makeText(this, "Error on retrieving extras from the calling intent", Toast.LENGTH_SHORT).show();
 			finish();
 		}
-		pwdId = intentExtras.getLong(CommonResources.TAG_EXTRA_PASSWORD_ID);
+		pwdId = intentExtras.getLong(Constants.TAG_EXTRA_PASSWORD_ID);
 		
 		// Inflating
 		recoveryContainer = (LinearLayout) findViewById(R.id.pwd_update_recovery_container);
@@ -116,7 +116,7 @@ public class UpdatePasswordActivity extends ActionBarActivity {
 		PasswordDao.getInstance(mContext).close();
 		
 		if (pwd == null) {
-			Log.w(CommonResources.TAG_APPLICATION_LOG, "Error on retrieving the password detail from the database");
+			Log.w(Constants.TAG_APPLICATION_LOG, "Error on retrieving the password detail from the database");
 			Toast.makeText(mContext, "Wrong password id", Toast.LENGTH_SHORT).show();
 			finish();
 		} else {
@@ -127,7 +127,7 @@ public class UpdatePasswordActivity extends ActionBarActivity {
 			// Set title
 			String pwdTitle = pwd.getTitle();
 			if (pwdTitle == null || pwdTitle.length() < 1) {
-				Log.w(CommonResources.TAG_APPLICATION_LOG, "Error on retrieving the password title");
+				Log.w(Constants.TAG_APPLICATION_LOG, "Error on retrieving the password title");
 			} else {
 				title.setText(pwdTitle);
 			}
@@ -141,7 +141,7 @@ public class UpdatePasswordActivity extends ActionBarActivity {
 			// Set title
 			String pwdPassword = pwd.getPassword();
 			if (pwdPassword == null || pwdPassword.length() < 1) {
-				Log.w(CommonResources.TAG_APPLICATION_LOG, "Error on retrieving the password");
+				Log.w(Constants.TAG_APPLICATION_LOG, "Error on retrieving the password");
 			} else {
 				password.setText(pwdPassword);
 			}
@@ -312,7 +312,7 @@ public class UpdatePasswordActivity extends ActionBarActivity {
 					PasswordDao.getInstance(mContext).close();
 					
 					if (affectedRows != 1) {
-						Log.w(CommonResources.TAG_APPLICATION_LOG, "Error on updating the password in the database");
+						Log.w(Constants.TAG_APPLICATION_LOG, "Error on updating the password in the database");
 						Toast.makeText(mContext, "Error on updating the password in the database", Toast.LENGTH_SHORT).show();
 					} else {
 						// Close this screen

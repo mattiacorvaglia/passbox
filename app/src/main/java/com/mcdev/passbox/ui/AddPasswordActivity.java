@@ -6,10 +6,10 @@ import com.mcdev.passbox.R;
 import com.mcdev.passbox.content.PasswordDao;
 import com.mcdev.passbox.content.PasswordDto;
 import com.mcdev.passbox.content.RecoveryDto;
-import com.mcdev.passbox.utils.CommonResources;
-import com.mcdev.passbox.utils.colorpicker.ColorPickerDialog;
-import com.mcdev.passbox.utils.colorpicker.ColorPickerSwatch;
-import com.mcdev.passbox.utils.colorpicker.Utils;
+import com.mcdev.passbox.utils.Constants;
+import com.mcdev.passbox.views.colorpicker.ColorPickerDialog;
+import com.mcdev.passbox.views.colorpicker.ColorPickerSwatch;
+import com.mcdev.passbox.utils.Util;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -157,8 +157,8 @@ public class AddPasswordActivity extends ActionBarActivity {
 					mPassword.setDescription(insertedDescription);
 				}
 				// Check not null color
-				String insertedColor = Utils.ColorUtils.toString(mSelectedColor);
-				Log.w(CommonResources.TAG_APPLICATION_LOG, "Selected color = "+String.valueOf(mSelectedColor));
+				String insertedColor = Util.Colors.toString(mSelectedColor);
+				Log.w(Constants.TAG_APPLICATION_LOG, "Selected color = "+String.valueOf(mSelectedColor));
 				mPassword.setColor(insertedColor);
 				
 				// Create the recovery list
@@ -197,7 +197,7 @@ public class AddPasswordActivity extends ActionBarActivity {
 					PasswordDao.getInstance(mContext).close();
 					
 					if (newId == -1) {
-						Log.w(CommonResources.TAG_APPLICATION_LOG, "Error on storing the new password in the database");
+						Log.w(Constants.TAG_APPLICATION_LOG, "Error on storing the new password in the database");
 					} else {
 						// Close this screen
 						setResult(RESULT_OK);
@@ -215,13 +215,13 @@ public class AddPasswordActivity extends ActionBarActivity {
 	 */
 	private void showColorPicker() {
 		// Get the list of default colors to show
-		int[] mColorChoices = Utils.ColorUtils.colorChoice(this);
+		int[] mColorChoices = Util.Colors.colorChoice(this);
 		ColorPickerDialog colorcalendar = ColorPickerDialog.newInstance(
 				R.string.color_picker_default_title, 	// Dialog title
 				mColorChoices,							// List of colors choices
 				mSelectedColor,							// Actual selected color
 				4,										// Columns
-				(Utils.isTablet(this)) ? ColorPickerDialog.SIZE_LARGE : ColorPickerDialog.SIZE_SMALL);	// Size of the screen
+				(Util.isTablet(this)) ? ColorPickerDialog.SIZE_LARGE : ColorPickerDialog.SIZE_SMALL);	// Size of the screen
 
 		// Implement listener to get selected color value
 		colorcalendar.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {

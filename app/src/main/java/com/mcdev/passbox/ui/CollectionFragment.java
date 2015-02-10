@@ -7,8 +7,8 @@ import java.util.Locale;
 import com.mcdev.passbox.R;
 import com.mcdev.passbox.content.PasswordDao;
 import com.mcdev.passbox.content.PasswordDto;
-import com.mcdev.passbox.utils.CommonResources;
-import com.mcdev.passbox.utils.FloatingActionButton;
+import com.mcdev.passbox.utils.Constants;
+import com.mcdev.passbox.views.FloatingActionButton;
 
 import android.content.Context;
 import android.content.Intent;
@@ -77,9 +77,9 @@ public class CollectionFragment extends ListFragment {
 		super.onListItemClick(l, v, position, id);
 		Intent mIntent = new Intent(getActivity(), PasswordDetailActivity.class);
 		PasswordDto mPassword = (PasswordDto) l.getItemAtPosition(position);
-		mIntent.putExtra(CommonResources.TAG_EXTRA_PASSWORD_ID, mPassword.getId());
-		mIntent.putExtra(CommonResources.TAG_EXTRA_PASSWORD_TITLE, mPassword.getTitle());
-		mIntent.putExtra(CommonResources.TAG_EXTRA_PASSWORD_COLOR, mPassword.getColor());
+		mIntent.putExtra(Constants.TAG_EXTRA_PASSWORD_ID, mPassword.getId());
+		mIntent.putExtra(Constants.TAG_EXTRA_PASSWORD_TITLE, mPassword.getTitle());
+		mIntent.putExtra(Constants.TAG_EXTRA_PASSWORD_COLOR, mPassword.getColor());
 		getActivity().startActivityForResult(mIntent, REQUEST_CODE_DETAIL_PASSWORD);
 	}
 	

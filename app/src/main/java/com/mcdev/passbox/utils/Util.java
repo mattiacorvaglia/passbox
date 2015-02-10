@@ -1,4 +1,4 @@
-package com.mcdev.passbox.utils.colorpicker;
+package com.mcdev.passbox.utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,26 +9,27 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.support.annotation.Nullable;
 
-public class Utils {
+public class Util {
 
 	/**
 	 * Utility class for colors
 	 */
-	public static class ColorUtils {
+	public static class Colors {
 		
-		public static final String KEY_COLOR_PRIMARY = "color_primary";
-		public static final String KEY_COLOR_PRIMARY_DARK = "color_primary_dark";
-		public static final String KEY_COLOR_ACCENT = "color_accent";
-		public static final String KEY_COLOR_THEME = "color_theme";
-		public static final int KEY_THEME_DARK = 1;
+		public static final String KEY_COLOR_PRIMARY        = "color_primary";
+		public static final String KEY_COLOR_PRIMARY_DARK   = "color_primary_dark";
+		public static final String KEY_COLOR_ACCENT         = "color_accent";
+		public static final String KEY_COLOR_THEME          = "color_theme";
+		public static final int KEY_THEME_DARK  = 1;
 		public static final int KEY_THEME_LIGHT = 0;
 		
 		/**
 		 * Create an array of int with colors
 		 * 
-		 * @param context
-		 * @return
+		 * @param context The context of the calling Activity
+		 * @return The list of the colors to choice
 		 */
 		public static int[] colorChoice(Context context) {
 
@@ -43,35 +44,26 @@ public class Utils {
 			}
 			return mColorChoices;
 		}
-
-		/**
-		 * Parse whiteColor
-		 * 
-		 * @return
-		 */
-		public static int parseWhiteColor() {
-			return Color.parseColor("#FFFFFF");
-		}
 		
 		/**
 		 * From int to String hex code
 		 * 
-		 * @param color
-		 * @return
+		 * @param color The Integer code of the color
+		 * @return The hex code of the color
 		 */
 		public static String toString(int color) {
 			return String.format("#%06X", (0xFFFFFF & color));
 		}
-		
-		/**
-		 * Get the color set
-		 * 
-		 * @param color
-		 * @return
-		 */
+
+        /**
+         * Get the color set
+         * @param res The Resources reference
+         * @param color The main color
+         * @return A Map with the color set
+         */
 		public static Map<String, Integer> getColorSet(Resources res, String color) {
 			int intColor = Color.parseColor(color);
-			Map<String, Integer> result = new HashMap<String, Integer>();
+			Map<String, Integer> result = new HashMap<>();
 			if (intColor == res.getColor(R.color.red_500)) {
 				result.put(KEY_COLOR_PRIMARY, intColor);
 				result.put(KEY_COLOR_PRIMARY_DARK, res.getColor(R.color.red_700));
@@ -188,11 +180,47 @@ public class Utils {
 		
 	}
 
+    /**
+     * Strings util class
+     */
+    public static class Strings {
+
+        /**
+         * Capitalize a String
+         *
+         * @param string The String to capitalize
+         * @return The capitalized String
+         */
+        public static String capitalize(String string) {
+            if (string == null || string.length() == 0) {
+                return "";
+            }
+            char first = string.charAt(0);
+            if (Character.isUpperCase(first)) {
+                return string;
+            } else {
+                return Character.toUpperCase(first) + string.substring(1);
+            }
+        }
+
+        /**
+         * Check if a String object is a NULL object
+         * or a "null" String or an empty String
+         *
+         * @param string The String object to check up
+         * @return true if the String is NULL or empty
+         */
+        public static boolean isNullOrEmpty(@Nullable String string) {
+            return string == null || string.length() < 1 || string.equalsIgnoreCase("null");
+        }
+
+    }
+    
 	/**
 	 * Get the size of the screen
 	 * 
-	 * @param context
-	 * @return
+	 * @param context The context of the calling Activity
+	 * @return true if the device is a tablet, else false
 	 */
 	public static boolean isTablet(Context context) {
 		int sizeScreen = context.getResources().getConfiguration().screenLayout;

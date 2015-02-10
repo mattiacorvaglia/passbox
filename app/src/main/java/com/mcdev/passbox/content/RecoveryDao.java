@@ -3,7 +3,7 @@ package com.mcdev.passbox.content;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.mcdev.passbox.utils.CommonResources;
+import com.mcdev.passbox.utils.Constants;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -29,7 +29,7 @@ public class RecoveryDao {
 	// Constructor
 	protected RecoveryDao(Context context) {
 		mDbHelper = new PassboxDbHelper(context);
-		Log.i(CommonResources.TAG_APPLICATION_LOG, "new PassboxDbHelper operation executed in RecoveryDao class");
+		Log.i(Constants.TAG_APPLICATION_LOG, "new PassboxDbHelper operation executed in RecoveryDao class");
 	}
 	
 	// Singleton Pattern
@@ -48,7 +48,7 @@ public class RecoveryDao {
     public void open(Context context) throws SQLException {
     	mDbHelper = new PassboxDbHelper(context);
     	database = mDbHelper.getWritableDatabase();
-        Log.i(CommonResources.TAG_APPLICATION_LOG, "getWritableDatabase() operation executed in RecoveryDao class");
+        Log.i(Constants.TAG_APPLICATION_LOG, "getWritableDatabase() operation executed in RecoveryDao class");
     }
 	
 	/**
@@ -58,7 +58,7 @@ public class RecoveryDao {
 	 */
     public void open(SQLiteDatabase database) throws SQLException {
         this.database = database;
-        Log.i(CommonResources.TAG_APPLICATION_LOG, "Set database with the existing one in RecoveryDao class");
+        Log.i(Constants.TAG_APPLICATION_LOG, "Set database with the existing one in RecoveryDao class");
     }
 
     /**
@@ -66,7 +66,7 @@ public class RecoveryDao {
      */
     public void close() {
         mDbHelper.close();
-        Log.i(CommonResources.TAG_APPLICATION_LOG, "database close() operation executed in PasswordDao class");
+        Log.i(Constants.TAG_APPLICATION_LOG, "database close() operation executed in PasswordDao class");
     }
 	
     /**
@@ -83,7 +83,7 @@ public class RecoveryDao {
     	
     	// Execute all the insert queries in a transaction
     	database.beginTransaction();
-    	Log.i(CommonResources.TAG_APPLICATION_LOG, "beginTransaction() executed in RecoveryDao class");
+    	Log.i(Constants.TAG_APPLICATION_LOG, "beginTransaction() executed in RecoveryDao class");
     	
     	try {
     		// Iterate each recovery to store in the database
@@ -104,7 +104,7 @@ public class RecoveryDao {
 	    	}
 	    	
 	    	if (rcvs.size() != results.size()) {
-        		Log.i(CommonResources.TAG_APPLICATION_LOG, "Some recovery entries was not succesfully stored in the database");
+        		Log.i(Constants.TAG_APPLICATION_LOG, "Some recovery entries was not succesfully stored in the database");
         		throw new SQLException();
         	}
 	    	
@@ -115,7 +115,7 @@ public class RecoveryDao {
     		return null;
     	} finally {
     		database.endTransaction();
-    		Log.i(CommonResources.TAG_APPLICATION_LOG, "endTransaction() executed in RecoveryDao class");
+    		Log.i(Constants.TAG_APPLICATION_LOG, "endTransaction() executed in RecoveryDao class");
     	}
     	
     	return results;
@@ -152,7 +152,7 @@ public class RecoveryDao {
         		cursor.moveToNext();
         	}
         } else {
-        	Log.i(CommonResources.TAG_APPLICATION_LOG, "None recovery entries founded for this password");
+        	Log.i(Constants.TAG_APPLICATION_LOG, "None recovery entries founded for this password");
         }
         cursor.close();
         
@@ -173,7 +173,7 @@ public class RecoveryDao {
     	
     	// Execute all the update queries in a transaction
     	database.beginTransaction();
-    	Log.i(CommonResources.TAG_APPLICATION_LOG, "beginTransaction() executed in RecoveryDao class");
+    	Log.i(Constants.TAG_APPLICATION_LOG, "beginTransaction() executed in RecoveryDao class");
     	
     	try {
     		// Iterate each recovery to update in the database
@@ -193,7 +193,7 @@ public class RecoveryDao {
 		            long newRecoveryId = database.insert(PassboxContract.RecoveryEntry.TABLE_NAME, PassboxContract.RecoveryEntry.COLUMN_NAME_PASSWORD_KEY, values);
 		            
 		            if (newRecoveryId == -1) {
-		            	Log.i(CommonResources.TAG_APPLICATION_LOG, "Error on inserting a new recovery entry in the database");
+		            	Log.i(Constants.TAG_APPLICATION_LOG, "Error on inserting a new recovery entry in the database");
 		            	throw new SQLException();
 					} else {
 						affectedRows++;
@@ -218,7 +218,7 @@ public class RecoveryDao {
 		    		);
 		    		
 		    		if (affectedRowsTemp == 0) {
-		    			Log.i(CommonResources.TAG_APPLICATION_LOG, "Error on updating an existing recovery entry in the database");
+		    			Log.i(Constants.TAG_APPLICATION_LOG, "Error on updating an existing recovery entry in the database");
 		            	throw new SQLException();
 					} else {
 						affectedRows++;
@@ -228,7 +228,7 @@ public class RecoveryDao {
 	    	}
 	    	
 	    	if (affectedRows != rcvs.size()) {
-	    		Log.i(CommonResources.TAG_APPLICATION_LOG, "Some recovery entries are not been updated in the database");
+	    		Log.i(Constants.TAG_APPLICATION_LOG, "Some recovery entries are not been updated in the database");
 	    		throw new SQLException();
 	    	}
 	    	
@@ -239,7 +239,7 @@ public class RecoveryDao {
     		return -1;
     	} finally {
     		database.endTransaction();
-    		Log.i(CommonResources.TAG_APPLICATION_LOG, "endTransaction() executed in RecoveryDao class");
+    		Log.i(Constants.TAG_APPLICATION_LOG, "endTransaction() executed in RecoveryDao class");
     	}
     	
     	return affectedRows;
@@ -280,7 +280,7 @@ public class RecoveryDao {
         	
         	return mRecovery;
 		} catch (IllegalArgumentException e) {
-			Log.i(CommonResources.TAG_APPLICATION_LOG, "Some error occurred on retrieving a column name in the Recovery Table");
+			Log.i(Constants.TAG_APPLICATION_LOG, "Some error occurred on retrieving a column name in the Recovery Table");
 			e.printStackTrace();
 			return null;
 		}

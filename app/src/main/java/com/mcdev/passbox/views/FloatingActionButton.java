@@ -1,4 +1,4 @@
-package com.mcdev.passbox.utils;
+package com.mcdev.passbox.views;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

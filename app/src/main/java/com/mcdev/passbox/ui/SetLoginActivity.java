@@ -1,7 +1,7 @@
 package com.mcdev.passbox.ui;
 
 import com.mcdev.passbox.R;
-import com.mcdev.passbox.utils.LoginManager;
+import com.mcdev.passbox.utils.Loginer;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -194,7 +194,7 @@ public class SetLoginActivity extends Activity {
 			saveButton.setVisibility(View.INVISIBLE);
 		} else if (steps  == 2) {
 			if (newPin.toString().equals(preconfirmed)) {
-				LoginManager.getInstance(mContext).setLogin(newPin.toString());
+				Loginer.getInstance(mContext).setLogin(newPin.toString());
 				resetPin();
 				steps = 0;
 				repeatText.setText(getResources().getString(R.string.ok_password));

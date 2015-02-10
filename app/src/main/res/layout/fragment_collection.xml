@@ -22,7 +22,7 @@
         android:dividerHeight="1dp"
         android:background="@color/white" />
 	
-	<com.mcdev.passbox.utils.FloatingActionButton
+	<com.mcdev.passbox.views.FloatingActionButton
         android:id="@+id/action_add_new"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

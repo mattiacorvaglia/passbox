@@ -1,4 +1,4 @@
-package com.mcdev.passbox.utils.colorpicker;
+package com.mcdev.passbox.views.colorpicker;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
