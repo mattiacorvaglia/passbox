@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.util.Base64;
 
@@ -240,6 +241,7 @@ public class Util {
         private static final String CIPHER_ALGORITHM                = "AES";
         private static final String CIPHER_ALGORITHM_MODE_PADDING   = "AES/CBC/PKCS5Padding";
         private static final String PBKDF2_DERIVATION_ALGORITHM     = "PBKDF2WithHmacSHA1";
+        private static final String PBKDF28BIT_DERIVATION_ALGORITHM = "PBKDF2WithHmacSHA1And8bit";
         private static final String DELIMITER                       = "]";
         private static final String CHARSET                         = "UTF-8";
         // The size of the salt should typically match the key size
@@ -278,17 +280,27 @@ public class Util {
          * @throws UnsupportedEncodingException
          */
         private static SecretKey generateKeyFromPassphrase(String passphraseOrPin, byte[] salt)
-                throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
+                throws NoSuchAlgorithmException, InvalidKeySpecException,
+                UnsupportedEncodingException {
 
-            SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(PBKDF2_DERIVATION_ALGORITHM);
+            SecretKeyFactory secretKeyFactory;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                // Use compatibility key factory -- only uses lower 8-bits of passphrase chars
+                secretKeyFactory = SecretKeyFactory.getInstance(PBKDF28BIT_DERIVATION_ALGORITHM);
+            } else {
+                /*
+                 * Traditional key factory. Will use lower 8-bits of passphrase chars on
+                 * older Android versions (API level 18 and lower) and all available bits
+                 * on KitKat and newer (API level 19 and higher).
+                 */
+                secretKeyFactory = SecretKeyFactory.getInstance(PBKDF2_DERIVATION_ALGORITHM);
+            }
             KeySpec keySpec = new PBEKeySpec(
                     passphraseOrPin.toCharArray(),
                     salt,
                     ITERATIONS,
                     KEY_LENGTH);
             return secretKeyFactory.generateSecret(keySpec);
-            /*byte[] keyBytes = secretKeyFactory.generateSecret(keySpec).getEncoded();
-            return new SecretKeySpec(keyBytes, CIPHER_ALGORITHM);*/
             
         }
 
