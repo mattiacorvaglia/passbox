@@ -1,5 +1,12 @@
 package com.mcdev.passbox.utils;
 
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +17,18 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
+import android.util.Base64;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 
 public class Util {
 
@@ -214,6 +233,190 @@ public class Util {
             return string == null || string.length() < 1 || string.equalsIgnoreCase("null");
         }
 
+    }
+    
+    public static class Crypto {
+
+        private static final String CIPHER_ALGORITHM                = "AES";
+        private static final String CIPHER_ALGORITHM_MODE_PADDING   = "AES/CBC/PKCS5Padding";
+        private static final String PBKDF2_DERIVATION_ALGORITHM     = "PBKDF2WithHmacSHA1";
+        private static final String DELIMITER                       = "]";
+        private static final String CHARSET                         = "UTF-8";
+        // The size of the salt should typically match the key size
+        private static final int SALT_LENGTH                        = 256;  // bits
+        private static final int KEY_LENGTH                         = 256;  // bits
+        /*
+         * Number of PBKDF2 hardening rounds to use. Larger values increase
+         * computation time. You should select a value that causes computation
+         * to take >100ms.
+         * Minimum value recommended by PKCS#5 is 1000
+        */
+        private static final int ITERATIONS                         = 3000;
+
+        /**
+         * Generate the salt to use to generate the key
+         * @return The generated salt
+         * @throws NoSuchAlgorithmException
+         */
+        private static SecretKey generateSalt() throws NoSuchAlgorithmException {
+
+            SecureRandom secureRandom = new SecureRandom();
+            // Do *not* seed secureRandom! Automatically seeded from system entropy.
+            KeyGenerator keyGenerator = KeyGenerator.getInstance(CIPHER_ALGORITHM);
+            keyGenerator.init(SALT_LENGTH, secureRandom);
+            return keyGenerator.generateKey();
+            
+        }
+
+        /**
+         * Generate the Key from passphrase
+         * @param passphraseOrPin the passphrase or the PIN to use to generate the key
+         * @param salt The salt to use to generate the key
+         * @return The generate key
+         * @throws NoSuchAlgorithmException
+         * @throws InvalidKeySpecException
+         * @throws UnsupportedEncodingException
+         */
+        private static SecretKey generateKeyFromPassphrase(String passphraseOrPin, byte[] salt)
+                throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
+
+            SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(PBKDF2_DERIVATION_ALGORITHM);
+            KeySpec keySpec = new PBEKeySpec(
+                    passphraseOrPin.toCharArray(),
+                    salt,
+                    ITERATIONS,
+                    KEY_LENGTH);
+            return secretKeyFactory.generateSecret(keySpec);
+            /*byte[] keyBytes = secretKeyFactory.generateSecret(keySpec).getEncoded();
+            return new SecretKeySpec(keyBytes, CIPHER_ALGORITHM);*/
+            
+        }
+
+        /**
+         * Generate the Initialization Vector (IV)
+         * @param size The size to use
+         * @return the generated Initialization Vector (IV)
+         * @throws NoSuchAlgorithmException
+         */
+        private static SecretKey generateIV(int size) throws NoSuchAlgorithmException {
+
+            SecureRandom secureRandom = new SecureRandom();
+            // Do *not* seed secureRandom! Automatically seeded from system entropy.
+            KeyGenerator keyGenerator = KeyGenerator.getInstance(CIPHER_ALGORITHM);
+            keyGenerator.init(size, secureRandom);
+            return keyGenerator.generateKey();
+            
+        }
+
+        /**
+         * Encode a bytes array to a Base64 String
+         * @param bytes The array to encode
+         * @return The Base64 encoded String
+         */
+        private static String toBase64(byte[] bytes) {
+            return Base64.encodeToString(bytes, Base64.NO_WRAP);
+        }
+
+        /**
+         * Decode a Base64 encoded String to a bytes array
+         * @param string The String to decode
+         * @return The decoded bytes array
+         */
+        private static byte[] fromBase64(String string) {
+            return Base64.decode(string, Base64.NO_WRAP);
+        }
+
+        /**
+         * Encrypt a plain text String
+         * @param plainText The String to encrypt
+         * @param passphraseOrPin The passphrase or PIN to use to generate
+         *                        the encryption key
+         * @return The storable encrypted String
+         * @throws NoSuchAlgorithmException
+         * @throws UnsupportedEncodingException
+         * @throws InvalidKeySpecException
+         * @throws NoSuchPaddingException
+         * @throws InvalidAlgorithmParameterException
+         * @throws InvalidKeyException
+         * @throws BadPaddingException
+         * @throws IllegalBlockSizeException
+         */
+        public static String encrypt(String plainText, String passphraseOrPin)
+                throws NoSuchAlgorithmException, UnsupportedEncodingException,
+                InvalidKeySpecException, NoSuchPaddingException,
+                InvalidAlgorithmParameterException, InvalidKeyException,
+                BadPaddingException, IllegalBlockSizeException {
+            
+            // Generate a key from the passphrase/PIN
+            SecretKey salt = generateSalt();
+            SecretKey key = generateKeyFromPassphrase(passphraseOrPin, salt.getEncoded());
+            SecretKeySpec keySpec = new SecretKeySpec(key.getEncoded(), CIPHER_ALGORITHM);
+            // Get a cipher instance
+            Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM_MODE_PADDING);
+            // Generate an Initialization Vector (IV)
+            SecretKey iv = generateIV(cipher.getBlockSize());
+            IvParameterSpec ivSpec = new IvParameterSpec(iv.getEncoded());
+            // Initialize the cipher
+            cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec);
+            // Encrypt
+            byte[] encrypted = cipher.doFinal(plainText.getBytes(CHARSET));
+            /*
+             * Build the encrypted String to store
+             * format: "salt + divider + iv + divider + encrypted"
+             */
+            return String.format("%s%s%s%s%s", toBase64(salt.getEncoded()), DELIMITER,
+                    toBase64(iv.getEncoded()), DELIMITER, toBase64(encrypted));
+            
+        }
+
+        /**
+         * Decrypt an encrypted String
+         * @param encrypted The encrypted String
+         * @param passphraseOrPin The passphrase or PIN to use to generate
+         *                        the encryption key
+         * @return The decrypted String
+         * @throws NoSuchPaddingException
+         * @throws NoSuchAlgorithmException
+         * @throws InvalidKeySpecException
+         * @throws UnsupportedEncodingException
+         * @throws InvalidAlgorithmParameterException
+         * @throws InvalidKeyException
+         * @throws BadPaddingException
+         * @throws IllegalBlockSizeException
+         */
+        public static String decrypt(String encrypted, String passphraseOrPin)
+                throws NoSuchPaddingException, NoSuchAlgorithmException,
+                InvalidKeySpecException, UnsupportedEncodingException,
+                InvalidAlgorithmParameterException, InvalidKeyException,
+                BadPaddingException, IllegalBlockSizeException {
+
+            // Extract the encrypted data from the String
+            String[] fields = encrypted.split(DELIMITER);
+            if (fields.length != 3) {
+                throw new IllegalArgumentException("Invalid encypted text format");
+            }
+
+            byte[] salt         = fromBase64(fields[0]);
+            byte[] iv           = fromBase64(fields[1]);
+            byte[] cipherBytes  = fromBase64(fields[2]);
+
+            // Recreate the key
+            SecretKey key = generateKeyFromPassphrase(passphraseOrPin, salt);
+
+            // Recreate the specifics
+            SecretKeySpec keySpec = new SecretKeySpec(key.getEncoded(), CIPHER_ALGORITHM);
+            IvParameterSpec ivSpec = new IvParameterSpec(iv);
+            
+            // Get a cipher instance
+            Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM_MODE_PADDING);
+            // Initialize the cipher
+            cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
+            // Decrypt
+            byte[] decrypted = cipher.doFinal(cipherBytes);
+            
+            return toBase64(decrypted);
+            
+        }
     }
     
 	/**
