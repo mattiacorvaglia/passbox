@@ -7,6 +7,7 @@ import com.mcdev.passbox.views.ScrimInsetsFrameLayout;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -25,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -37,6 +39,8 @@ public class MainActivity extends ActionBarActivity {
 	private ScrimInsetsFrameLayout mDrawer;
 	private ActionBarHelper mActionBar;
 	private ActionBarDrawerToggle mDrawerToggle;
+    private ImageView aboutImage;
+    private TextView aboutText;
 	private Context mContext;
 
 	private String[] titles = new String[] {
@@ -62,50 +66,56 @@ public class MainActivity extends ActionBarActivity {
 		// Find Views
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawer = (ScrimInsetsFrameLayout) findViewById(R.id.scrimInsetsFrameLayout);
-//        mContent = (TextView) findViewById(R.id.content_text);
-        
+
         /*****************************************************
          ** Navigation Drawer								** 
          *****************************************************/
-        // Set the status bar background color
+        // Set up the navigation drawer
         mDrawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.light_blue_700));
-        
-        // 
         mDrawerLayout.setDrawerListener(new DemoDrawerListener());
-        
-        //
         mDrawerLayout.setDrawerTitle(GravityCompat.START, getString(R.string.drawer_title));
         
-        // Inflate the drawer list
-        ListView mDrawerList = (ListView) findViewById(R.id.drawer_list);
-		
-        // Set the Adapter
+        // Setup the drawer menu
+        final ListView mDrawerList = (ListView) findViewById(R.id.drawer_list);
         List<String> strings = Arrays.asList(titles);
         mDrawerList.setAdapter(new DrawerListAdapter(mContext, strings));
-
-        // Set the ItemClickListener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        
+        // Setup the about section
+        LinearLayout aboutLayout = (LinearLayout) findViewById(R.id.credits_layout);
+        aboutImage = (ImageView) findViewById(R.id.credits_icon);
+        aboutText = (TextView) findViewById(R.id.credits_title);
+        
+        aboutLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Unselect all the items of the ListView
+                ((DrawerListAdapter) mDrawerList.getAdapter()).unselectAllItem();
+                // Select the about layout
+                aboutText.setTextColor(getResources().getColor(R.color.light_green_500));
+                aboutImage.getDrawable().setColorFilter(getResources().getColor(R.color.light_green_500), PorterDuff.Mode.SRC_ATOP);
+                // Handle the Drawer
+                mActionBar.setTitle(getString(R.string.app_name));
+                mDrawerLayout.closeDrawer(mDrawer);
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.container, new AboutFragment())
+                        .commit();
+            }
+        });
 		
         /*****************************************************
          ** ActionBar										** 
          *****************************************************/
-        // 
+        // Setup the ActionBar
         mActionBar = createActionBarHelper();
         mActionBar.init();
-		
-        // 
-        mDrawerToggle = new ActionBarDrawerToggle(
-        	this,
-        	mDrawerLayout,
-        	R.string.drawer_open,
-        	R.string.drawer_close
-        );
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                R.string.drawer_open, R.string.drawer_close);
         
-        // Set the startup fragment to show
-        Fragment collectionFragment = new CollectionFragment();
+        // Set the launching fragment
         getFragmentManager().beginTransaction()
-                       .replace(R.id.container, collectionFragment)
-                       .commit();
+                            .replace(R.id.container, new CollectionFragment())
+                            .commit();
 		
 	}
 
@@ -165,6 +175,8 @@ public class MainActivity extends ActionBarActivity {
 
             // Mark the selected item as selected in the Adapter
             ((DrawerListAdapter) parent.getAdapter()).selectItem(position);
+            // And unselect the about layout
+            unselectAboutLayout();
             
         	// Handle the Drawer
             mActionBar.setTitle(titles[position]);
@@ -185,25 +197,25 @@ public class MainActivity extends ActionBarActivity {
 
     	switch (position) {
 			case 0:
-				Fragment collectionFragment = new CollectionFragment();
-                /*Bundle args = new Bundle();
+				/*Fragment collectionFragment = new CollectionFragment();
+                Bundle args = new Bundle();
 		        args.putInt(CollectionFragment.ARG_FRAGMENT_POSITION, position);
 		        fragment.setArguments(args);*/
 
 		        // Insert the fragment by replacing any existing fragment
                 fragmentManager.beginTransaction()
-		                       .replace(R.id.container, collectionFragment)
+		                       .replace(R.id.container, new CollectionFragment())
 		                       .commit();
 				break;
 			case 1:
-				Fragment preferenceFragment = new CustomPreferenceFragment();
-                /*Bundle args = new Bundle();
+				/*Fragment preferenceFragment = new CustomPreferenceFragment();
+                Bundle args = new Bundle();
 		        args.putInt(CollectionFragment.ARG_FRAGMENT_POSITION, position);
 		        fragment.setArguments(args);*/
 
 		        // Insert the fragment by replacing any existing fragment
                 fragmentManager.beginTransaction()
-		                       .replace(R.id.container, preferenceFragment)
+		                       .replace(R.id.container, new CustomPreferenceFragment())
 		                       .commit();
 				break;
 
@@ -211,6 +223,14 @@ public class MainActivity extends ActionBarActivity {
 				break;
 		}
         
+    }
+
+    /**
+     * Unselect the About layout
+     */
+    private void unselectAboutLayout() {
+        aboutText.setTextColor(getResources().getColor(R.color.grey_600));
+        aboutImage.getDrawable().setColorFilter(null);
     }
 	
 	/**
@@ -329,41 +349,35 @@ public class MainActivity extends ActionBarActivity {
                 case 0:
                     mHolder.title.setText(getItem(0));
                     mHolder.title.setTypeface(fontMedium);
+                    mHolder.icon.setImageResource(R.drawable.ic_label_grey600_24dp);
                     if (position == selectedItem) {
-                        mHolder.title.setTextColor(getContext().getResources().getColor(R.color.light_blue_700));
-                        mHolder.icon.setImageResource(R.drawable.ic_label_grey600_24dp);
+//                        mHolder.title.setTextColor(getResources().getColor(R.color.light_blue_700));
+                        mHolder.title.setTextColor(getResources().getColor(R.color.light_green_500));
+//                        mHolder.icon.getDrawable().setColorFilter(getResources().getColor(R.color.light_blue_700), PorterDuff.Mode.SRC_ATOP);
+                        mHolder.icon.getDrawable().setColorFilter(getResources().getColor(R.color.light_green_500), PorterDuff.Mode.SRC_ATOP);
                     } else {
-                        mHolder.title.setTextColor(getContext().getResources().getColor(R.color.grey_600));
-                        mHolder.icon.setImageResource(R.drawable.ic_label_grey600_24dp);
+                        mHolder.title.setTextColor(getResources().getColor(R.color.grey_600));
+                        mHolder.icon.getDrawable().setColorFilter(null);
                     }
                     break;
                 case 1:
                     mHolder.title.setText(getItem(1));
                     mHolder.title.setTypeface(fontMedium);
+                    mHolder.icon.setImageResource(R.drawable.ic_safed_grey600_24dp);
                     if (position == selectedItem) {
-                        mHolder.title.setTextColor(getContext().getResources().getColor(R.color.light_blue_700));
-                        mHolder.icon.setImageResource(R.drawable.ic_send_grey600_24dp);
+//                        mHolder.title.setTextColor(getResources().getColor(R.color.light_blue_700));
+                        mHolder.title.setTextColor(getResources().getColor(R.color.light_green_500));
+//                        mHolder.icon.getDrawable().setColorFilter(getResources().getColor(R.color.light_blue_700), PorterDuff.Mode.SRC_ATOP);
+                        mHolder.icon.getDrawable().setColorFilter(getResources().getColor(R.color.light_green_500), PorterDuff.Mode.SRC_ATOP);
                     } else {
-                        mHolder.title.setTextColor(getContext().getResources().getColor(R.color.grey_600));
-                        mHolder.icon.setImageResource(R.drawable.ic_send_grey600_24dp);
-                    }
-                    break;
-                case 2:
-                    mHolder.title.setText(getItem(2));
-                    mHolder.title.setTypeface(fontMedium);
-                    if (position == selectedItem) {
-                        mHolder.title.setTextColor(getContext().getResources().getColor(R.color.light_blue_700));
-                        mHolder.icon.setImageResource(R.drawable.ic_send_grey600_24dp);
-                    } else {
-                        mHolder.title.setTextColor(getContext().getResources().getColor(R.color.grey_600));
-                        mHolder.icon.setImageResource(R.drawable.ic_send_grey600_24dp);
+                        mHolder.title.setTextColor(getResources().getColor(R.color.grey_600));
+                        mHolder.icon.getDrawable().setColorFilter(null);
                     }
                     break;
                 default:
                     break;
             }
-            
-            
+
             // The End
             return convertView;
         }
@@ -377,6 +391,14 @@ public class MainActivity extends ActionBarActivity {
             notifyDataSetChanged();
         }
 
+        /**
+         * Unselected the current selected item
+         */
+        public void unselectAllItem() {
+            this.selectedItem = 10;
+            notifyDataSetChanged();
+        }
+        
     }
 
     /**
