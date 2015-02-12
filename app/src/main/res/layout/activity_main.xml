@@ -4,9 +4,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-    
-    <!--android:fitsSystemWindows="true"-->
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true" >
 
     <!-- Content -->
     <RelativeLayout
@@ -28,19 +27,32 @@
     </RelativeLayout>
 	
 	<!-- Navigation Drawer -->
-    <ListView
-        android:id="@+id/start_drawer"
-        android:layout_width="260dp"
+    <com.mcdev.passbox.views.ScrimInsetsFrameLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/scrimInsetsFrameLayout"
+        android:layout_width="280dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/grey_50"
-        android:paddingTop="56dp"
-        android:paddingStart="35dp"
-        android:paddingLeft="35dp"
-        android:paddingEnd="35dp"
-        android:paddingRight="35dp"
-        android:divider="@color/grey_200"
-        android:dividerHeight="1dp"
-        android:fitsSystemWindows="true" />
+        android:background="@color/white"
+        android:elevation="10dp"
+        android:fitsSystemWindows="true"
+        app:insetForeground="#4000" >
+        
+        <ListView
+            android:id="@+id/drawer_list"
+            android:layout_width="280dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@color/grey_50"
+            android:paddingTop="56dp"
+            android:paddingStart="35dp"
+            android:paddingLeft="35dp"
+            android:paddingEnd="35dp"
+            android:paddingRight="35dp"
+            android:divider="@color/grey_200"
+            android:dividerHeight="1dp"
+            android:fitsSystemWindows="true" />
+        
+    </com.mcdev.passbox.views.ScrimInsetsFrameLayout>
 
 </android.support.v4.widget.DrawerLayout>

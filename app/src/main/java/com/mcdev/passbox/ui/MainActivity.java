@@ -2,6 +2,7 @@ package com.mcdev.passbox.ui;
 
 import com.mcdev.passbox.R;
 import com.mcdev.passbox.utils.Constants;
+import com.mcdev.passbox.views.ScrimInsetsFrameLayout;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -24,7 +25,7 @@ import android.widget.ListView;
 public class MainActivity extends ActionBarActivity {
 	
 	private DrawerLayout mDrawerLayout;
-	private ListView mDrawer;
+	private ScrimInsetsFrameLayout mDrawer;
 	private ActionBarHelper mActionBar;
 	private ActionBarDrawerToggle mDrawerToggle;
 //	private Context mContext;
@@ -51,23 +52,26 @@ public class MainActivity extends ActionBarActivity {
 		
 		// Find Views
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawer = (ListView) findViewById(R.id.start_drawer);
+        mDrawer = (ScrimInsetsFrameLayout) findViewById(R.id.scrimInsetsFrameLayout);
 //        mContent = (TextView) findViewById(R.id.content_text);
         
         /*****************************************************
          ** Navigation Drawer								** 
          *****************************************************/
         // Set the status bar background color
-//        mDrawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.cyan_300));
+        mDrawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.light_blue_700));
         
         // 
         mDrawerLayout.setDrawerListener(new DemoDrawerListener());
         
         //
         mDrawerLayout.setDrawerTitle(GravityCompat.START, getString(R.string.drawer_title));
+        
+        // Inflate the drawer list
+        ListView mDrawerList = (ListView) findViewById(R.id.drawer_list);
 		
         // Set the Adapter
-        mDrawer.setAdapter(
+        mDrawerList.setAdapter(
         	new ArrayAdapter<>(
         		this,									// Context
         		android.R.layout.simple_list_item_1,	// Item layout
@@ -75,7 +79,7 @@ public class MainActivity extends ActionBarActivity {
         	)
         );
         // Set the ItemClickListener
-        mDrawer.setOnItemClickListener(new DrawerItemClickListener());
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 		
         /*****************************************************
          ** ActionBar										** 
