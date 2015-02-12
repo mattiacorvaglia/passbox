@@ -14,7 +14,7 @@
         
         <include
             android:id="@+id/toolbar"
-            layout="@layout/toolbar_layout"/>
+            layout="@layout/toolbar_layout" />
         
 		<FrameLayout
 		    android:layout_below="@id/toolbar"
@@ -27,7 +27,11 @@
     </RelativeLayout>
 	
 	<!-- Navigation Drawer -->
-    <com.mcdev.passbox.views.ScrimInsetsFrameLayout
+    <include
+        android:id="@+id/scrimInsetsFrameLayout"
+        layout="@layout/navdrawer" />
+    
+    <!--<com.mcdev.passbox.views.ScrimInsetsFrameLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/scrimInsetsFrameLayout"
         android:layout_width="280dp"
@@ -53,6 +57,6 @@
             android:dividerHeight="1dp"
             android:fitsSystemWindows="true" />
         
-    </com.mcdev.passbox.views.ScrimInsetsFrameLayout>
+    </com.mcdev.passbox.views.ScrimInsetsFrameLayout>-->
 
 </android.support.v4.widget.DrawerLayout>

@@ -4,6 +4,8 @@ import com.mcdev.passbox.R;
 import com.mcdev.passbox.utils.Constants;
 import com.mcdev.passbox.views.ScrimInsetsFrameLayout;
 
+import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -16,11 +18,19 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
 	
@@ -28,8 +38,8 @@ public class MainActivity extends ActionBarActivity {
 	private ScrimInsetsFrameLayout mDrawer;
 	private ActionBarHelper mActionBar;
 	private ActionBarDrawerToggle mDrawerToggle;
-//	private Context mContext;
-	
+	private Context mContext;
+
 	private String[] titles = new String[] {
 		"Raccolta",
 		"Impostazioni"
@@ -40,7 +50,7 @@ public class MainActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-//		mContext = this;
+		mContext = this;
 		
 		/*****************************************************
          ** Toolbar											**
@@ -71,13 +81,9 @@ public class MainActivity extends ActionBarActivity {
         ListView mDrawerList = (ListView) findViewById(R.id.drawer_list);
 		
         // Set the Adapter
-        mDrawerList.setAdapter(
-        	new ArrayAdapter<>(
-        		this,									// Context
-        		android.R.layout.simple_list_item_1,	// Item layout
-        		titles									// Objects
-        	)
-        );
+        List<String> strings = Arrays.asList(titles);
+        mDrawerList.setAdapter(new DrawerListAdapter(mContext, strings));
+
         // Set the ItemClickListener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 		
@@ -158,7 +164,10 @@ public class MainActivity extends ActionBarActivity {
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        	
+
+            // Mark the selected item as selected in the Adapter
+            ((DrawerListAdapter) parent.getAdapter()).selectItem(position);
+            
         	// Handle the Drawer
             mActionBar.setTitle(titles[position]);
             mDrawerLayout.closeDrawer(mDrawer);
@@ -294,6 +303,88 @@ public class MainActivity extends ActionBarActivity {
         public void setTitle(CharSequence title) {
             mTitle = title;
         }
+    }
+
+    /**
+     * Custom ListAdapter for the drawer
+     */
+    private class DrawerListAdapter extends ArrayAdapter<String> {
+
+        private int selectedItem;
+        private Typeface fontMedium;
+
+        // Constructor
+        public DrawerListAdapter(Context context, List<String> objects) {
+            super(context, R.layout.item_drawer_list, objects);
+            fontMedium = Typeface.createFromAsset(context.getAssets(),"Roboto-Medium.ttf");
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            Holder mHolder;
+            // Inflating
+            if (convertView == null) {
+                LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                convertView = inflater.inflate(R.layout.item_drawer_list, parent, false);
+                mHolder = new Holder();
+                mHolder.icon = (ImageView) convertView.findViewById(R.id.item_drawer_icon);
+                mHolder.title = (TextView) convertView.findViewById(R.id.item_drawer_title);
+                convertView.setTag(mHolder);
+            } else {
+                mHolder = (Holder) convertView.getTag();
+            }
+
+            // Set dynamic contents
+            switch (position) {
+                case 0:
+                    mHolder.title.setText(getItem(0));
+                    mHolder.title.setTypeface(fontMedium);
+                    if (position == selectedItem) {
+                        mHolder.title.setTextColor(getContext().getResources().getColor(R.color.light_blue_700));
+                        mHolder.icon.setImageResource(R.drawable.ic_label_grey600_24dp);
+                    } else {
+                        mHolder.title.setTextColor(getContext().getResources().getColor(R.color.grey_600));
+                        mHolder.icon.setImageResource(R.drawable.ic_label_grey600_24dp);
+                    }
+                    break;
+                case 1:
+                    mHolder.title.setText(getItem(1));
+                    mHolder.title.setTypeface(fontMedium);
+                    if (position == selectedItem) {
+                        mHolder.title.setTextColor(getContext().getResources().getColor(R.color.light_blue_700));
+                        mHolder.icon.setImageResource(R.drawable.ic_send_grey600_24dp);
+                    } else {
+                        mHolder.title.setTextColor(getContext().getResources().getColor(R.color.grey_600));
+                        mHolder.icon.setImageResource(R.drawable.ic_send_grey600_24dp);
+                    }
+                    break;
+                default:
+                    break;
+            }
+            
+            
+            // The End
+            return convertView;
+        }
+
+        /**
+         * Mark an item as selected
+         * @param selectedItem the item to mark as selected
+         */
+        public void selectItem(int selectedItem) {
+            this.selectedItem = selectedItem;
+            notifyDataSetChanged();
+        }
+
+    }
+
+    /**
+     * Util class used to reuse the views in the ListView
+     * after scroll down
+     */
+    private static class Holder {
+        private ImageView icon;
+        private TextView title;
     }
     
 }
