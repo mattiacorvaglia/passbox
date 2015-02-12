@@ -231,7 +231,7 @@ public class Util {
          * @return true if the String is NULL or empty
          */
         public static boolean isNullOrEmpty(@Nullable String string) {
-            return string == null || string.length() < 1 || string.equalsIgnoreCase("null");
+            return string == null || string.length() < 1;
         }
 
     }
@@ -247,6 +247,7 @@ public class Util {
         // The size of the salt should typically match the key size
         private static final int SALT_LENGTH                        = 256;  // bits
         private static final int KEY_LENGTH                         = 256;  // bits
+        private static final int IV_LENGTH                          = 128;  // bits
         /*
          * Number of PBKDF2 hardening rounds to use. Larger values increase
          * computation time. You should select a value that causes computation
@@ -306,16 +307,15 @@ public class Util {
 
         /**
          * Generate the Initialization Vector (IV)
-         * @param size The size to use
          * @return the generated Initialization Vector (IV)
          * @throws NoSuchAlgorithmException
          */
-        private static SecretKey generateIV(int size) throws NoSuchAlgorithmException {
+        private static SecretKey generateIV() throws NoSuchAlgorithmException {
 
             SecureRandom secureRandom = new SecureRandom();
             // Do *not* seed secureRandom! Automatically seeded from system entropy.
             KeyGenerator keyGenerator = KeyGenerator.getInstance(CIPHER_ALGORITHM);
-            keyGenerator.init(size, secureRandom);
+            keyGenerator.init(IV_LENGTH, secureRandom);
             return keyGenerator.generateKey();
             
         }
@@ -363,12 +363,11 @@ public class Util {
             SecretKey salt = generateSalt();
             SecretKey key = generateKeyFromPassphrase(passphraseOrPin, salt.getEncoded());
             SecretKeySpec keySpec = new SecretKeySpec(key.getEncoded(), CIPHER_ALGORITHM);
-            // Get a cipher instance
-            Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM_MODE_PADDING);
             // Generate an Initialization Vector (IV)
-            SecretKey iv = generateIV(cipher.getBlockSize());
+            SecretKey iv = generateIV();
             IvParameterSpec ivSpec = new IvParameterSpec(iv.getEncoded());
             // Initialize the cipher
+            Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM_MODE_PADDING);
             cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec);
             // Encrypt
             byte[] encrypted = cipher.doFinal(plainText.getBytes(CHARSET));
@@ -418,16 +417,14 @@ public class Util {
             // Recreate the specifics
             SecretKeySpec keySpec = new SecretKeySpec(key.getEncoded(), CIPHER_ALGORITHM);
             IvParameterSpec ivSpec = new IvParameterSpec(iv);
-            
-            // Get a cipher instance
-            Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM_MODE_PADDING);
+
             // Initialize the cipher
+            Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM_MODE_PADDING);
             cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
             // Decrypt
             byte[] decrypted = cipher.doFinal(cipherBytes);
             
-            return toBase64(decrypted);
-            
+            return new String(decrypted, CHARSET);
         }
     }
     

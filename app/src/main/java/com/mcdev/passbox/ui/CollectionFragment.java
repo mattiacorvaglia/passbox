@@ -27,9 +27,6 @@ import android.widget.TextView;
 
 public class CollectionFragment extends ListFragment {
 	
-	public static final int REQUEST_CODE_ADD_PASSWORD = 123;
-	public static final int REQUEST_CODE_DETAIL_PASSWORD = 124;
-	
 	private Context mContext;
 	private TextView emptyAlert;
 	
@@ -58,7 +55,7 @@ public class CollectionFragment extends ListFragment {
 			@Override
 			public void onClick(View v) {
 				Intent mIntent = new Intent(getActivity(), AddPasswordActivity.class);
-				getActivity().startActivityForResult(mIntent, REQUEST_CODE_ADD_PASSWORD);
+				getActivity().startActivityForResult(mIntent, Constants.REQUEST_CODE_ADD_PASSWORD);
 			}
 		});
         return rootView;
@@ -80,7 +77,7 @@ public class CollectionFragment extends ListFragment {
 		mIntent.putExtra(Constants.TAG_EXTRA_PASSWORD_ID, mPassword.getId());
 		mIntent.putExtra(Constants.TAG_EXTRA_PASSWORD_TITLE, mPassword.getTitle());
 		mIntent.putExtra(Constants.TAG_EXTRA_PASSWORD_COLOR, mPassword.getColor());
-		getActivity().startActivityForResult(mIntent, REQUEST_CODE_DETAIL_PASSWORD);
+		getActivity().startActivityForResult(mIntent, Constants.REQUEST_CODE_DETAIL_PASSWORD);
 	}
 	
 	/**

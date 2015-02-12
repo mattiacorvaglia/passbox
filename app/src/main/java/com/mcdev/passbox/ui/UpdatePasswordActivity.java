@@ -1,9 +1,15 @@
 package com.mcdev.passbox.ui;
 
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -24,6 +30,12 @@ import com.mcdev.passbox.content.PasswordDto;
 import com.mcdev.passbox.content.RecoveryDao;
 import com.mcdev.passbox.content.RecoveryDto;
 import com.mcdev.passbox.utils.Constants;
+import com.mcdev.passbox.utils.Loginer;
+import com.mcdev.passbox.utils.Util;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 public class UpdatePasswordActivity extends ActionBarActivity {
 	
@@ -66,10 +78,10 @@ public class UpdatePasswordActivity extends ActionBarActivity {
 		description = (EditText) findViewById(R.id.pwd_update_description);
 		
 		// Initialize the Map of EditText for the recovery entries
-		recoveryEditTextList = new LinkedHashMap<EditText, EditText>();
+		recoveryEditTextList = new LinkedHashMap<>();
 		
 		// fill the form with the current values
-		updateUI();
+		new UpdateUI().execute();
 		
 		// Set the listener for the add button
 		Button addRecovery = (Button) findViewById(R.id.pwd_update_recovery);
@@ -80,8 +92,6 @@ public class UpdatePasswordActivity extends ActionBarActivity {
 				addNewRecoveryEntry();
 			}
 		});
-		
-		
 	}
 	
 	@Override
@@ -107,68 +117,102 @@ public class UpdatePasswordActivity extends ActionBarActivity {
 	}
 	
 	/**
-	 * Update the UI with the contents
+	 * Update the UI with the contents retrieved
+     * from the database with an async task
 	 */
-	private void updateUI() {
-		
-		PasswordDao.getInstance(mContext).open();
-		PasswordDto pwd = PasswordDao.getInstance(mContext).getPassword(pwdId);
-		PasswordDao.getInstance(mContext).close();
-		
-		if (pwd == null) {
-			Log.w(Constants.TAG_APPLICATION_LOG, "Error on retrieving the password detail from the database");
-			Toast.makeText(mContext, "Wrong password id", Toast.LENGTH_SHORT).show();
-			finish();
-		} else {
-			
-			// Set color
-			currentColor = pwd.getColor();
-			
-			// Set title
-			String pwdTitle = pwd.getTitle();
-			if (pwdTitle == null || pwdTitle.length() < 1) {
-				Log.w(Constants.TAG_APPLICATION_LOG, "Error on retrieving the password title");
-			} else {
-				title.setText(pwdTitle);
-			}
-			
-			// Set username
-			String pwdUsername = pwd.getUsername();
-			if (pwdUsername != null && pwdUsername.length() > 0) {
-				username.setText(pwdUsername);
-			}
-			
-			// Set title
-			String pwdPassword = pwd.getPassword();
-			if (pwdPassword == null || pwdPassword.length() < 1) {
-				Log.w(Constants.TAG_APPLICATION_LOG, "Error on retrieving the password");
-			} else {
-				password.setText(pwdPassword);
-			}
-			
-			// Set web URL
-			String pwdWebUrl = pwd.getWebUrl();
-			if (pwdWebUrl != null && pwdWebUrl.length() > 0) {
-				webUrl.setText(pwdWebUrl);
-			}
-			
-			// Set description
-			String pwdDescription = pwd.getDescription();
-			if (pwdDescription != null && pwdDescription.length() > 0) {
-				description.setText(pwdDescription);
-			}
-			
-			// Set recovery
-			LinkedList<RecoveryDto> pwdRecoveryList = pwd.getRecoveryList();
-			if (pwdRecoveryList != null && pwdRecoveryList.size() > 0) {
-				// Iterate each recovery entry
-				for (RecoveryDto mRecovery : pwdRecoveryList) {
-					// Add view
-					addRecoveryEntry(mRecovery);
-				}
-			}
-			
-		}
+    private class UpdateUI extends AsyncTask<String, Void, PasswordDto> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected PasswordDto doInBackground(String... params) {
+            /**
+             * Decrypt the stored password
+             */
+            try {
+                // Get data from the database
+                PasswordDao.getInstance(mContext).open();
+                PasswordDto pwd = PasswordDao.getInstance(mContext).getPassword(pwdId);
+                PasswordDao.getInstance(mContext).close();
+                
+                if (pwd == null) {
+                    return null;
+                } else {
+                    String passphrase = Loginer.getInstance(mContext).getMainPwd();
+                    String decrypted = Util.Crypto.decrypt(pwd.getPassword(), passphrase);
+                    pwd.setPassword(decrypted);
+                    return pwd;
+                }
+
+            } catch (NoSuchPaddingException | IllegalBlockSizeException |
+                    BadPaddingException | InvalidKeyException |
+                    InvalidAlgorithmParameterException | UnsupportedEncodingException |
+                    InvalidKeySpecException | NoSuchAlgorithmException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(PasswordDto result) {
+            super.onPostExecute(result);
+
+            if (result == null) {
+                Log.w(Constants.TAG_APPLICATION_LOG, "Error on retrieving the password detail from the database");
+                Toast.makeText(mContext, getString(R.string.error_decryption), Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                // Set color
+                currentColor = result.getColor();
+
+                // Set title
+                String pwdTitle = result.getTitle();
+                if (Util.Strings.isNullOrEmpty(pwdTitle)) {
+                    Log.w(Constants.TAG_APPLICATION_LOG, "Error on retrieving the password title");
+                } else {
+                    title.setText(pwdTitle);
+                }
+
+                // Set username
+                String pwdUsername = result.getUsername();
+                if (!Util.Strings.isNullOrEmpty(pwdUsername)) {
+                    username.setText(pwdUsername);
+                }
+
+                // Set title
+                String pwdPassword = result.getPassword();
+                if (Util.Strings.isNullOrEmpty(pwdPassword)) {
+                    Log.w(Constants.TAG_APPLICATION_LOG, "Error on retrieving the password");
+                } else {
+                    password.setText(pwdPassword);
+                }
+
+                // Set web URL
+                String pwdWebUrl = result.getWebUrl();
+                if (!Util.Strings.isNullOrEmpty(pwdWebUrl)) {
+                    webUrl.setText(pwdWebUrl);
+                }
+
+                // Set description
+                String pwdDescription = result.getDescription();
+                if (!Util.Strings.isNullOrEmpty(pwdDescription)) {
+                    description.setText(pwdDescription);
+                }
+
+                // Set recovery
+                LinkedList<RecoveryDto> pwdRecoveryList = result.getRecoveryList();
+                if (pwdRecoveryList != null && pwdRecoveryList.size() > 0) {
+                    // Iterate each recovery entry
+                    for (RecoveryDto mRecovery : pwdRecoveryList) {
+                        // Add view
+                        addRecoveryEntry(mRecovery);
+                    }
+                }
+            }
+        }
 	}
 	
 	/**
@@ -243,29 +287,29 @@ public class UpdatePasswordActivity extends ActionBarActivity {
 		
 		// Check not null title
 		String insertedTitle = title.getText().toString();
-		if (insertedTitle == null || insertedTitle.length() < 1) {
+		if (Util.Strings.isNullOrEmpty(insertedTitle)) {
 			title.setError(getResources().getString(R.string.error_add_title));
 		} else {
 			mPassword.setTitle(insertedTitle);
 			// Check not null password
 			String insertedPwd = password.getText().toString();
-			if (insertedPwd == null || insertedPwd.length() < 1) {
+			if (Util.Strings.isNullOrEmpty(insertedPwd)) {
 				password.setError(getResources().getString(R.string.error_add_pwd));
 			} else {
 				mPassword.setPassword(insertedPwd);
 				// Check not null username
 				String insertedUsername = username.getText().toString();
-				if (insertedUsername != null && insertedUsername.length() > 0) {
+				if (!Util.Strings.isNullOrEmpty(insertedUsername)) {
 					mPassword.setUsername(insertedUsername);
 				}
 				// Check not null web URL
 				String insertedWebUrl = webUrl.getText().toString();
-				if (insertedWebUrl != null && insertedWebUrl.length() > 0) {
+				if (!Util.Strings.isNullOrEmpty(insertedWebUrl)) {
 					mPassword.setWebUrl(insertedWebUrl);
 				}
 				// Check not null description
 				String insertedDescription = description.getText().toString();
-				if (insertedDescription != null && insertedDescription.length() > 0) {
+				if (!Util.Strings.isNullOrEmpty(insertedDescription)) {
 					mPassword.setDescription(insertedDescription);
 				}
 				// Check not null color
@@ -280,7 +324,7 @@ public class UpdatePasswordActivity extends ActionBarActivity {
 						RecoveryDto mRecovery = new RecoveryDto();
 				    	String insertedQuestion = mQuestion.getText().toString();
 				    	// Check not null question
-				    	if (insertedQuestion == null || insertedQuestion.length() < 1) {
+				    	if (Util.Strings.isNullOrEmpty(insertedQuestion)) {
 				    		mQuestion.setError(getResources().getString(R.string.error_add_question));
 				    		RecoveryDone = false;
 				    	} else {
@@ -292,7 +336,7 @@ public class UpdatePasswordActivity extends ActionBarActivity {
 				    		// Check not null answer
 				    		EditText mAnswer = recoveryEditTextList.get(mQuestion);
 				    		String insertedAnswer = mAnswer.getText().toString();
-				    		if (insertedAnswer == null || insertedAnswer.length() < 1) {
+				    		if (Util.Strings.isNullOrEmpty(insertedAnswer)) {
 				    			mAnswer.setError(getResources().getString(R.string.error_add_answer));
 				    			RecoveryDone = false;
 				    		} else {
@@ -304,26 +348,73 @@ public class UpdatePasswordActivity extends ActionBarActivity {
 				    	}
 				    }
 				}
-				
 				if (RecoveryDone) {
-					// Store in the database
-					PasswordDao.getInstance(mContext).open();
-					int affectedRows = PasswordDao.getInstance(mContext).updatePassword(mPassword);
-					PasswordDao.getInstance(mContext).close();
-					
-					if (affectedRows != 1) {
-						Log.w(Constants.TAG_APPLICATION_LOG, "Error on updating the password in the database");
-						Toast.makeText(mContext, "Error on updating the password in the database", Toast.LENGTH_SHORT).show();
-					} else {
-						// Close this screen
-						setResult(RESULT_OK);
-						finish();
-					}
+                    new RestorePassword(mPassword).execute();
 				}
 			}
-			
 		}
-		
 	}
+
+    /**
+     * Async Task used to encrypt password
+     * and restore it in the database
+     */
+    private class RestorePassword extends AsyncTask<String, Void, Integer> {
+
+        private PasswordDto mPassword;
+
+        // Constructor
+        private RestorePassword(PasswordDto mPassword) {
+            this.mPassword = mPassword;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            /**
+             * Encrypt password before storing it in the database
+             */
+            try {
+                String passphrase = Loginer.getInstance(mContext).getMainPwd();
+                String encrypted = Util.Crypto.encrypt(mPassword.getPassword(), passphrase);
+                mPassword.setPassword(encrypted);
+
+                // Store in the database
+                PasswordDao.getInstance(mContext).open();
+                int affectedRows = PasswordDao.getInstance(mContext).updatePassword(mPassword);
+                PasswordDao.getInstance(mContext).close();
+
+                return affectedRows;
+            } catch (NoSuchAlgorithmException | IllegalBlockSizeException |
+                    BadPaddingException | InvalidKeyException |
+                    InvalidAlgorithmParameterException | NoSuchPaddingException |
+                    InvalidKeySpecException | UnsupportedEncodingException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+            if (result == null) {
+                Log.w(Constants.TAG_APPLICATION_LOG, "Error on encrypting the new password");
+                Toast.makeText(mContext, getString(R.string.error_encryption), Toast.LENGTH_SHORT).show();
+            } else {
+                if (result != 1) {
+                    Log.w(Constants.TAG_APPLICATION_LOG, "Error on updating the password in the database or on decrypting the password");
+                    Toast.makeText(mContext, getString(R.string.error_storing), Toast.LENGTH_SHORT).show();
+                } else {
+                    // Close this screen
+                    setResult(RESULT_OK);
+                    finish();
+                }
+            }
+        }
+    }
 
 }

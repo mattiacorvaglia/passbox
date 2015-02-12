@@ -21,9 +21,8 @@ import android.widget.TextView;
 public class SetLoginActivity extends Activity {
 	
 	private Context mContext;
-	private Button saveButton, key1, key2, key3, key4, key5, key6, key7, key8, key9, key0;
-	private ImageButton delButton;
-	private TextView repeatText;
+	private Button saveButton;
+    private TextView repeatText;
 	private EditText displayView;
 	private StringBuilder newPin = new StringBuilder();
 	private String preconfirmed;
@@ -40,17 +39,17 @@ public class SetLoginActivity extends Activity {
 		displayView = (EditText) findViewById(R.id.display_view);
 		repeatText = (TextView) findViewById(R.id.repeat_text);
 		saveButton = (Button) findViewById(R.id.save_pin);
-		delButton = (ImageButton) findViewById(R.id.del_btn);
-		key1 = (Button) findViewById(R.id.skey1);
-		key2 = (Button) findViewById(R.id.skey2);
-		key3 = (Button) findViewById(R.id.skey3);
-		key4 = (Button) findViewById(R.id.skey4);
-		key5 = (Button) findViewById(R.id.skey5);
-		key6 = (Button) findViewById(R.id.skey6);
-		key7 = (Button) findViewById(R.id.skey7);
-		key8 = (Button) findViewById(R.id.skey8);
-		key9 = (Button) findViewById(R.id.skey9);
-		key0 = (Button) findViewById(R.id.skey0);
+        ImageButton delButton = (ImageButton) findViewById(R.id.del_btn);
+        Button key1 = (Button) findViewById(R.id.skey1);
+        Button key2 = (Button) findViewById(R.id.skey2);
+        Button key3 = (Button) findViewById(R.id.skey3);
+        Button key4 = (Button) findViewById(R.id.skey4);
+        Button key5 = (Button) findViewById(R.id.skey5);
+        Button key6 = (Button) findViewById(R.id.skey6);
+        Button key7 = (Button) findViewById(R.id.skey7);
+        Button key8 = (Button) findViewById(R.id.skey8);
+        Button key9 = (Button) findViewById(R.id.skey9);
+        Button key0 = (Button) findViewById(R.id.skey0);
 		
 		// Set OnTouchListener to the EditText
 		displayView.setOnTouchListener(new OnTouchListener() {
@@ -64,7 +63,6 @@ public class SetLoginActivity extends Activity {
 		
 		// OnClickListener
 		OnClickListener keyboardListener = new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				switch (v.getId()) {
@@ -128,20 +126,19 @@ public class SetLoginActivity extends Activity {
 		
 		// Show the AlertDialog
 		new AlertDialog.Builder(this)
-		.setTitle(getResources().getString(R.string.welcome))
-		.setMessage(getResources().getString(R.string.set_auth_code))
-		.setCancelable(false)
-		.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {}
-		})
-//		.setIcon(android.R.drawable.ic_dialog_info)
-		.show();
+            .setTitle(getResources().getString(R.string.welcome))
+            .setMessage(getResources().getString(R.string.set_auth_code))
+            .setCancelable(false)
+            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {}
+            })
+            .show();
 
 	}
 
 	/**
 	 * Append the char of the pressed button to the PIN
-	 * @param keyToAppend
+	 * @param keyToAppend The char to append
 	 */
 	private void appendChar(String keyToAppend) {
 		if (newPin.length() < 8) {

@@ -1,5 +1,10 @@
 package com.mcdev.passbox.ui;
 
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,6 +15,7 @@ import com.mcdev.passbox.content.PasswordDao;
 import com.mcdev.passbox.content.PasswordDto;
 import com.mcdev.passbox.content.RecoveryDto;
 import com.mcdev.passbox.utils.Constants;
+import com.mcdev.passbox.utils.Loginer;
 import com.mcdev.passbox.views.FloatingActionButton;
 import com.mcdev.passbox.views.colorpicker.ColorPickerDialog;
 import com.mcdev.passbox.views.colorpicker.ColorPickerSwatch;
@@ -19,6 +25,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -38,10 +45,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
 @SuppressLint("ClickableViewAccessibility")
 public class PasswordDetailActivity extends ActionBarActivity {
-	
-	private static final int REQUEST_CODE_UPDATE_PASSWORD = 125;
 	
 	private Context mContext;
 	private long pwdId;
@@ -54,10 +63,8 @@ public class PasswordDetailActivity extends ActionBarActivity {
 	private Map<String, Integer> colorSet;
 	private Toolbar toolbar;
 	private FloatingActionButton togglePasswordVisibility;
-	
 	private int mSelectedColor = 0;
-	
-	@SuppressLint("NewApi")
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -68,6 +75,7 @@ public class PasswordDetailActivity extends ActionBarActivity {
 			Log.w(Constants.TAG_APPLICATION_LOG, "Error on retrieving extras from the calling intent");
 			Toast.makeText(this, "Error on retrieving extras from the calling intent", Toast.LENGTH_SHORT).show();
 			finish();
+            return;
 		}
 		pwdId = intentExtras.getLong(Constants.TAG_EXTRA_PASSWORD_ID);
 		String pwdTitle = intentExtras.getString(Constants.TAG_EXTRA_PASSWORD_TITLE);
@@ -103,7 +111,7 @@ public class PasswordDetailActivity extends ActionBarActivity {
 		passwordLayout 		= (RelativeLayout) findViewById(R.id.pwd_detail_password_layout);
 		webUrlLayout 		= (RelativeLayout) findViewById(R.id.pwd_detail_weburl_layout);
 		descriptionLayout 	= (LinearLayout) findViewById(R.id.pwd_detail_description_layout);
-		descriptionDivider 	= (View) findViewById(R.id.pwd_detail_description_divider);
+		descriptionDivider 	= findViewById(R.id.pwd_detail_description_divider);
 		
 		username 	= (TextView) findViewById(R.id.pwd_detail_username);
 		password 	= (EditText) findViewById(R.id.pwd_detail_pwd);
@@ -114,11 +122,11 @@ public class PasswordDetailActivity extends ActionBarActivity {
 		togglePasswordVisibility.setColorNormal(colorSet.get(Util.Colors.KEY_COLOR_ACCENT));
 		
 		// Add the password EditText in the list
-		editTextToToggleVisibility = new ArrayList<EditText>();
+		editTextToToggleVisibility = new ArrayList<>();
 		editTextToToggleVisibility.add(password);
 				
 		// Fill contents
-		updateUI();
+		new UpdateUI().execute();
 		
 		// Disable the EditText default style
 		password.setOnTouchListener(new OnTouchListener() {
@@ -192,8 +200,8 @@ public class PasswordDetailActivity extends ActionBarActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == Activity.RESULT_OK) {
 			switch (requestCode) {
-				case REQUEST_CODE_UPDATE_PASSWORD:
-					updateUI();
+				case Constants.REQUEST_CODE_UPDATE_PASSWORD:
+                    new UpdateUI().execute();
 					// Update UI in the password collection fragment
 					setResult(RESULT_OK);
 					break;
@@ -205,70 +213,107 @@ public class PasswordDetailActivity extends ActionBarActivity {
 	
 	/**
 	 * Get the content from the database and
-	 * update the UI
+	 * update the UI with an async task
 	 */
-	private void updateUI() {
-		PasswordDao.getInstance(mContext).open();
-		PasswordDto pwd = PasswordDao.getInstance(mContext).getPassword(pwdId);
-		PasswordDao.getInstance(mContext).close();
-		
-		if (pwd == null) {
-			Log.w(Constants.TAG_APPLICATION_LOG, "Error on retrieving the password detail from the database");
-			Toast.makeText(mContext, "Wrong password id", Toast.LENGTH_SHORT).show();
-			finish();
-		} else {
-			
-			// Set title
-			setTitle(pwd.getTitle());
-			
-			// Set username
-			String pwdUsername = pwd.getUsername();
-			if (pwdUsername == null || pwdUsername.length() < 1) {
-				usernameLayout.setVisibility(View.GONE);
-			} else {
-				usernameLayout.setVisibility(View.VISIBLE);
-				username.setText(pwdUsername);
-			}
-			
-			// Set password
-			String pwdPassword = pwd.getPassword();
-			if (pwdPassword == null || pwdPassword.length() < 1) {
-				passwordLayout.setVisibility(View.GONE);
-			} else {
-				passwordLayout.setVisibility(View.VISIBLE);
-				password.setText(pwdPassword);
-			}
-			
-			// Set web URL
-			String pwdWebUrl = pwd.getWebUrl();
-			if (pwdWebUrl == null || pwdWebUrl.length() < 1) {
-				webUrlLayout.setVisibility(View.GONE);
-			} else {
-				webUrlLayout.setVisibility(View.VISIBLE);
-				webUrl.setText(pwdWebUrl);
-			}
-			
-			// Set description
-			String pwdDescription = pwd.getDescription();
-			if (pwdDescription == null || pwdDescription.length() < 1) {
-				descriptionLayout.setVisibility(View.GONE);
-				descriptionDivider.setVisibility(View.GONE);
-			} else {
-				descriptionLayout.setVisibility(View.VISIBLE);
-				descriptionDivider.setVisibility(View.VISIBLE);
-				description.setText(pwdDescription);
-			}
-			
-			// Set recovery
-			LinkedList<RecoveryDto> pwdRecoveryList = pwd.getRecoveryList();
-			if (pwdRecoveryList != null && pwdRecoveryList.size() > 0) {
-				// Iterate each recovery entry
-				for (RecoveryDto mRecovery : pwdRecoveryList) {
-					// Add view
-					addRecoveryEntry(mRecovery);
-				}
-			}
-		}
+    private class UpdateUI extends AsyncTask<String, Void, PasswordDto> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            recoveryContainer.removeAllViews();
+        }
+
+        @Override
+        protected PasswordDto doInBackground(String... params) {
+
+            /**
+             * Decrypt the stored password
+             */
+            try {
+                // Get data from the database
+                PasswordDao.getInstance(mContext).open();
+                PasswordDto pwd = PasswordDao.getInstance(mContext).getPassword(pwdId);
+                PasswordDao.getInstance(mContext).close();
+                
+                if (pwd == null) {
+                    return null;
+                } else {
+                    String passphrase = Loginer.getInstance(mContext).getMainPwd();
+                    String decrypted = Util.Crypto.decrypt(pwd.getPassword(), passphrase);
+                    pwd.setPassword(decrypted);
+                    return pwd;
+                }
+
+            } catch (NoSuchPaddingException | IllegalBlockSizeException |
+                    BadPaddingException | InvalidKeyException |
+                    InvalidAlgorithmParameterException | UnsupportedEncodingException |
+                    InvalidKeySpecException | NoSuchAlgorithmException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(PasswordDto result) {
+            super.onPostExecute(result);
+            if (result == null) {
+                Log.w(Constants.TAG_APPLICATION_LOG, "Error on retrieving the password detail from the database or on decrypting the stored password");
+                Toast.makeText(mContext, getString(R.string.error_decryption), Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+
+                // Set title
+                setTitle(result.getTitle());
+
+                // Set username
+                String pwdUsername = result.getUsername();
+                if (Util.Strings.isNullOrEmpty(pwdUsername)) {
+                    usernameLayout.setVisibility(View.GONE);
+                } else {
+                    usernameLayout.setVisibility(View.VISIBLE);
+                    username.setText(pwdUsername);
+                }
+
+                // Set password
+                String pwdPassword = result.getPassword();
+                if (Util.Strings.isNullOrEmpty(pwdPassword)) {
+                    passwordLayout.setVisibility(View.GONE);
+                } else {
+                    passwordLayout.setVisibility(View.VISIBLE);
+                    password.setText(pwdPassword);
+                }
+
+                // Set web URL
+                String pwdWebUrl = result.getWebUrl();
+                if (Util.Strings.isNullOrEmpty(pwdWebUrl)) {
+                    webUrlLayout.setVisibility(View.GONE);
+                } else {
+                    webUrlLayout.setVisibility(View.VISIBLE);
+                    webUrl.setText(pwdWebUrl);
+                }
+
+                // Set description
+                String pwdDescription = result.getDescription();
+                if (Util.Strings.isNullOrEmpty(pwdDescription)) {
+                    descriptionLayout.setVisibility(View.GONE);
+                    descriptionDivider.setVisibility(View.GONE);
+                } else {
+                    descriptionLayout.setVisibility(View.VISIBLE);
+                    descriptionDivider.setVisibility(View.VISIBLE);
+                    description.setText(pwdDescription);
+                }
+
+                // Set recovery
+                LinkedList<RecoveryDto> pwdRecoveryList = result.getRecoveryList();
+                if (pwdRecoveryList != null && pwdRecoveryList.size() > 0) {
+                    // Iterate each recovery entry
+                    for (RecoveryDto mRecovery : pwdRecoveryList) {
+                        // Add view
+                        addRecoveryEntry(mRecovery);
+                    }
+                }
+            }
+        }
 	}
 
 	/**
@@ -308,7 +353,7 @@ public class PasswordDetailActivity extends ActionBarActivity {
 	private void updatePassword() {
 		Intent mIntent = new Intent(mContext, UpdatePasswordActivity.class);
 		mIntent.putExtra(Constants.TAG_EXTRA_PASSWORD_ID, pwdId);
-		startActivityForResult(mIntent, REQUEST_CODE_UPDATE_PASSWORD);
+		startActivityForResult(mIntent, Constants.REQUEST_CODE_UPDATE_PASSWORD);
 	}
 	
 	/**

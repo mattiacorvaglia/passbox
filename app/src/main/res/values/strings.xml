@@ -19,7 +19,10 @@
     <string name="error_add_title">Devi inserire un\'etichetta</string>
     <string name="error_add_question">Devi inserire una domanda</string>
     <string name="error_add_answer">Devi inserire una risposta</string>
-    
+    <string name="error_encryption">Errore nel criptare la password</string>
+    <string name="error_decryption">Errore nel decriptare la password</string>
+    <string name="error_storing">Errore nel salvare le modifiche nel database</string>
+
     <string name="content_placeholder">\@Mattia Corvaglia\n\n\nPASSBOX\n\nPersonal Password Manager</string>
     <string name="content_placeholder_preference">Impostazioni e preferenze</string>
 	<string name="ciao">Ciao</string>

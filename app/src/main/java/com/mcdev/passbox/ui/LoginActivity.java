@@ -19,10 +19,10 @@ import android.widget.Toast;
 public class LoginActivity extends Activity {
 	
 	private Context mContext;
-	private Button loginButton, k1, k2, k3, k4, k5, k6, k7, k8, k9, k0;
-	private ImageButton del;
-	private EditText display;
+	private Button loginButton;
+    private EditText display;
 	private StringBuilder pin = new StringBuilder();
+    // Activity static instance used to finish it from another Activity
 	public static Activity loginActivity;
 
 	@Override
@@ -39,21 +39,20 @@ public class LoginActivity extends Activity {
 		// Find Views
 		display = (EditText) findViewById(R.id.display);
 		loginButton = (Button) findViewById(R.id.ok);
-		del = (ImageButton) findViewById(R.id.del);
-		k1 = (Button) findViewById(R.id.key1);
-		k2 = (Button) findViewById(R.id.key2);
-		k3 = (Button) findViewById(R.id.key3);
-		k4 = (Button) findViewById(R.id.key4);
-		k5 = (Button) findViewById(R.id.key5);
-		k6 = (Button) findViewById(R.id.key6);
-		k7 = (Button) findViewById(R.id.key7);
-		k8 = (Button) findViewById(R.id.key8);
-		k9 = (Button) findViewById(R.id.key9);
-		k0 = (Button) findViewById(R.id.key0);
+        ImageButton del = (ImageButton) findViewById(R.id.del);
+        Button k1 = (Button) findViewById(R.id.key1);
+        Button k2 = (Button) findViewById(R.id.key2);
+        Button k3 = (Button) findViewById(R.id.key3);
+        Button k4 = (Button) findViewById(R.id.key4);
+        Button k5 = (Button) findViewById(R.id.key5);
+        Button k6 = (Button) findViewById(R.id.key6);
+        Button k7 = (Button) findViewById(R.id.key7);
+        Button k8 = (Button) findViewById(R.id.key8);
+        Button k9 = (Button) findViewById(R.id.key9);
+        Button k0 = (Button) findViewById(R.id.key0);
 		
 		// Set OnTouchListener to the EditText
 		display.setOnTouchListener(new OnTouchListener() {
-			
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				return true;
@@ -63,7 +62,6 @@ public class LoginActivity extends Activity {
 		
 		// OnClickListener
 		OnClickListener keyboardListener = new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				switch (v.getId()) {

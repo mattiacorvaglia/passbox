@@ -1,6 +1,7 @@
 package com.mcdev.passbox.ui;
 
 import com.mcdev.passbox.R;
+import com.mcdev.passbox.utils.Constants;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -130,12 +131,12 @@ public class MainActivity extends ActionBarActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == Activity.RESULT_OK) {
 			switch (requestCode) {
-				case CollectionFragment.REQUEST_CODE_ADD_PASSWORD:
+				case Constants.REQUEST_CODE_ADD_PASSWORD:
 					// Update UI in the password collection fragment
 					CollectionFragment mFragmentOnInsert = (CollectionFragment) getSupportFragmentManager().findFragmentById(R.id.container);
 					mFragmentOnInsert.updateUI();
 					break;
-				case CollectionFragment.REQUEST_CODE_DETAIL_PASSWORD:
+				case Constants.REQUEST_CODE_DETAIL_PASSWORD:
 					// Update UI in the password collection fragment
 					CollectionFragment mFragmentOnUpdateOrDelete = (CollectionFragment) getSupportFragmentManager().findFragmentById(R.id.container);
 					mFragmentOnUpdateOrDelete.updateUI();
