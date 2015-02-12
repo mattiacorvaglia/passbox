@@ -10,12 +10,13 @@ import com.mcdev.passbox.content.PasswordDto;
 import com.mcdev.passbox.utils.Constants;
 import com.mcdev.passbox.views.FloatingActionButton;
 
+import android.app.ListFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,7 +42,7 @@ public class CollectionFragment extends ListFragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		
 		View rootView = inflater.inflate(R.layout.fragment_collection, container, false);

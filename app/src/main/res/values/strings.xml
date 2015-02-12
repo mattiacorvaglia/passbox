@@ -12,6 +12,17 @@
     <string name="drawer_title_settings">Impostazioni</string>
     <string name="drawer_title_credits">Credits</string>
     
+    <string name="preferences_category_security">Security</string>
+    <string name="preferences_category_database">Database</string>
+    <string name="preferences_change_main_key">Cambia la main password</string>
+    <string name="preferences_export">Esporta</string>
+    <string name="preferences_import">Importa</string>
+    <string name="preferences_restore">Ripristina</string>
+    <string name="preferences_change_main_key_summary">Definisci una nuova MAIN PASSWORD da sostituire a quella attuale.</string>
+    <string name="preferences_export_summary">Esporta in un file di backup criptato tutte le password salvate finora.</string>
+    <string name="preferences_import_summary">Importa le tue password da un file di backup.</string>
+    <string name="preferences_restore_summary">Svuota il database dell\'applicazione eliminando tutte le password salvate finora.</string>
+
     <string name="action_settings">Impostazioni</string>
     <string name="action_edit">Modifica</string>
     <string name="action_remove">Elimina</string>

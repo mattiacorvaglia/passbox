@@ -4,10 +4,10 @@ import com.mcdev.passbox.R;
 import com.mcdev.passbox.utils.Constants;
 import com.mcdev.passbox.views.ScrimInsetsFrameLayout;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.graphics.Typeface;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -103,8 +103,7 @@ public class MainActivity extends ActionBarActivity {
         
         // Set the startup fragment to show
         Fragment collectionFragment = new CollectionFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
+        getFragmentManager().beginTransaction()
                        .replace(R.id.container, collectionFragment)
                        .commit();
 		
@@ -142,12 +141,12 @@ public class MainActivity extends ActionBarActivity {
 			switch (requestCode) {
 				case Constants.REQUEST_CODE_ADD_PASSWORD:
 					// Update UI in the password collection fragment
-					CollectionFragment mFragmentOnInsert = (CollectionFragment) getSupportFragmentManager().findFragmentById(R.id.container);
+					CollectionFragment mFragmentOnInsert = (CollectionFragment) getFragmentManager().findFragmentById(R.id.container);
 					mFragmentOnInsert.updateUI();
 					break;
 				case Constants.REQUEST_CODE_DETAIL_PASSWORD:
 					// Update UI in the password collection fragment
-					CollectionFragment mFragmentOnUpdateOrDelete = (CollectionFragment) getSupportFragmentManager().findFragmentById(R.id.container);
+					CollectionFragment mFragmentOnUpdateOrDelete = (CollectionFragment) getFragmentManager().findFragmentById(R.id.container);
 					mFragmentOnUpdateOrDelete.updateUI();
 					break;
 				default:
@@ -181,39 +180,31 @@ public class MainActivity extends ActionBarActivity {
      * Swaps fragments in the main content view
      */
     private void selectItem(int position) {
-    	
-    	FragmentManager fragmentManager = getSupportFragmentManager();
-    	
+
+        FragmentManager fragmentManager = getFragmentManager();
+
     	switch (position) {
 			case 0:
-				// Create the new fragment
 				Fragment collectionFragment = new CollectionFragment();
-//		        Bundle args = new Bundle();
-//		        args.putInt(CollectionFragment.ARG_FRAGMENT_POSITION, position);
-//		        fragment.setArguments(args);
+                /*Bundle args = new Bundle();
+		        args.putInt(CollectionFragment.ARG_FRAGMENT_POSITION, position);
+		        fragment.setArguments(args);*/
 
 		        // Insert the fragment by replacing any existing fragment
-		        fragmentManager.beginTransaction()
+                fragmentManager.beginTransaction()
 		                       .replace(R.id.container, collectionFragment)
 		                       .commit();
-
-		        // Highlight the selected item
-//		        mDrawerList.setItemChecked(position, true);
 				break;
 			case 1:
-	//			// Create the new fragment
-				Fragment preferenceFragment = new PreferenceFragment();
-//		        Bundle args = new Bundle();
-//		        args.putInt(CollectionFragment.ARG_FRAGMENT_POSITION, position);
-//		        fragment.setArguments(args);
+				Fragment preferenceFragment = new CustomPreferenceFragment();
+                /*Bundle args = new Bundle();
+		        args.putInt(CollectionFragment.ARG_FRAGMENT_POSITION, position);
+		        fragment.setArguments(args);*/
 
 		        // Insert the fragment by replacing any existing fragment
-		        fragmentManager.beginTransaction()
+                fragmentManager.beginTransaction()
 		                       .replace(R.id.container, preferenceFragment)
 		                       .commit();
-
-		        // Highlight the selected item
-//		        mDrawerList.setItemChecked(position, true);
 				break;
 
 			default:

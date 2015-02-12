@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <!-- Security -->
+    <PreferenceCategory android:title="@string/preferences_category_security" >
+        
+        <Preference
+            android:key="pref_reset_main_pwd"
+            android:title="@string/preferences_change_main_key"
+            android:summary="@string/preferences_change_main_key_summary" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="com.mcdev.passbox"
+                android:targetClass="com.mcdev.passbox.ui.SetLoginActivity" />
+        </Preference>
+        
+    </PreferenceCategory>
+
+    <!-- Database -->
+    <PreferenceCategory android:title="@string/preferences_category_database" >
+
+        <Preference
+            android:key="pref_import"
+            android:title="@string/preferences_export"
+            android:summary="@string/preferences_export_summary" />
+
+        <Preference
+            android:key="pref_export"
+            android:title="@string/preferences_import"
+            android:summary="@string/preferences_import_summary" />
+
+        <Preference
+            android:key="pref_restore"
+            android:title="@string/preferences_restore"
+            android:summary="@string/preferences_restore_summary" />
+        
+    </PreferenceCategory>
+
+</PreferenceScreen>

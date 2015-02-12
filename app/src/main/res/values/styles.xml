@@ -13,7 +13,7 @@
         <!-- Set AppCompat's color theming attrs -->
     	<item name="colorPrimary">@color/light_blue_500</item>
    		<item name="colorPrimaryDark">@color/light_blue_700</item>
-	    <item name="colorAccent">@color/light_green_a200</item>
+	    <item name="colorAccent">@color/light_green_500</item>
 	    
 	    <!-- Comment the following 2 lines to show the ActionBar -->
 	    <item name="windowActionBar">false</item>
