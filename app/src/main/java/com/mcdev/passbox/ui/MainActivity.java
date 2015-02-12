@@ -28,7 +28,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -349,6 +348,17 @@ public class MainActivity extends ActionBarActivity {
                     break;
                 case 1:
                     mHolder.title.setText(getItem(1));
+                    mHolder.title.setTypeface(fontMedium);
+                    if (position == selectedItem) {
+                        mHolder.title.setTextColor(getContext().getResources().getColor(R.color.light_blue_700));
+                        mHolder.icon.setImageResource(R.drawable.ic_send_grey600_24dp);
+                    } else {
+                        mHolder.title.setTextColor(getContext().getResources().getColor(R.color.grey_600));
+                        mHolder.icon.setImageResource(R.drawable.ic_send_grey600_24dp);
+                    }
+                    break;
+                case 2:
+                    mHolder.title.setText(getItem(2));
                     mHolder.title.setTypeface(fontMedium);
                     if (position == selectedItem) {
                         mHolder.title.setTextColor(getContext().getResources().getColor(R.color.light_blue_700));
