@@ -87,73 +87,73 @@ public class Util {
 			if (intColor == res.getColor(R.color.red_500)) {
 				result.put(KEY_COLOR_PRIMARY, intColor);
 				result.put(KEY_COLOR_PRIMARY_DARK, res.getColor(R.color.red_700));
-				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.amber_a200));
+				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.amber_500));
 				result.put(KEY_COLOR_THEME, KEY_THEME_LIGHT);
 				return result;
 			} else if (intColor == res.getColor(R.color.pink_500)) {
 				result.put(KEY_COLOR_PRIMARY, intColor);
 				result.put(KEY_COLOR_PRIMARY_DARK, res.getColor(R.color.pink_700));
-				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.amber_a200));
+				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.amber_500));
 				result.put(KEY_COLOR_THEME, KEY_THEME_LIGHT);
 				return result;
 			} else if (intColor == res.getColor(R.color.purple_500)) {
 				result.put(KEY_COLOR_PRIMARY, intColor);
 				result.put(KEY_COLOR_PRIMARY_DARK, res.getColor(R.color.purple_700));
-				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.amber_a200));
+				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.amber_500));
 				result.put(KEY_COLOR_THEME, KEY_THEME_LIGHT);
 				return result;
 			} else if (intColor == res.getColor(R.color.deep_purple_500)) {
 				result.put(KEY_COLOR_PRIMARY, intColor);
 				result.put(KEY_COLOR_PRIMARY_DARK, res.getColor(R.color.deep_purple_700));
-				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.amber_a200));
+				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.amber_500));
 				result.put(KEY_COLOR_THEME, KEY_THEME_LIGHT);
 				return result;
 			} else if (intColor == res.getColor(R.color.indigo_500)) {
 				result.put(KEY_COLOR_PRIMARY, intColor);
 				result.put(KEY_COLOR_PRIMARY_DARK, res.getColor(R.color.indigo_700));
-				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.pink_a200));
+				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.amber_500));
 				result.put(KEY_COLOR_THEME, KEY_THEME_LIGHT);
 				return result;
 			} else if (intColor == res.getColor(R.color.blue_500)) {
 				result.put(KEY_COLOR_PRIMARY, intColor);
 				result.put(KEY_COLOR_PRIMARY_DARK, res.getColor(R.color.blue_700));
-				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.red_a200));
+				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.amber_500));
 				result.put(KEY_COLOR_THEME, KEY_THEME_LIGHT);
 				return result;
 			} else if (intColor == res.getColor(R.color.light_blue_500)) {
 				result.put(KEY_COLOR_PRIMARY, intColor);
 				result.put(KEY_COLOR_PRIMARY_DARK, res.getColor(R.color.light_blue_700));
-				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.amber_a200));
+				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.amber_500));
 				result.put(KEY_COLOR_THEME, KEY_THEME_LIGHT);
 				return result;
 			} else if (intColor == res.getColor(R.color.cyan_500)) {
 				result.put(KEY_COLOR_PRIMARY, intColor);
 				result.put(KEY_COLOR_PRIMARY_DARK, res.getColor(R.color.cyan_700));
-				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.amber_a200));
+				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.amber_500));
 				result.put(KEY_COLOR_THEME, KEY_THEME_LIGHT);
 				return result;
 			} else if (intColor == res.getColor(R.color.teal_500)) {
 				result.put(KEY_COLOR_PRIMARY, intColor);
 				result.put(KEY_COLOR_PRIMARY_DARK, res.getColor(R.color.teal_700));
-				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.amber_a200));
+				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.amber_500));
 				result.put(KEY_COLOR_THEME, KEY_THEME_LIGHT);
 				return result;
 			} else if (intColor == res.getColor(R.color.green_500)) {
 				result.put(KEY_COLOR_PRIMARY, intColor);
 				result.put(KEY_COLOR_PRIMARY_DARK, res.getColor(R.color.green_700));
-				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.amber_a200));
+				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.amber_500));
 				result.put(KEY_COLOR_THEME, KEY_THEME_LIGHT);
 				return result;
 			} else if (intColor == res.getColor(R.color.light_green_500)) {
 				result.put(KEY_COLOR_PRIMARY, intColor);
 				result.put(KEY_COLOR_PRIMARY_DARK, res.getColor(R.color.light_green_700));
-				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.amber_a200));
+				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.amber_500));
 				result.put(KEY_COLOR_THEME, KEY_THEME_LIGHT);
 				return result;
 			} else if (intColor == res.getColor(R.color.lime_500)) {
 				result.put(KEY_COLOR_PRIMARY, intColor);
 				result.put(KEY_COLOR_PRIMARY_DARK, res.getColor(R.color.lime_700));
-				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.red_a200));
+				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.amber_500));
 				result.put(KEY_COLOR_THEME, KEY_THEME_LIGHT);
 				return result;
 			} else if (intColor == res.getColor(R.color.yellow_500)) {
@@ -165,31 +165,31 @@ public class Util {
 			} else if (intColor == res.getColor(R.color.amber_500)) {
 				result.put(KEY_COLOR_PRIMARY, intColor);
 				result.put(KEY_COLOR_PRIMARY_DARK, res.getColor(R.color.amber_700));
-				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.red_a200));
+				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.red_500));
 				result.put(KEY_COLOR_THEME, KEY_THEME_LIGHT);
 				return result;
 			} else if (intColor == res.getColor(R.color.orange_500)) {
 				result.put(KEY_COLOR_PRIMARY, intColor);
 				result.put(KEY_COLOR_PRIMARY_DARK, res.getColor(R.color.orange_700));
-				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.red_a200));
+				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.amber_500));
 				result.put(KEY_COLOR_THEME, KEY_THEME_LIGHT);
 				return result;
 			} else if (intColor == res.getColor(R.color.deep_orange_500)) {
 				result.put(KEY_COLOR_PRIMARY, intColor);
 				result.put(KEY_COLOR_PRIMARY_DARK, res.getColor(R.color.deep_orange_700));
-				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.amber_a200));
+				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.amber_500));
 				result.put(KEY_COLOR_THEME, KEY_THEME_LIGHT);
 				return result;
 			} else if (intColor == res.getColor(R.color.grey_500)) {
 				result.put(KEY_COLOR_PRIMARY, intColor);
 				result.put(KEY_COLOR_PRIMARY_DARK, res.getColor(R.color.grey_700));
-				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.deep_orange_a200));
+				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.amber_500));
 				result.put(KEY_COLOR_THEME, KEY_THEME_LIGHT);
 				return result;
 			} else if (intColor == res.getColor(R.color.light_grey_500)) {
 				result.put(KEY_COLOR_PRIMARY, intColor);
 				result.put(KEY_COLOR_PRIMARY_DARK, res.getColor(R.color.light_grey_700));
-				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.amber_a200));
+				result.put(KEY_COLOR_ACCENT, res.getColor(R.color.amber_500));
 				result.put(KEY_COLOR_THEME, KEY_THEME_LIGHT);
 				return result;
 			} else {

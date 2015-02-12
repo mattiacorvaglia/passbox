@@ -11,9 +11,9 @@
             backward-compatibility can go here.
         -->
         <!-- Set AppCompat's color theming attrs -->
-    	<item name="colorPrimary">@color/cyan_500</item>
-   		<item name="colorPrimaryDark">@color/cyan_700</item>
-	    <item name="colorAccent">@color/pink_200</item>
+    	<item name="colorPrimary">@color/light_blue_500</item>
+   		<item name="colorPrimaryDark">@color/light_blue_700</item>
+	    <item name="colorAccent">@color/light_green_a200</item>
 	    
 	    <!-- Comment the following 2 lines to show the ActionBar -->
 	    <item name="windowActionBar">false</item>
@@ -38,11 +38,30 @@
 	    
     </style>
 
+    <style name="AppBaseThemeLogin" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+        <!-- Set AppCompat's color theming attrs -->
+        <item name="colorPrimary">@color/cyan_500</item>
+        <item name="colorPrimaryDark">@color/cyan_700</item>
+        <item name="colorAccent">@color/white</item>
+
+        <!-- Comment the following 2 lines to show the ActionBar -->
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+
+    </style>
+
     <!-- Application theme -->
     <style name="AppTheme" parent="@style/AppBaseTheme"></style>
     
     <style name="AppThemeDetail" parent="@style/AppBaseTheme"></style>
     
     <style name="AppThemeFocus" parent="@style/AppBaseThemeFocus"></style>
+
+    <style name="AppThemeLogin" parent="@style/AppBaseThemeLogin"></style>
 
 </resources>

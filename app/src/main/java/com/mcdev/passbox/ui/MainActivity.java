@@ -58,7 +58,7 @@ public class MainActivity extends ActionBarActivity {
          ** Navigation Drawer								** 
          *****************************************************/
         // Set the status bar background color
-        mDrawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.cyan_300));
+//        mDrawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.cyan_300));
         
         // 
         mDrawerLayout.setDrawerListener(new DemoDrawerListener());
@@ -68,7 +68,7 @@ public class MainActivity extends ActionBarActivity {
 		
         // Set the Adapter
         mDrawer.setAdapter(
-        	new ArrayAdapter<String>(
+        	new ArrayAdapter<>(
         		this,									// Context
         		android.R.layout.simple_list_item_1,	// Item layout
         		titles									// Objects
