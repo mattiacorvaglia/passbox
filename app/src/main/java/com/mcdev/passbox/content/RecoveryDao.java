@@ -29,7 +29,7 @@ public class RecoveryDao {
 	// Constructor
 	protected RecoveryDao(Context context) {
 		mDbHelper = new PassboxDbHelper(context);
-		Log.i(Constants.TAG_APPLICATION_LOG, "new PassboxDbHelper operation executed in RecoveryDao class");
+//		Log.i(Constants.TAG_APPLICATION_LOG, "new PassboxDbHelper operation executed in RecoveryDao class");
 	}
 	
 	// Singleton Pattern
@@ -48,7 +48,7 @@ public class RecoveryDao {
     public void open(Context context) throws SQLException {
     	mDbHelper = new PassboxDbHelper(context);
     	database = mDbHelper.getWritableDatabase();
-        Log.i(Constants.TAG_APPLICATION_LOG, "getWritableDatabase() operation executed in RecoveryDao class");
+//        Log.i(Constants.TAG_APPLICATION_LOG, "getWritableDatabase() operation executed in RecoveryDao class");
     }
 	
 	/**
@@ -58,7 +58,7 @@ public class RecoveryDao {
 	 */
     public void open(SQLiteDatabase database) throws SQLException {
         this.database = database;
-        Log.i(Constants.TAG_APPLICATION_LOG, "Set database with the existing one in RecoveryDao class");
+//        Log.i(Constants.TAG_APPLICATION_LOG, "Set database with the existing one in RecoveryDao class");
     }
 
     /**
@@ -66,7 +66,7 @@ public class RecoveryDao {
      */
     public void close() {
         mDbHelper.close();
-        Log.i(Constants.TAG_APPLICATION_LOG, "database close() operation executed in PasswordDao class");
+//        Log.i(Constants.TAG_APPLICATION_LOG, "database close() operation executed in PasswordDao class");
     }
 	
     /**
@@ -75,15 +75,15 @@ public class RecoveryDao {
      * 
      * @param rcvs The List of recovery
      * @param pwdId The parent password id
-     * @return
+     * @return The id of the inserted recovery object
      */
     public List<Long> insertRecoveries(List<RecoveryDto> rcvs, long pwdId) {
     	
-    	List<Long> results = new LinkedList<Long>();
+    	List<Long> results = new LinkedList<>();
     	
     	// Execute all the insert queries in a transaction
     	database.beginTransaction();
-    	Log.i(Constants.TAG_APPLICATION_LOG, "beginTransaction() executed in RecoveryDao class");
+//    	Log.i(Constants.TAG_APPLICATION_LOG, "beginTransaction() executed in RecoveryDao class");
     	
     	try {
     		// Iterate each recovery to store in the database
@@ -104,7 +104,7 @@ public class RecoveryDao {
 	    	}
 	    	
 	    	if (rcvs.size() != results.size()) {
-        		Log.i(Constants.TAG_APPLICATION_LOG, "Some recovery entries was not succesfully stored in the database");
+        		Log.e(Constants.TAG_APPLICATION_LOG, "Some recovery entries was not succesfully stored in the database");
         		throw new SQLException();
         	}
 	    	
@@ -115,7 +115,7 @@ public class RecoveryDao {
     		return null;
     	} finally {
     		database.endTransaction();
-    		Log.i(Constants.TAG_APPLICATION_LOG, "endTransaction() executed in RecoveryDao class");
+//    		Log.i(Constants.TAG_APPLICATION_LOG, "endTransaction() executed in RecoveryDao class");
     	}
     	
     	return results;
@@ -123,14 +123,14 @@ public class RecoveryDao {
     }
 	
     /**
-     * Get the list of recovery entries of the password
+     * Get the list of the recovery entries of the password
      * 
-     * @param pwdId
-     * @return
+     * @param pwdId The id of the password
+     * @return The related recovery entries
      */
     public LinkedList<RecoveryDto> getRecoveryListOfPassword(long pwdId) {
     	
-    	LinkedList<RecoveryDto> results = new LinkedList<RecoveryDto>();
+    	LinkedList<RecoveryDto> results = new LinkedList<>();
     	
     	String whereClause = PassboxContract.RecoveryEntry.COLUMN_NAME_PASSWORD_KEY + " = ?";
         String[] whereArgs = { String.valueOf(pwdId) };
@@ -151,8 +151,6 @@ public class RecoveryDao {
         		results.add(recovery);
         		cursor.moveToNext();
         	}
-        } else {
-        	Log.i(Constants.TAG_APPLICATION_LOG, "None recovery entries founded for this password");
         }
         cursor.close();
         
@@ -163,9 +161,9 @@ public class RecoveryDao {
     /**
      * Update the list of recovery
      * 
-     * @param rcvs
-     * @param pwdId
-     * @return
+     * @param rcvs The recovery list to update
+     * @param pwdId The parent password
+     * @return The number of affected rows
      */
     public int updateRecoveryList(List<RecoveryDto> rcvs, long pwdId) {
     	
@@ -173,7 +171,7 @@ public class RecoveryDao {
     	
     	// Execute all the update queries in a transaction
     	database.beginTransaction();
-    	Log.i(Constants.TAG_APPLICATION_LOG, "beginTransaction() executed in RecoveryDao class");
+//    	Log.i(Constants.TAG_APPLICATION_LOG, "beginTransaction() executed in RecoveryDao class");
     	
     	try {
     		// Iterate each recovery to update in the database
@@ -193,7 +191,7 @@ public class RecoveryDao {
 		            long newRecoveryId = database.insert(PassboxContract.RecoveryEntry.TABLE_NAME, PassboxContract.RecoveryEntry.COLUMN_NAME_PASSWORD_KEY, values);
 		            
 		            if (newRecoveryId == -1) {
-		            	Log.i(Constants.TAG_APPLICATION_LOG, "Error on inserting a new recovery entry in the database");
+		            	Log.e(Constants.TAG_APPLICATION_LOG, "Error on inserting a new recovery entry in the database");
 		            	throw new SQLException();
 					} else {
 						affectedRows++;
@@ -218,7 +216,7 @@ public class RecoveryDao {
 		    		);
 		    		
 		    		if (affectedRowsTemp == 0) {
-		    			Log.i(Constants.TAG_APPLICATION_LOG, "Error on updating an existing recovery entry in the database");
+		    			Log.e(Constants.TAG_APPLICATION_LOG, "Error on updating an existing recovery entry in the database");
 		            	throw new SQLException();
 					} else {
 						affectedRows++;
@@ -228,7 +226,7 @@ public class RecoveryDao {
 	    	}
 	    	
 	    	if (affectedRows != rcvs.size()) {
-	    		Log.i(Constants.TAG_APPLICATION_LOG, "Some recovery entries are not been updated in the database");
+	    		Log.e(Constants.TAG_APPLICATION_LOG, "Some recovery entries are not been updated in the database");
 	    		throw new SQLException();
 	    	}
 	    	
@@ -239,7 +237,7 @@ public class RecoveryDao {
     		return -1;
     	} finally {
     		database.endTransaction();
-    		Log.i(Constants.TAG_APPLICATION_LOG, "endTransaction() executed in RecoveryDao class");
+//    		Log.i(Constants.TAG_APPLICATION_LOG, "endTransaction() executed in RecoveryDao class");
     	}
     	
     	return affectedRows;
@@ -249,7 +247,7 @@ public class RecoveryDao {
     /**
      * Delete the recovery by id
      * 
-     * @param rcvId
+     * @param rcvId The id of the recovery entry to delete
      */
     public void deleteRecovery(long rcvId) {
     	
@@ -265,8 +263,8 @@ public class RecoveryDao {
      * Parse a cursor returned from a db query
      * to a RecoveryDto Object
      * 
-     * @param cursor
-     * @return
+     * @param cursor The cursor to parse
+     * @return The parsed recovery object
      */
     private RecoveryDto cursorToRecovery(Cursor cursor) {
     	
@@ -280,7 +278,7 @@ public class RecoveryDao {
         	
         	return mRecovery;
 		} catch (IllegalArgumentException e) {
-			Log.i(Constants.TAG_APPLICATION_LOG, "Some error occurred on retrieving a column name in the Recovery Table");
+			Log.e(Constants.TAG_APPLICATION_LOG, "Some error occurred on retrieving a column name in the Recovery Table");
 			e.printStackTrace();
 			return null;
 		}

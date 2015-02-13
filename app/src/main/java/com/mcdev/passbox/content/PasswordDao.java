@@ -38,7 +38,7 @@ public class PasswordDao {
 	// Constructor
 	protected PasswordDao(Context context) {
 		mDbHelper = new PassboxDbHelper(context);
-		Log.i(Constants.TAG_APPLICATION_LOG, "new PassboxDbHelper operation executed in PasswordDao class");
+//		Log.i(Constants.TAG_APPLICATION_LOG, "new PassboxDbHelper operation executed in PasswordDao class");
 	}
 	
 	// Singleton Pattern
@@ -56,7 +56,7 @@ public class PasswordDao {
 	 */
     public void open() throws SQLException {
         database = mDbHelper.getWritableDatabase();
-        Log.i(Constants.TAG_APPLICATION_LOG, "getWritableDatabase() operation executed in PasswordDao class");
+//        Log.i(Constants.TAG_APPLICATION_LOG, "getWritableDatabase() operation executed in PasswordDao class");
     }
 
     /**
@@ -64,14 +64,14 @@ public class PasswordDao {
      */
     public void close() {
         mDbHelper.close();
-        Log.i(Constants.TAG_APPLICATION_LOG, "database close() operation executed in PasswordDao class");
+//        Log.i(Constants.TAG_APPLICATION_LOG, "database close() operation executed in PasswordDao class");
     }
     
     /**
      * Insert a new password in the database
      * 
-     * @param pwd
-     * @return The id of the password
+     * @param pwd The password object to store
+     * @return The id of the stored password
      */
     public long insertPassword(PasswordDto pwd) {
     	
@@ -79,7 +79,7 @@ public class PasswordDao {
     	
     	// Execute all the insert queries in a transaction
     	database.beginTransaction();
-    	Log.i(Constants.TAG_APPLICATION_LOG, "beginTransaction() executed in PasswordDao class");
+//    	Log.i(Constants.TAG_APPLICATION_LOG, "beginTransaction() executed in PasswordDao class");
     	
     	try {
 	    	/*
@@ -101,7 +101,7 @@ public class PasswordDao {
 	        );
 	        
 	        if (newPasswordId == -1) {
-	        	Log.i(Constants.TAG_APPLICATION_LOG, "Error on insert a new password entry in the database");
+	        	Log.e(Constants.TAG_APPLICATION_LOG, "Error on insert a new password entry in the database");
             	throw new SQLException();
 			}
 	        
@@ -126,7 +126,7 @@ public class PasswordDao {
     		return -1;
     	} finally {
     		database.endTransaction();
-    		Log.i(Constants.TAG_APPLICATION_LOG, "endTransaction() executed in PasswordDao class");
+//    		Log.i(Constants.TAG_APPLICATION_LOG, "endTransaction() executed in PasswordDao class");
     	}
     	
     	return newPasswordId;
@@ -136,7 +136,7 @@ public class PasswordDao {
     /**
      * Delete the password by id
      * 
-     * @param pwdId
+     * @param pwdId The id of the password to delete
      */
     public void deletePassword(long pwdId) {
     	
@@ -160,12 +160,11 @@ public class PasswordDao {
      * Get a password object by id
      * with only the id and the title
      * 
-     * @param pwdId
-     * @return
+     * @param pwdId The id of the password to get
+     * @return The light reference of the selected password
      */
     public PasswordDto getPasswordLite(long pwdId) {
     	
-    	PasswordDto result = new PasswordDto();
     	String whereClause = PassboxContract.PasswordEntry.COLUMN_NAME_ENTRY_ID + " = ?";
         String[] whereArgs = { String.valueOf(pwdId) };
         
@@ -182,11 +181,11 @@ public class PasswordDao {
         
         if (cursor.getCount() == 1) {
         	cursor.moveToFirst();
-        	result = cursorToPasswordLite(cursor);
+            PasswordDto result = cursorToPasswordLite(cursor);
         	cursor.close();
         	return result;
         } else {
-        	Log.i(Constants.TAG_APPLICATION_LOG, "Founded multiple entries with the same password id");
+        	Log.e(Constants.TAG_APPLICATION_LOG, "Founded multiple entries with the same password id");
         	cursor.close();
         	return null;
         }
@@ -196,8 +195,8 @@ public class PasswordDao {
     /**
      * Get a password object by id
      * 
-     * @param pwdId
-     * @return
+     * @param pwdId The id of the password to get
+     * @return The password object selected from the database
      */
     public PasswordDto getPassword(long pwdId) {
     	
@@ -205,7 +204,7 @@ public class PasswordDao {
     	
     	// Execute all the select queries in a transaction
     	database.beginTransaction();
-    	Log.i(Constants.TAG_APPLICATION_LOG, "beginTransaction() executed in PasswordDao class");
+//    	Log.i(Constants.TAG_APPLICATION_LOG, "beginTransaction() executed in PasswordDao class");
     	
     	try {
     		String whereClause = PassboxContract.PasswordEntry.COLUMN_NAME_ENTRY_ID + " = ?";
@@ -228,7 +227,7 @@ public class PasswordDao {
             	cursor.close();
             } else {
             	cursor.close();
-            	Log.i(Constants.TAG_APPLICATION_LOG, "Founded multiple entries with the same password id");
+            	Log.e(Constants.TAG_APPLICATION_LOG, "Founded multiple entries with the same password id");
             	throw new SQLException();
             }
             
@@ -248,7 +247,7 @@ public class PasswordDao {
 			return null;
 		} finally {
 			database.endTransaction();
-			Log.i(Constants.TAG_APPLICATION_LOG, "endTransaction() executed in PasswordDao class");
+//			Log.i(Constants.TAG_APPLICATION_LOG, "endTransaction() executed in PasswordDao class");
 		}
     	
     	return result;
@@ -259,11 +258,11 @@ public class PasswordDao {
      * Get all the password stored in the database
      * with only the id and the title
      *  
-     * @return
+     * @return Th list of the stored password in the database
      */
     public LinkedList<PasswordDto> getAllPasswordsLite() {
     	
-    	LinkedList<PasswordDto> results = new LinkedList<PasswordDto>();
+    	LinkedList<PasswordDto> results = new LinkedList<>();
     		
 		// Get the passwords
         Cursor cursor = database.query(
@@ -283,7 +282,7 @@ public class PasswordDao {
         		cursor.moveToNext();
         	}
         } else {
-        	Log.i(Constants.TAG_APPLICATION_LOG, "None password entries founded in the database");
+//        	Log.i(Constants.TAG_APPLICATION_LOG, "None password entries founded in the database");
         	return null;
         }
         cursor.close();
@@ -294,15 +293,15 @@ public class PasswordDao {
     
     /**
      * Get all the password stored in the database
-     * @return
+     * @return The list of the stored password in the database
      */
     public LinkedList<PasswordDto> getAllPasswords() {
     	
-    	LinkedList<PasswordDto> results = new LinkedList<PasswordDto>();
+    	LinkedList<PasswordDto> results = new LinkedList<>();
     	
     	// Execute all the select queries in a transaction
     	database.beginTransaction();
-    	Log.i(Constants.TAG_APPLICATION_LOG, "beginTransaction() executed in PasswordDao class");
+//    	Log.i(Constants.TAG_APPLICATION_LOG, "beginTransaction() executed in PasswordDao class");
     	
     	try {
     		
@@ -334,7 +333,7 @@ public class PasswordDao {
             		cursor.moveToNext();
             	}
             } else {
-            	Log.i(Constants.TAG_APPLICATION_LOG, "None password entries founded in the database");
+//            	Log.i(Constants.TAG_APPLICATION_LOG, "None password entries founded in the database");
             	throw new SQLException();
             }
             cursor.close();
@@ -346,7 +345,7 @@ public class PasswordDao {
 			return null;
 		} finally {
 			database.endTransaction();
-			Log.i(Constants.TAG_APPLICATION_LOG, "endTransaction() executed in PasswordDao class");
+//			Log.i(Constants.TAG_APPLICATION_LOG, "endTransaction() executed in PasswordDao class");
 		}
     	
     	return results;
@@ -356,8 +355,8 @@ public class PasswordDao {
     /**
      * Update a password
      * 
-     * @param pwd
-     * @return
+     * @param pwd The updated password object
+     * @return The number of affected rows in the database
      */
     public int updatePassword(PasswordDto pwd) {
     	
@@ -365,7 +364,7 @@ public class PasswordDao {
     	
     	// Execute all the update queries in a transaction
     	database.beginTransaction();
-    	Log.i(Constants.TAG_APPLICATION_LOG, "beginTransaction() executed in RecoveryDao class");
+//    	Log.i(Constants.TAG_APPLICATION_LOG, "beginTransaction() executed in RecoveryDao class");
     	
     	try {
     		/*
@@ -388,7 +387,7 @@ public class PasswordDao {
     			whereClause,
     			whereArgs
     		);
-	    	Log.i(Constants.TAG_APPLICATION_LOG, "Affected rows = "+String.valueOf(affectedRows));
+//	    	Log.i(Constants.TAG_APPLICATION_LOG, "Affected rows = "+String.valueOf(affectedRows));
     		if (affectedRows != 1) {
     			Log.i(Constants.TAG_APPLICATION_LOG, "Error on update a password entry in the database");
             	throw new SQLException();
@@ -403,7 +402,7 @@ public class PasswordDao {
 	        	RecoveryDao.getInstance(mContext).close();
 	        	
 	        	if (affectedRecoveryRows == -1) {
-	        		Log.i(Constants.TAG_APPLICATION_LOG, "Error on update a password related recovery list the database");
+	        		Log.e(Constants.TAG_APPLICATION_LOG, "Error on update a password related recovery list the database");
 	            	throw new SQLException();
 				}
 	        }
@@ -415,21 +414,19 @@ public class PasswordDao {
     		return -1;
     	} finally {
     		database.endTransaction();
-    		Log.i(Constants.TAG_APPLICATION_LOG, "endTransaction() executed in RecoveryDao class");
+//    		Log.i(Constants.TAG_APPLICATION_LOG, "endTransaction() executed in RecoveryDao class");
     	}
     	
     	return affectedRows;
     }
     
     /**
-     * 
-     * @param newColor
-     * @return
+     * Update the color value of a password
+     * @param newColor The updated color
+     * @return The number of affected rows in the database
      */
     public int updatePasswordColor(long pwdId, String newColor) {
-    	
-    	int affectedRows = 0;
-    
+
     	/*
     	 * Update the password entry
     	 */
@@ -439,7 +436,7 @@ public class PasswordDao {
 		ContentValues values = new ContentValues();
 		values.put(PassboxContract.PasswordEntry.COLUMN_NAME_COLOR, newColor);
     	
-    	affectedRows = database.update(
+    	int affectedRows = database.update(
 			PassboxContract.PasswordEntry.TABLE_NAME,
 			values,
 			whereClause,
@@ -447,7 +444,7 @@ public class PasswordDao {
 		);
     		
 		if (affectedRows != 1) {
-			Log.i(Constants.TAG_APPLICATION_LOG, "Error on update a password entry in the database");
+			Log.e(Constants.TAG_APPLICATION_LOG, "Error on update a password entry in the database");
         	return -1;
 		} else {
 			return affectedRows;
@@ -458,8 +455,8 @@ public class PasswordDao {
      * Parse a cursor returned from a db query
      * to a PasswordDto Object
      * 
-     * @param cursor
-     * @return
+     * @param cursor The cursor to parse
+     * @return The parsed password object
      */
     private PasswordDto cursorToPassword(Cursor cursor) {
 
@@ -477,7 +474,7 @@ public class PasswordDao {
 
 	    	return mPassword;
     	} catch (IllegalArgumentException e) {
-    		Log.i(Constants.TAG_APPLICATION_LOG, "Some error occurred on retrieving a column name in the Password Table");
+    		Log.e(Constants.TAG_APPLICATION_LOG, "Some error occurred on retrieving a column name in the Password Table");
 			e.printStackTrace();
 			return null;
 		}
@@ -488,8 +485,8 @@ public class PasswordDao {
      * Parse a cursor returned from a db query
      * to a PasswordDto Object with only the id and the title
      * 
-     * @param cursor
-     * @return
+     * @param cursor The cursor to parse
+     * @return The pasrsed password object
      */
     private PasswordDto cursorToPasswordLite(Cursor cursor) {
 
@@ -503,7 +500,7 @@ public class PasswordDao {
 
 	    	return mPassword;
     	} catch (IllegalArgumentException e) {
-    		Log.i(Constants.TAG_APPLICATION_LOG, "Some error occurred on retrieving a column name in the Password Table");
+    		Log.e(Constants.TAG_APPLICATION_LOG, "Some error occurred on retrieving a column name in the Password Table");
 			e.printStackTrace();
 			return null;
 		}

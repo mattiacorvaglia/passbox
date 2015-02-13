@@ -4,7 +4,6 @@ import com.mcdev.passbox.R;
 import com.mcdev.passbox.utils.Constants;
 import com.mcdev.passbox.views.ScrimInsetsFrameLayout;
 
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.graphics.PorterDuff;
@@ -41,10 +40,10 @@ public class MainActivity extends ActionBarActivity {
 	private ActionBarDrawerToggle mDrawerToggle;
     private ImageView aboutImage;
     private TextView aboutText;
-	private Context mContext;
+    private Context mContext;
 
 	private String[] titles = new String[] {
-		"Raccolta",
+		"Passwords Manager",
 		"Impostazioni"
 	};
 
@@ -54,6 +53,7 @@ public class MainActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_main);
 		
 		mContext = this;
+        Typeface fontMedium = Typeface.createFromAsset(getAssets(), "Roboto-Medium.ttf");
 		
 		/*****************************************************
          ** Toolbar											**
@@ -85,6 +85,7 @@ public class MainActivity extends ActionBarActivity {
         LinearLayout aboutLayout = (LinearLayout) findViewById(R.id.credits_layout);
         aboutImage = (ImageView) findViewById(R.id.credits_icon);
         aboutText = (TextView) findViewById(R.id.credits_title);
+        aboutText.setTypeface(fontMedium);
         
         aboutLayout.setOnClickListener(new View.OnClickListener() {
             @Override
