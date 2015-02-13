@@ -448,7 +448,7 @@ public class Util {
         private static final String PATH_DATA       = "/data/";
         private static final String APP_PACKAGE     = "com.mcdev.passbox";
         private static final String PATH_DATABASE   = "/databases/";
-        private static final String PATH_BACKUP     = "/backup/";
+        private static final String PATH_BACKUP     = "/Passbox/";
 
         public static final int EXPORT_COMPLETED        = 1;
         public static final int EXPORT_CANNOT_WRITE_SD  = 2;
@@ -474,6 +474,16 @@ public class Util {
                 File data   = Environment.getDataDirectory();
 
                 if (sd.canWrite()) {
+
+                    // Create a new folder for the database to be backed up to
+                    File backupFolder = new File(Environment.getExternalStorageDirectory() + PATH_BACKUP);
+
+                    if (!backupFolder.exists()) {
+                        if (!backupFolder.mkdir()) {
+                            Log.e(Constants.TAG_APPLICATION_LOG, "Impossible to create the backup folder");
+                        }
+                    }
+                    
                     String currentDBPath    = PATH_DATA + APP_PACKAGE + PATH_DATABASE +
                                               PassboxDbHelper.DATABASE_NAME;
                     String backupDBPath     = PATH_BACKUP + PassboxDbHelper.DATABASE_NAME;
