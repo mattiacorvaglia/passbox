@@ -24,7 +24,9 @@
     <string name="preferences_import_summary">Importa le tue password da un file di backup.</string>
     <string name="preferences_restore_summary">Svuota il database dell\'applicazione eliminando tutte le password salvate finora.</string>
     <string name="cancel">Annulla</string>
-    
+    <string name="export_done">Backup del database effettuato correttamente.</string>
+    <string name="export_error">Impossibile completare il backup. Si è verificato un errore nello scrivere la memoria esterna del dispositivo</string>
+
     <string name="about_version">Versione</string>
     <string name="about_bug">Segnala un bug</string>
     <string name="about_rate">Vota/Commmenta l\'app sul Play Store</string>

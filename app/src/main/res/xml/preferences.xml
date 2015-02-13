@@ -19,7 +19,7 @@
     <!-- Database -->
     <PreferenceCategory android:title="@string/preferences_category_database" >
 
-        <com.mcdev.passbox.views.CustomDialogPreference
+        <com.mcdev.passbox.views.ExportDBPreference
             android:key="pref_import"
             android:title="@string/preferences_export"
             android:summary="@string/preferences_export_summary"
@@ -27,7 +27,7 @@
             android:positiveButtonText="@string/preferences_export"
             android:negativeButtonText="@string/cancel" />
 
-        <com.mcdev.passbox.views.CustomDialogPreference
+        <com.mcdev.passbox.views.ExportDBPreference
             android:key="pref_export"
             android:title="@string/preferences_import"
             android:summary="@string/preferences_import_summary"
@@ -35,7 +35,7 @@
             android:positiveButtonText="@string/preferences_import"
             android:negativeButtonText="@string/cancel" />
 
-        <com.mcdev.passbox.views.CustomDialogPreference
+        <com.mcdev.passbox.views.ExportDBPreference
             android:key="pref_restore"
             android:title="@string/preferences_restore"
             android:summary="@string/preferences_restore_summary"
