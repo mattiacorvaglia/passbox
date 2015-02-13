@@ -23,11 +23,11 @@
             android:key="pref_import"
             android:title="@string/preferences_export"
             android:summary="@string/preferences_export_summary"
-            android:dialogMessage="@string/preferences_export_summary"
+            android:dialogMessage="@string/export_default_message"
             android:positiveButtonText="@string/preferences_export"
             android:negativeButtonText="@string/cancel" />
 
-        <com.mcdev.passbox.views.ExportDBPreference
+        <com.mcdev.passbox.views.ImportDBPreference
             android:key="pref_export"
             android:title="@string/preferences_import"
             android:summary="@string/preferences_import_summary"
@@ -35,11 +35,11 @@
             android:positiveButtonText="@string/preferences_import"
             android:negativeButtonText="@string/cancel" />
 
-        <com.mcdev.passbox.views.ExportDBPreference
+        <com.mcdev.passbox.views.RestoreDBPreference
             android:key="pref_restore"
             android:title="@string/preferences_restore"
             android:summary="@string/preferences_restore_summary"
-            android:dialogMessage="@string/preferences_restore_summary"
+            android:dialogMessage="@string/restore_default_message"
             android:positiveButtonText="@string/preferences_restore"
             android:negativeButtonText="@string/cancel" />
         

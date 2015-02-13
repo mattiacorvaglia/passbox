@@ -483,7 +483,7 @@ public class Util {
                             Log.e(Constants.TAG_APPLICATION_LOG, "Impossible to create the backup folder");
                         }
                     }
-                    
+
                     String currentDBPath    = PATH_DATA + APP_PACKAGE + PATH_DATABASE +
                                               PassboxDbHelper.DATABASE_NAME;
                     String backupDBPath     = PATH_BACKUP + PassboxDbHelper.DATABASE_NAME;

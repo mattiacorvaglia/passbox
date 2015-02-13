@@ -149,11 +149,14 @@ public class PasswordDao {
     
     /**
      * Delete all the password stored in the database
+     * and obviously also the recoveries
      */
-    public void deleteAllPassword() {
+    public void deleteAllPasswordsAndRecoveries() {
     	
     	database.delete(PassboxContract.PasswordEntry.TABLE_NAME, null, null);
-    	
+        // Obviously delete also the recovery table
+        database.delete(PassboxContract.RecoveryEntry.TABLE_NAME, null, null);
+        
     }
     
     /**

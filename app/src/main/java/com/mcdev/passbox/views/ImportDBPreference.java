@@ -1,5 +1,9 @@
 package com.mcdev.passbox.views;
 
+/**
+ * Custom DialogPreference
+ * @author Mattia Corvaglia
+ */
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,16 +16,14 @@ import android.widget.Button;
 import com.mcdev.passbox.R;
 import com.mcdev.passbox.utils.Util;
 
-import static android.view.View.OnClickListener;
-
 /**
  * Custom DialogPreference
  * @author Mattia Corvaglia
  */
-public class ExportDBPreference extends DialogPreference {
-    
+public class ImportDBPreference extends DialogPreference {
+
     // Constructor
-    public ExportDBPreference(Context context, AttributeSet attrs) {
+    public ImportDBPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -30,10 +32,10 @@ public class ExportDBPreference extends DialogPreference {
         super.showDialog(state);
 
         final AlertDialog dialog = (AlertDialog) getDialog();
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new OnClickListener() {
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int result = Util.Files.exportDB();
+                int result = Util.Files.importDB();
 
                 switch (result) {
                     case 1:
@@ -42,7 +44,7 @@ public class ExportDBPreference extends DialogPreference {
                         dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setVisibility(View.GONE);
                         Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
                         positiveButton.setText(getContext().getString(R.string.the_end));
-                        positiveButton.setOnClickListener(new OnClickListener() {
+                        positiveButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 dialog.dismiss();
@@ -73,3 +75,4 @@ public class ExportDBPreference extends DialogPreference {
     }
 
 }
+

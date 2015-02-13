@@ -14,26 +14,32 @@
     <string name="drawer_title_credits">About Passbox</string>
     
     <string name="preferences_category_security">Sicurezza</string>
-    <string name="preferences_category_database">Database</string>
     <string name="preferences_change_main_key">Cambia la main password</string>
-    <string name="preferences_export">Esporta</string>
-    <string name="preferences_import">Importa</string>
-    <string name="preferences_restore">Ripristina</string>
     <string name="preferences_change_main_key_summary">Definisci una nuova MAIN PASSWORD da sostituire a quella attuale.</string>
+    <string name="preferences_category_database">Database</string>
+    <string name="preferences_export">Esporta</string>
     <string name="preferences_export_summary">Esporta in un file di backup criptato tutte le password salvate finora.</string>
+    <string name="preferences_import">Importa</string>
     <string name="preferences_import_summary">Importa le tue password da un file di backup.</string>
+    <string name="preferences_restore">Ripristina</string>
     <string name="preferences_restore_summary">Svuota il database dell\'applicazione eliminando tutte le password salvate finora.</string>
     
     <string name="cancel">Annulla</string>
     <string name="the_end">Fine</string>
+    <string name="retry">Riprova</string>
 
-    <string name="export_ok_title">Complimenti</string>
+    <string name="export_default_message">Questa operazione creerà un file di backup criptato che potrai utilizzare in futuro per importare tutte le password salvate finora</string>
+    <string name="export_ok_title">Fatto</string>
     <string name="export_ok_message">Backup eseguito con successo. Puoi trovare il file "Passbox.db" nella cartella "Passbox" e spostarlo su qualsiasi CLoud Storage come Dropbox per poi trovarlo su qualsiasi altro dispositivo.</string>
     <string name="export_ko_title">Ops&#8230;</string>
     <string name="export_ko_message">Backup fallito. </string>
     <string name="export_ko_exception_1">La memoria esterna del dispositivo non è abilitata per essere scritta da un\'applicazione.</string>
     <string name="export_ko_exception_2">L cartella </string>
     <string name="export_ko_exception_3">Backup fallito. </string>
+
+    <string name="restore_default_message">ATTENZIONE: Tutte le password salvate finora andranno perse per sempre. Se non vuoi perderle effettua prima un backup dalla sezione "Importa"</string>
+    <string name="restore_ok_title">Fatto</string>
+    <string name="restore_ok_message">Ora il tuo database è vuoto. Puoi riempirlo inserendo una a una le tue password o puoi importarle tutte insieme da un backup (se ne hai uno). Buon lavoro ;)</string>
 
     <string name="about_version">Versione</string>
     <string name="about_bug">Segnala un bug</string>
