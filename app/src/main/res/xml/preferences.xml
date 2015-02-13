@@ -41,7 +41,7 @@
             android:summary="@string/preferences_restore_summary"
             android:dialogMessage="@string/preferences_restore_summary"
             android:positiveButtonText="@string/preferences_restore"
-            android:negativeButtonText="@string/cancel"/>
+            android:negativeButtonText="@string/cancel" />
         
     </PreferenceCategory>
 

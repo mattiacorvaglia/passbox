@@ -1,6 +1,11 @@
 package com.mcdev.passbox.utils;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.channels.FileChannel;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -11,14 +16,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.mcdev.passbox.R;
+import com.mcdev.passbox.content.PassboxContract;
+import com.mcdev.passbox.content.PassboxDbHelper;
 
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.util.Base64;
+import android.util.Log;
+import android.widget.Toast;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -235,7 +245,10 @@ public class Util {
         }
 
     }
-    
+
+    /**
+     * Util class for cryptography
+     */
     public static class Crypto {
 
         private static final String CIPHER_ALGORITHM                = "AES";
@@ -426,6 +439,56 @@ public class Util {
             
             return new String(decrypted, CHARSET);
         }
+    }
+
+    /**
+     * Util class for handling files
+     */
+    public static class Files {
+        
+        private static final String PATH_DATA        = "/data/";
+        private static final String APP_PACKAGE      = "com.mcdev.passbox";
+        private static final String PATH_DATABASE    = "/databases/";
+        private static final String PATH_BACKUP      = "/backup/";
+        
+        public static final int EXPORT_COMPLETED    = 1;
+        public static final int IO_EXCEPTION        = 2;
+        public static final int CANNOT_WRITE_SD     = 3;
+
+        public static int exportDB() {
+
+            try {
+                
+                File sd     = Environment.getExternalStorageDirectory();
+                File data   = Environment.getDataDirectory();
+
+                if (sd.canWrite()) {
+                    String currentDBPath = PATH_DATA + APP_PACKAGE + PATH_DATABASE + PassboxDbHelper.DATABASE_NAME;
+                    String backupDBPath = PATH_BACKUP + PassboxDbHelper.DATABASE_NAME;
+                    File currentDB = new File(data, currentDBPath);
+                    File backupDB = new File(sd, backupDBPath);
+                    FileChannel source = new FileInputStream(currentDB).getChannel();
+                    FileChannel destination = new FileOutputStream(backupDB).getChannel();
+                    destination.transferFrom(source, 0, source.size());
+                    source.close();
+                    destination.close();
+                    Log.i(Constants.TAG_APPLICATION_LOG, "DB exported");
+                    return EXPORT_COMPLETED;
+                } else {
+                    Log.e(Constants.TAG_APPLICATION_LOG, "Cannot write the external storage");
+                    return CANNOT_WRITE_SD;
+                }
+                
+            } catch (IOException ioe) {
+                Log.e(Constants.TAG_APPLICATION_LOG, "DB not exported, IOException");
+                ioe.printStackTrace();
+                return IO_EXCEPTION;
+            } catch (Exception e) {
+                Log.e(Constants.TAG_APPLICATION_LOG, "DB not exported, Exception");
+                e.printStackTrace();
+            }
+        }
+        
     }
     
 	/**
