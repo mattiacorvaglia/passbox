@@ -19,20 +19,29 @@
     <!-- Database -->
     <PreferenceCategory android:title="@string/preferences_category_database" >
 
-        <Preference
+        <com.mcdev.passbox.views.CustomDialogPreference
             android:key="pref_import"
             android:title="@string/preferences_export"
-            android:summary="@string/preferences_export_summary" />
+            android:summary="@string/preferences_export_summary"
+            android:dialogMessage="@string/preferences_export_summary"
+            android:positiveButtonText="@string/preferences_export"
+            android:negativeButtonText="@string/cancel" />
 
-        <Preference
+        <com.mcdev.passbox.views.CustomDialogPreference
             android:key="pref_export"
             android:title="@string/preferences_import"
-            android:summary="@string/preferences_import_summary" />
+            android:summary="@string/preferences_import_summary"
+            android:dialogMessage="@string/preferences_import_summary"
+            android:positiveButtonText="@string/preferences_import"
+            android:negativeButtonText="@string/cancel" />
 
-        <Preference
+        <com.mcdev.passbox.views.CustomDialogPreference
             android:key="pref_restore"
             android:title="@string/preferences_restore"
-            android:summary="@string/preferences_restore_summary" />
+            android:summary="@string/preferences_restore_summary"
+            android:dialogMessage="@string/preferences_restore_summary"
+            android:positiveButtonText="@string/preferences_restore"
+            android:negativeButtonText="@string/cancel"/>
         
     </PreferenceCategory>
 
