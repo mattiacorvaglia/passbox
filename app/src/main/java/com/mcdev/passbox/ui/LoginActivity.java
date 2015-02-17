@@ -1,7 +1,9 @@
 package com.mcdev.passbox.ui;
 
 import com.mcdev.passbox.R;
+import com.mcdev.passbox.content.LoginDao;
 import com.mcdev.passbox.utils.Loginer;
+import com.mcdev.passbox.utils.Util;
 
 import android.app.Activity;
 import android.content.Context;
@@ -162,15 +164,23 @@ public class LoginActivity extends Activity {
 	 * Verify the entered password
 	 */
 	private void checkPwd() {
-		String storedPwd = Loginer.getInstance(mContext).getMainPwd();
-		if (storedPwd.equals(pin.toString())) {
-			Intent mIntent = new Intent(mContext, MainActivity.class);
-			startActivity(mIntent);
-			finish();
-		} else {
-			Toast.makeText(mContext, getResources().getString(R.string.wrong_password), Toast.LENGTH_SHORT).show();
-			pin = new StringBuilder();
-			display.setText(pin.toString());
-		}
+//		String storedPwd = Loginer.getInstance(mContext).getMainPwd();
+        LoginDao.getInstance(mContext).open();
+        String storedPwd = LoginDao.getInstance(mContext).getLogin();
+        LoginDao.getInstance(mContext).close();
+        if (Util.Strings.isNullOrEmpty(storedPwd)) {
+            Toast.makeText(mContext, getString(R.string.error_get_login), Toast.LENGTH_SHORT).show();
+        } else {
+            if (storedPwd.equals(Util.Strings.toMd5(pin.toString()))) {
+                Intent mIntent = new Intent(mContext, MainActivity.class);
+                startActivity(mIntent);
+                finish();
+            } else {
+                Toast.makeText(mContext, getString(R.string.wrong_password), Toast.LENGTH_SHORT).show();
+                pin = new StringBuilder();
+                display.setText(pin.toString());
+            }
+        }
+
 	}
 }

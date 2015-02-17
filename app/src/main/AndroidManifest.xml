@@ -32,6 +32,13 @@
             android:excludeFromRecents="true" >
         </activity>
         <activity
+            android:name=".ui.ResetLoginActivity"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeFocus"
+            android:excludeFromRecents="true" >
+        </activity>
+        <activity
             android:name=".ui.MainActivity"
             android:excludeFromRecents="true" >
         </activity>
@@ -43,11 +50,13 @@
         <activity
             android:name=".ui.AddPasswordActivity"
             android:theme="@style/AppThemeDetail"
+            android:windowSoftInputMode="stateHidden"
             android:excludeFromRecents="true" >
         </activity>
         <activity
             android:name=".ui.UpdatePasswordActivity"
             android:theme="@style/AppThemeDetail"
+            android:windowSoftInputMode="stateHidden"
             android:excludeFromRecents="true" >
         </activity>
     </application>

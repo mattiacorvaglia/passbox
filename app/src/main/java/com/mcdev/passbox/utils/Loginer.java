@@ -71,13 +71,13 @@ public class Loginer {
 	/**
 	 * Set the password
 	 */
-	public void setLogin(String pwd) {
+	public void setLogged() {
 		
 		// Store isFirstTime value as false
 		editor.putBoolean(IS_FIRST_TIME, false);
 		
 		// Store the password
-		editor.putString(KEY_PASSWORD, pwd);
+//		editor.putString(KEY_PASSWORD, pwd);
 		
 		// Save changes
 		editor.commit();
@@ -88,8 +88,8 @@ public class Loginer {
 	 * Get the stored password
 	 * @return The main password
 	 */
-	public String getMainPwd() {
-		return pref.getString(KEY_PASSWORD, null);
-	}
+//	public String getMainPwd() {
+//		return pref.getString(KEY_PASSWORD, null);
+//	}
 	
 }

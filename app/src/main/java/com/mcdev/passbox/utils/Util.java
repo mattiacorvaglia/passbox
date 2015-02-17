@@ -6,9 +6,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.nio.channels.FileChannel;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -241,6 +243,39 @@ public class Util {
          */
         public static boolean isNullOrEmpty(@Nullable String string) {
             return string == null || string.length() < 1;
+        }
+
+        /**
+         * Encrypt password with md5 digest
+         * @param pwd The String to encrypt
+         * @return The encrypted String
+         */
+        public static String toMd5(String pwd) {
+
+            try {
+
+                MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+                messageDigest.reset();
+                messageDigest.update(pwd.getBytes());
+
+                byte[] digest = messageDigest.digest();
+
+                BigInteger bigInt = new BigInteger(1, digest);
+
+                String hashText = bigInt.toString(16);
+
+                // Now we need to zero pad it if you actually want the full 32 chars.
+                while(hashText.length() < 32 ) {
+                    hashText = "0"+hashText;
+                }
+
+                return hashText;
+
+            } catch (NoSuchAlgorithmException e1) {
+                e1.printStackTrace();
+                return pwd;
+            }
+
         }
 
     }

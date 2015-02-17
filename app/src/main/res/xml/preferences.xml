@@ -11,7 +11,7 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:targetPackage="com.mcdev.passbox"
-                android:targetClass="com.mcdev.passbox.ui.SetLoginActivity" />
+                android:targetClass="com.mcdev.passbox.ui.ResetLoginActivity" />
         </Preference>
         
     </PreferenceCategory>

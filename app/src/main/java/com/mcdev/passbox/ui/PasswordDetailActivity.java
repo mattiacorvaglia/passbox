@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.mcdev.passbox.R;
+import com.mcdev.passbox.content.LoginDao;
 import com.mcdev.passbox.content.PasswordDao;
 import com.mcdev.passbox.content.PasswordDto;
 import com.mcdev.passbox.content.RecoveryDto;
@@ -238,10 +239,18 @@ public class PasswordDetailActivity extends ActionBarActivity {
                 if (pwd == null) {
                     return null;
                 } else {
-                    String passphrase = Loginer.getInstance(mContext).getMainPwd();
-                    String decrypted = Util.Crypto.decrypt(pwd.getPassword(), passphrase);
-                    pwd.setPassword(decrypted);
-                    return pwd;
+//                    String passphrase = Loginer.getInstance(mContext).getMainPwd();
+                    LoginDao.getInstance(mContext).open();
+                    String passphrase = LoginDao.getInstance(mContext).getLogin();
+                    LoginDao.getInstance(mContext).close();
+                    if (Util.Strings.isNullOrEmpty(passphrase)) {
+                        Toast.makeText(mContext, getString(R.string.error_get_login), Toast.LENGTH_SHORT).show();
+                        return null;
+                    } else {
+                        String decrypted = Util.Crypto.decrypt(pwd.getPassword(), passphrase);
+                        pwd.setPassword(decrypted);
+                        return pwd;
+                    }
                 }
 
             } catch (NoSuchPaddingException | IllegalBlockSizeException |

@@ -6,16 +6,16 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class PassboxDbHelper extends SQLiteOpenHelper {
 	
-	public static final int DATABASE_VERSION = 2;
+	public static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "Passbox.db";
     
-    private static final String PRIMARY_KEY_TYPE = " INTEGER PRIMARY KEY AUTOINCREMENT";
-    private static final String FOREIGN_KEY_TYPE = " FOREIGN KEY (";
-    private static final String FOREIGN_KEY_REFERENCES = ") REFERENCES ";
-    private static final String FOREIGN_KEY_ON_DELETE = "ON DELETE CASCADE";
-    private static final String TEXT_TYPE = " TEXT";
-    private static final String INTEGER_TYPE = " INTEGER";
-    private static final String COMMA_SEP = ", ";
+    private static final String PRIMARY_KEY_TYPE        = " INTEGER PRIMARY KEY AUTOINCREMENT";
+    private static final String FOREIGN_KEY_TYPE        = " FOREIGN KEY (";
+    private static final String FOREIGN_KEY_REFERENCES  = ") REFERENCES ";
+    private static final String FOREIGN_KEY_ON_DELETE   = "ON DELETE CASCADE";
+    private static final String TEXT_TYPE               = " TEXT";
+    private static final String INTEGER_TYPE            = " INTEGER";
+    private static final String COMMA_SEP               = ", ";
     private static final String SQL_CREATE_PASSWORD_ENTRIES =
             "CREATE TABLE " +
     		PassboxContract.PasswordEntry.TABLE_NAME + " (" +
@@ -36,10 +36,18 @@ public class PassboxDbHelper extends SQLiteOpenHelper {
     		FOREIGN_KEY_TYPE + PassboxContract.RecoveryEntry.COLUMN_NAME_PASSWORD_KEY	+ FOREIGN_KEY_REFERENCES +
     		PassboxContract.PasswordEntry.TABLE_NAME + " (" + PassboxContract.PasswordEntry.COLUMN_NAME_ENTRY_ID +
     		") " + FOREIGN_KEY_ON_DELETE + ");";
+    private static final String SQL_CREATE_LOGIN_ENTRIES =
+            "CREATE TABLE " +
+                    PassboxContract.LoginEntry.TABLE_NAME + "(" +
+                    PassboxContract.LoginEntry.COLUMN_NAME_ENTRY_ID 		+ PRIMARY_KEY_TYPE 	+ COMMA_SEP +
+                    PassboxContract.LoginEntry.COLUMN_NAME_PASSWORD 		+ TEXT_TYPE 		+ COMMA_SEP +
+                    PassboxContract.LoginEntry.COLUMN_NAME_LABEL     		+ TEXT_TYPE 		+ ");";
     private static final String SQL_DELETE_PASSWORD_ENTRIES =
             "DROP TABLE IF EXISTS " + PassboxContract.PasswordEntry.TABLE_NAME + ";";
     private static final String SQL_DELETE_RECOVERY_ENTRIES =
             "DROP TABLE IF EXISTS " + PassboxContract.RecoveryEntry.TABLE_NAME + ";";
+    private static final String SQL_DELETE_LOGIN_ENTRIES =
+            "DROP TABLE IF EXISTS " + PassboxContract.LoginEntry.TABLE_NAME + ";";
     
     // Constructor
     public PassboxDbHelper(Context context) {
@@ -50,12 +58,14 @@ public class PassboxDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_PASSWORD_ENTRIES);
         db.execSQL(SQL_CREATE_RECOVERY_ENTRIES);
+        db.execSQL(SQL_CREATE_LOGIN_ENTRIES);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(SQL_DELETE_PASSWORD_ENTRIES);
         db.execSQL(SQL_DELETE_RECOVERY_ENTRIES);
+        db.execSQL(SQL_DELETE_LOGIN_ENTRIES);
         onCreate(db);
     }
 

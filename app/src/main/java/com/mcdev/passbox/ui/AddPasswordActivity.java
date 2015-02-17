@@ -8,11 +8,11 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.LinkedHashMap;
 
 import com.mcdev.passbox.R;
+import com.mcdev.passbox.content.LoginDao;
 import com.mcdev.passbox.content.PasswordDao;
 import com.mcdev.passbox.content.PasswordDto;
 import com.mcdev.passbox.content.RecoveryDto;
 import com.mcdev.passbox.utils.Constants;
-import com.mcdev.passbox.utils.Loginer;
 import com.mcdev.passbox.views.colorpicker.ColorPickerDialog;
 import com.mcdev.passbox.views.colorpicker.ColorPickerSwatch;
 import com.mcdev.passbox.utils.Util;
@@ -233,16 +233,25 @@ public class AddPasswordActivity extends ActionBarActivity {
              * Encrypt password before storing it in the database
              */
             try {
-                String passphrase = Loginer.getInstance(mContext).getMainPwd();
-                String encrypted = Util.Crypto.encrypt(mPassword.getPassword(), passphrase);
-                mPassword.setPassword(encrypted);
+//                String passphrase = Loginer.getInstance(mContext).getMainPwd();
+                LoginDao.getInstance(mContext).open();
+                String passphrase = LoginDao.getInstance(mContext).getLogin();
+                LoginDao.getInstance(mContext).close();
+                if (Util.Strings.isNullOrEmpty(passphrase)) {
+                    Toast.makeText(mContext, getString(R.string.error_get_login), Toast.LENGTH_SHORT).show();
+                    return null;
+                } else {
+                    String encrypted = Util.Crypto.encrypt(mPassword.getPassword(), passphrase);
+                    mPassword.setPassword(encrypted);
 
-                // Store in the database
-                PasswordDao.getInstance(mContext).open();
-                long newId = PasswordDao.getInstance(mContext).insertPassword(mPassword);
-                PasswordDao.getInstance(mContext).close();
-                
-                return newId;
+                    // Store in the database
+                    PasswordDao.getInstance(mContext).open();
+                    long newId = PasswordDao.getInstance(mContext).insertPassword(mPassword);
+                    PasswordDao.getInstance(mContext).close();
+
+                    return newId;
+                }
+
             } catch (NoSuchAlgorithmException | IllegalBlockSizeException |
                     BadPaddingException | InvalidKeyException |
                     InvalidAlgorithmParameterException | NoSuchPaddingException |

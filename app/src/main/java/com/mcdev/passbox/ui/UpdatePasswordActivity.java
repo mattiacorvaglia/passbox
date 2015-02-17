@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.mcdev.passbox.R;
+import com.mcdev.passbox.content.LoginDao;
 import com.mcdev.passbox.content.PasswordDao;
 import com.mcdev.passbox.content.PasswordDto;
 import com.mcdev.passbox.content.RecoveryDao;
@@ -141,10 +142,18 @@ public class UpdatePasswordActivity extends ActionBarActivity {
                 if (pwd == null) {
                     return null;
                 } else {
-                    String passphrase = Loginer.getInstance(mContext).getMainPwd();
-                    String decrypted = Util.Crypto.decrypt(pwd.getPassword(), passphrase);
-                    pwd.setPassword(decrypted);
-                    return pwd;
+//                    String passphrase = Loginer.getInstance(mContext).getMainPwd();
+                    LoginDao.getInstance(mContext).open();
+                    String passphrase = LoginDao.getInstance(mContext).getLogin();
+                    LoginDao.getInstance(mContext).close();
+                    if (Util.Strings.isNullOrEmpty(passphrase)) {
+                        Toast.makeText(mContext, getString(R.string.error_get_login), Toast.LENGTH_SHORT).show();
+                        return null;
+                    } else {
+                        String decrypted = Util.Crypto.decrypt(pwd.getPassword(), passphrase);
+                        pwd.setPassword(decrypted);
+                        return pwd;
+                    }
                 }
 
             } catch (NoSuchPaddingException | IllegalBlockSizeException |
@@ -379,16 +388,24 @@ public class UpdatePasswordActivity extends ActionBarActivity {
              * Encrypt password before storing it in the database
              */
             try {
-                String passphrase = Loginer.getInstance(mContext).getMainPwd();
-                String encrypted = Util.Crypto.encrypt(mPassword.getPassword(), passphrase);
-                mPassword.setPassword(encrypted);
+//                String passphrase = Loginer.getInstance(mContext).getMainPwd();
+                LoginDao.getInstance(mContext).open();
+                String passphrase = LoginDao.getInstance(mContext).getLogin();
+                LoginDao.getInstance(mContext).close();
+                if (Util.Strings.isNullOrEmpty(passphrase)) {
+                    Toast.makeText(mContext, getString(R.string.error_get_login), Toast.LENGTH_SHORT).show();
+                    return null;
+                } else {
+                    String encrypted = Util.Crypto.encrypt(mPassword.getPassword(), passphrase);
+                    mPassword.setPassword(encrypted);
 
-                // Store in the database
-                PasswordDao.getInstance(mContext).open();
-                int affectedRows = PasswordDao.getInstance(mContext).updatePassword(mPassword);
-                PasswordDao.getInstance(mContext).close();
+                    // Store in the database
+                    PasswordDao.getInstance(mContext).open();
+                    int affectedRows = PasswordDao.getInstance(mContext).updatePassword(mPassword);
+                    PasswordDao.getInstance(mContext).close();
 
-                return affectedRows;
+                    return affectedRows;
+                }
             } catch (NoSuchAlgorithmException | IllegalBlockSizeException |
                     BadPaddingException | InvalidKeyException |
                     InvalidAlgorithmParameterException | NoSuchPaddingException |

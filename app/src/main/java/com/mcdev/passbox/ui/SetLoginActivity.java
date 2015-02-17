@@ -1,6 +1,7 @@
 package com.mcdev.passbox.ui;
 
 import com.mcdev.passbox.R;
+import com.mcdev.passbox.content.LoginDao;
 import com.mcdev.passbox.utils.Loginer;
 
 import android.app.Activity;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SetLoginActivity extends Activity {
 	
@@ -191,14 +193,27 @@ public class SetLoginActivity extends Activity {
 			saveButton.setVisibility(View.INVISIBLE);
 		} else if (steps  == 2) {
 			if (newPin.toString().equals(preconfirmed)) {
-				Loginer.getInstance(mContext).setLogin(newPin.toString());
-				resetPin();
-				steps = 0;
-				repeatText.setText(getResources().getString(R.string.ok_password));
-				saveButton.setVisibility(View.INVISIBLE);
-				Intent mIntent = new Intent(mContext, MainActivity.class);
-				startActivity(mIntent);
-				finish();
+//				Loginer.getInstance(mContext).setLogin(newPin.toString());
+                try {
+                    LoginDao.getInstance(mContext).open();
+                    long idPwd = LoginDao.getInstance(mContext).insertLogin(newPin.toString());
+                    LoginDao.getInstance(mContext).close();
+                    if (idPwd != -1) {
+                        Loginer.getInstance(mContext).setLogged();
+                        repeatText.setText(getResources().getString(R.string.ok_password));
+                        saveButton.setVisibility(View.INVISIBLE);
+                        Intent mIntent = new Intent(mContext, MainActivity.class);
+                        startActivity(mIntent);
+                        finish();
+                    } else {
+                        Toast.makeText(mContext, getString(R.string.error_add_pwd), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(mContext, getString(R.string.error_add_pwd), Toast.LENGTH_SHORT).show();
+                }
+                resetPin();
+                steps = 0;
 			} else {
 				repeatText.setText(getResources().getString(R.string.repeat_process));
 				saveButton.setText(getResources().getString(R.string.save));

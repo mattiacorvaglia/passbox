@@ -29,7 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
@@ -42,10 +42,11 @@ public class MainActivity extends ActionBarActivity {
     private TextView aboutText;
     private Context mContext;
 
-	private String[] titles = new String[] {
-		"Passwords Manager",
+    LinkedList<String> titles;
+	/*private String[] titles = new String[] {
+		"Passwords",
 		"Impostazioni"
-	};
+	};*/
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,10 +76,18 @@ public class MainActivity extends ActionBarActivity {
         mDrawerLayout.setDrawerListener(new DemoDrawerListener());
         mDrawerLayout.setDrawerTitle(GravityCompat.START, getString(R.string.drawer_title));
         
+        // Set the drawer header
+        TextView drawerTitle = (TextView) mDrawerLayout.findViewById(R.id.navdrawer_title);
+        drawerTitle.setTypeface(fontMedium);
+        
         // Setup the drawer menu
         final ListView mDrawerList = (ListView) findViewById(R.id.drawer_list);
-        List<String> strings = Arrays.asList(titles);
-        mDrawerList.setAdapter(new DrawerListAdapter(mContext, strings));
+//        List<String> strings = Arrays.asList(titles);
+        titles = new LinkedList<>();
+        titles.add(0, getString(R.string.drawer_title_collection));
+        titles.add(1, getString(R.string.drawer_title_settings));
+//        titles.add(2, getString(R.string.drawer_title_about));
+        mDrawerList.setAdapter(new DrawerListAdapter(mContext, titles));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         
         // Setup the about section
@@ -139,11 +148,8 @@ public class MainActivity extends ActionBarActivity {
         * The action bar home/up action should open or close the drawer.
         * mDrawerToggle will take care of this.
         */
-       if (mDrawerToggle.onOptionsItemSelected(item)) {
-           return true;
-       }
-       return super.onOptionsItemSelected(item);
-	}
+        return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+    }
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -180,7 +186,7 @@ public class MainActivity extends ActionBarActivity {
             unselectAboutLayout();
             
         	// Handle the Drawer
-            mActionBar.setTitle(titles[position]);
+            mActionBar.setTitle(titles.get(position));
             mDrawerLayout.closeDrawer(mDrawer);
             
             // Create the right Fragment
@@ -350,11 +356,9 @@ public class MainActivity extends ActionBarActivity {
                 case 0:
                     mHolder.title.setText(getItem(0));
                     mHolder.title.setTypeface(fontMedium);
-                    mHolder.icon.setImageResource(R.drawable.ic_label_grey600_24dp);
+                    mHolder.icon.setImageResource(R.drawable.ic_key_grey600_24dp);
                     if (position == selectedItem) {
-//                        mHolder.title.setTextColor(getResources().getColor(R.color.light_blue_700));
                         mHolder.title.setTextColor(getResources().getColor(R.color.light_green_500));
-//                        mHolder.icon.getDrawable().setColorFilter(getResources().getColor(R.color.light_blue_700), PorterDuff.Mode.SRC_ATOP);
                         mHolder.icon.getDrawable().setColorFilter(getResources().getColor(R.color.light_green_500), PorterDuff.Mode.SRC_ATOP);
                     } else {
                         mHolder.title.setTextColor(getResources().getColor(R.color.grey_600));
@@ -364,11 +368,9 @@ public class MainActivity extends ActionBarActivity {
                 case 1:
                     mHolder.title.setText(getItem(1));
                     mHolder.title.setTypeface(fontMedium);
-                    mHolder.icon.setImageResource(R.drawable.ic_safed_grey600_24dp);
+                    mHolder.icon.setImageResource(R.drawable.ic_settings_grey600_24dp);
                     if (position == selectedItem) {
-//                        mHolder.title.setTextColor(getResources().getColor(R.color.light_blue_700));
                         mHolder.title.setTextColor(getResources().getColor(R.color.light_green_500));
-//                        mHolder.icon.getDrawable().setColorFilter(getResources().getColor(R.color.light_blue_700), PorterDuff.Mode.SRC_ATOP);
                         mHolder.icon.getDrawable().setColorFilter(getResources().getColor(R.color.light_green_500), PorterDuff.Mode.SRC_ATOP);
                     } else {
                         mHolder.title.setTextColor(getResources().getColor(R.color.grey_600));

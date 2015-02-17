@@ -18,8 +18,10 @@
             android:data="@string/app_url" />
     </Preference>
 
-    <Preference
+    <com.mcdev.passbox.views.CreditsPreference
         android:key="pref_credits"
-        android:title="@string/about_credits" />
+        android:title="@string/about_credits"
+        android:dialogTitle="@string/about_credits"
+        android:dialogMessage="@string/about_credits_message" />
 
 </PreferenceScreen>

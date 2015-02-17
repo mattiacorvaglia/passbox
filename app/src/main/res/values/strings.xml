@@ -9,9 +9,9 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     
-    <string name="drawer_title_collection">Raccolta</string>
+    <string name="drawer_title_collection">Passwords</string>
     <string name="drawer_title_settings">Impostazioni</string>
-    <string name="drawer_title_credits">About Passbox</string>
+    <string name="drawer_title_about">About</string>
     
     <string name="preferences_category_security">Sicurezza</string>
     <string name="preferences_change_main_key">Cambia la main password</string>
@@ -28,14 +28,23 @@
     <string name="the_end">Fine</string>
     <string name="retry">Riprova</string>
 
-    <string name="export_default_message">Questa operazione creerà un file di backup criptato che potrai utilizzare in futuro per importare tutte le password salvate finora</string>
+    <string name="export_default_message">Questa operazione creerà un file di backup criptato che potrai utilizzare in futuro per importare tutte le password salvate finora.</string>
     <string name="export_ok_title">Fatto</string>
-    <string name="export_ok_message">Backup eseguito con successo. Puoi trovare il file "Passbox.db" nella cartella "Passbox" e spostarlo su qualsiasi CLoud Storage come Dropbox per poi trovarlo su qualsiasi altro dispositivo.</string>
+    <string name="export_ok_message">Backup eseguito con successo. Puoi trovare il file "Passbox.db" nella cartella "Passbox" e spostarlo su qualsiasi Cloud Storage come Dropbox per poi trovarlo su qualsiasi altro dispositivo.</string>
     <string name="export_ko_title">Ops&#8230;</string>
     <string name="export_ko_message">Backup fallito. </string>
     <string name="export_ko_exception_1">La memoria esterna del dispositivo non è abilitata per essere scritta da un\'applicazione.</string>
     <string name="export_ko_exception_2">L cartella </string>
     <string name="export_ko_exception_3">Backup fallito. </string>
+
+    <string name="import_default_message">Importa tutte le tue password da un file di backup creato in precedenza.</string>
+    <string name="import_ok_title">Fatto</string>
+    <string name="import_ok_message">Backup eseguito con successo. Puoi trovare il file "Passbox.db" nella cartella "Passbox" e spostarlo su qualsiasi CLoud Storage come Dropbox per poi trovarlo su qualsiasi altro dispositivo.</string>
+    <string name="import_ko_title">Ops&#8230;</string>
+    <string name="import_ko_message">Backup fallito. </string>
+    <string name="import_ko_exception_1">La memoria esterna del dispositivo non è abilitata per essere scritta da un\'applicazione.</string>
+    <string name="import_ko_exception_2">L cartella </string>
+    <string name="import_ko_exception_3">Backup fallito. </string>
 
     <string name="restore_default_message">ATTENZIONE: Tutte le password salvate finora andranno perse per sempre. Se non vuoi perderle effettua prima un backup dalla sezione "Importa"</string>
     <string name="restore_ok_title">Fatto</string>
@@ -43,8 +52,9 @@
 
     <string name="about_version">Versione</string>
     <string name="about_bug">Segnala un bug</string>
-    <string name="about_rate">Vota/Commmenta l\'app sul Play Store</string>
+    <string name="about_rate">Vota l\'app sul Play Store</string>
     <string name="about_credits">Credits</string>
+    <string name="about_credits_message">Passbox\nL\'applicazione ideale per gestire le tue password. La prima app che ti consente di aggiungere chiavi di recupero, PIN, PUK e qualsiasi altro codice relativo ad una password, la più sicura grazie alla cifratura AES 256, che ti garantisce un livello di sicurezza affidabile e ottimizzato. Inoltre grazie al sistema di visualizzazione HOLD-TO-READ sarai al sicuro anche dagli spioni :) Grafica curata e funzionalità utili come il backup e il ripristino offrono tutto ciò che un manager di password deve avere.\n\nAutore:\nMattia Corvaglia\ncorvagliamattia@gmail.com\nhttp://www.mattiacorvaglia.com</string>
 
     <string name="action_settings">Impostazioni</string>
     <string name="action_edit">Modifica</string>
@@ -60,6 +70,7 @@
     <string name="error_encryption">Errore nel criptare la password</string>
     <string name="error_decryption">Errore nel decriptare la password</string>
     <string name="error_storing">Errore nel salvare le modifiche nel database</string>
+    <string name="error_get_login">Il database è compromesso. Effettua la pulizia dei dati dalla pagina delle informazioni dell\'app.</string>
 
     <string name="content_placeholder">\@Mattia Corvaglia\n\n\nPASSBOX\n\nPersonal Password Manager</string>
     <string name="content_placeholder_preference">Impostazioni e preferenze</string>

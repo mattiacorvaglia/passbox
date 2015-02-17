@@ -31,6 +31,9 @@
     	<item name="colorPrimary">@color/pink_500</item>
    		<item name="colorPrimaryDark">@color/pink_700</item>
 	    <item name="colorAccent">@color/white</item>
+        <item name="colorControlNormal">@color/pink_500</item>
+        <item name="colorControlActivated">@color/pink_500</item>
+        <item name="colorControlHighlight">@color/pink_500</item>
 	    
 	    <!-- Comment the following 2 lines to show the ActionBar -->
 	    <item name="windowActionBar">false</item>
@@ -48,6 +51,9 @@
         <item name="colorPrimary">@color/cyan_500</item>
         <item name="colorPrimaryDark">@color/cyan_700</item>
         <item name="colorAccent">@color/white</item>
+        <item name="colorControlNormal">@color/cyan_500</item>
+        <item name="colorControlActivated">@color/cyan_500</item>
+        <item name="colorControlHighlight">@color/cyan_500</item>
 
         <!-- Comment the following 2 lines to show the ActionBar -->
         <item name="windowActionBar">false</item>
