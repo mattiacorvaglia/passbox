@@ -8,6 +8,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -123,9 +124,14 @@ public class UpdatePasswordActivity extends ActionBarActivity {
 	 */
     private class UpdateUI extends AsyncTask<String, Void, PasswordDto> {
 
+        private ProgressDialog progress;
+        
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progress = ProgressDialog.show(mContext, null, getString(R.string.ok_loading), true);
+            progress.setIndeterminate(true);
+            progress.setCancelable(false);
         }
 
         @Override
@@ -168,6 +174,9 @@ public class UpdatePasswordActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(PasswordDto result) {
             super.onPostExecute(result);
+            if (progress != null && progress.isShowing()) {
+                progress.dismiss();
+            }
 
             if (result == null) {
                 Log.w(Constants.TAG_APPLICATION_LOG, "Error on retrieving the password detail from the database");
@@ -377,9 +386,14 @@ public class UpdatePasswordActivity extends ActionBarActivity {
             this.mPassword = mPassword;
         }
 
+        private ProgressDialog progress;
+        
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progress = ProgressDialog.show(mContext, null, getString(R.string.ok_saving), true);
+            progress.setIndeterminate(true);
+            progress.setCancelable(false);
         }
 
         @Override
@@ -418,6 +432,9 @@ public class UpdatePasswordActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
+            if (progress != null && progress.isShowing()) {
+                progress.dismiss();
+            }
             if (result == null) {
                 Log.w(Constants.TAG_APPLICATION_LOG, "Error on encrypting the new password");
                 Toast.makeText(mContext, getString(R.string.error_encryption), Toast.LENGTH_SHORT).show();

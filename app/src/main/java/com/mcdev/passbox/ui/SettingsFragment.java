@@ -5,10 +5,10 @@ import android.preference.PreferenceFragment;
 
 import com.mcdev.passbox.R;
 
-public class CustomPreferenceFragment extends PreferenceFragment {
+public class SettingsFragment extends PreferenceFragment {
 	
 	// Constructor
-	public CustomPreferenceFragment() {}
+	public SettingsFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

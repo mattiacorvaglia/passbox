@@ -2,9 +2,11 @@ package com.mcdev.passbox.ui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,7 +20,6 @@ import com.mcdev.passbox.R;
 import com.mcdev.passbox.content.LoginDao;
 import com.mcdev.passbox.content.PasswordDao;
 import com.mcdev.passbox.content.PasswordDto;
-import com.mcdev.passbox.utils.Loginer;
 import com.mcdev.passbox.utils.Util;
 
 import java.io.UnsupportedEncodingException;
@@ -221,15 +222,8 @@ public class ResetLoginActivity extends Activity {
                         /**
                          * Re-encrypt all the passwords stored in the database
                          */
-                        boolean result = recrypt(oldPassword, Util.Strings.toMd5(newPin.toString()));
-                        // Go in
-                        if (result) {
-                            Intent mIntent = new Intent(mContext, MainActivity.class);
-                            startActivity(mIntent);
-                            finish();
-                        } else {
-                            Toast.makeText(mContext, getString(R.string.error_recrypt), Toast.LENGTH_SHORT).show();
-                        }
+                        new Recrypter().execute(oldPassword, Util.Strings.toMd5(newPin.toString()));
+
                     } else {
                         Toast.makeText(mContext, getString(R.string.error_recrypt), Toast.LENGTH_SHORT).show();
                     }
@@ -252,8 +246,42 @@ public class ResetLoginActivity extends Activity {
             steps = 0;
         }
     }
+    
+    private class Recrypter extends AsyncTask<String, Void, Boolean> {
 
-    /** TODO make an AsyncTask
+        private ProgressDialog progress;
+        
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progress = ProgressDialog.show(mContext, null, getString(R.string.ok_password_confirmed), true);
+            progress.setIndeterminate(true);
+            progress.setCancelable(false);
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            return recrypt(params[0], params[1]);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if (progress != null && progress.isShowing()) {
+                progress.dismiss();
+            }
+            // Go in
+            if (result) {
+                Intent mIntent = new Intent(mContext, MainActivity.class);
+                startActivity(mIntent);
+                finish();
+            } else {
+                Toast.makeText(mContext, getString(R.string.error_recrypt), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    /**
      * Use the new main password to encrypt all the
      * existing password stored in the database
      * @param oldPwd The old main password

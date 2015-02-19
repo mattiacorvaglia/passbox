@@ -3,7 +3,7 @@
 
     <string name="app_name">Passbox</string>
     <string name="desc">Image description</string>
-    <string name="app_url">http://www.mattiacorvaglia.com</string>
+    <string name="app_url">https://play.google.com/store/apps/details?id=com.mcdev.passbox</string>
 
     <string name="drawer_title">Navigation</string>
     <string name="drawer_open">Open navigation drawer</string>
@@ -67,6 +67,7 @@
     <string name="action_done">Salva</string>
     <string name="action_add_recovery">Aggiungi una recovery password</string>
     <string name="action_choose_email_client">Scegli quale client email usare</string>
+    <string name="action_clipdata_copied">Password copiata negli appunti.</string>
 
     <string name="error_add_pwd">Devi inserire una password</string>
     <string name="error_add_title">Devi inserire un\'etichetta</string>
@@ -108,6 +109,9 @@
 	<string name="repeat_password">Ripeti la password per confermarla.</string>
 	<string name="repeat_process">Hai inserito due password diverse. Ripeti l\'operazione. La password può avere da 4 a 8 cifre.</string>
 	<string name="ok_password">Congratulazioni. Ora le tue password sono al sicuro!</string>
+	<string name="ok_password_confirmed">Ottimo lavoro!</string>
+	<string name="ok_saving">Salvataggio&#8230;</string>
+	<string name="ok_loading">Caricamento&#8230;</string>
 	<string name="wrong_password">Password errata. Riprova.</string>
 	<string name="empty_collection">Nessuna password salvata.</string>
 	

@@ -222,7 +222,7 @@ public class MainActivity extends ActionBarActivity {
 
 		        // Insert the fragment by replacing any existing fragment
                 fragmentManager.beginTransaction()
-		                       .replace(R.id.container, new CustomPreferenceFragment())
+		                       .replace(R.id.container, new SettingsFragment())
 		                       .commit();
 				break;
 

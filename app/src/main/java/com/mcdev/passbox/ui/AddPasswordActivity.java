@@ -17,6 +17,7 @@ import com.mcdev.passbox.views.colorpicker.ColorPickerDialog;
 import com.mcdev.passbox.views.colorpicker.ColorPickerSwatch;
 import com.mcdev.passbox.utils.Util;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -40,7 +41,7 @@ import javax.crypto.NoSuchPaddingException;
 public class AddPasswordActivity extends ActionBarActivity {
 	
 	private Context mContext;
-	private int mSelectedColor = -5317; // Yellow is the default
+	private int mSelectedColor = -7617718; // Light green is the default
 	private LinearLayout recoveryContainer;
 	private LinkedHashMap<EditText, EditText> recoveryEditTextList;
 	private EditText title, username, password, webUrl, description;
@@ -170,7 +171,6 @@ public class AddPasswordActivity extends ActionBarActivity {
                 }
                 // Check not null color
                 String insertedColor = Util.Colors.toString(mSelectedColor);
-                Log.w(Constants.TAG_APPLICATION_LOG, "Selected color = " + String.valueOf(mSelectedColor));
                 mPassword.setColor(insertedColor);
 
                 // Create the recovery list
@@ -216,6 +216,7 @@ public class AddPasswordActivity extends ActionBarActivity {
     private class StorePassword extends AsyncTask<String, Void, Long> {
 
         private PasswordDto mPassword;
+        private ProgressDialog progress;
 
         // Constructor
         private StorePassword(PasswordDto mPassword) {
@@ -225,6 +226,9 @@ public class AddPasswordActivity extends ActionBarActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progress = ProgressDialog.show(mContext, null, getString(R.string.ok_saving), true);
+            progress.setIndeterminate(true);
+            progress.setCancelable(false);
         }
 
         @Override
@@ -264,6 +268,9 @@ public class AddPasswordActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(Long result) {
             super.onPostExecute(result);
+            if (progress != null && progress.isShowing()) {
+                progress.dismiss();
+            }
             if (result == null) {
                 Log.w(Constants.TAG_APPLICATION_LOG, "Error on encrypting the new password");
                 Toast.makeText(mContext, getString(R.string.error_encryption), Toast.LENGTH_SHORT).show();
@@ -298,6 +305,7 @@ public class AddPasswordActivity extends ActionBarActivity {
 			@Override
 			public void onColorSelected(int color) {
 				mSelectedColor = color;
+                Log.i(Constants.TAG_APPLICATION_LOG, "color selected: " + String.valueOf(color));
 			}
 		});
 		colorcalendar.show(getSupportFragmentManager(), "colorPicker");

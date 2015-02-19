@@ -16,7 +16,6 @@ import com.mcdev.passbox.content.PasswordDao;
 import com.mcdev.passbox.content.PasswordDto;
 import com.mcdev.passbox.content.RecoveryDto;
 import com.mcdev.passbox.utils.Constants;
-import com.mcdev.passbox.utils.Loginer;
 import com.mcdev.passbox.views.FloatingActionButton;
 import com.mcdev.passbox.views.colorpicker.ColorPickerDialog;
 import com.mcdev.passbox.views.colorpicker.ColorPickerSwatch;
@@ -24,8 +23,11 @@ import com.mcdev.passbox.utils.Util;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,6 +43,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -64,6 +67,7 @@ public class PasswordDetailActivity extends ActionBarActivity {
 	private Map<String, Integer> colorSet;
 	private Toolbar toolbar;
 	private FloatingActionButton togglePasswordVisibility;
+    private ImageButton openLink;
 	private int mSelectedColor = 0;
 
 	@Override
@@ -118,26 +122,18 @@ public class PasswordDetailActivity extends ActionBarActivity {
 		password 	= (EditText) findViewById(R.id.pwd_detail_pwd);
 		webUrl 		= (TextView) findViewById(R.id.pwd_detail_web_url);
 		description = (TextView) findViewById(R.id.pwd_detail_description);
-		
+        
+        openLink                 = (ImageButton) findViewById(R.id.action_open_link);
 		togglePasswordVisibility = (FloatingActionButton) findViewById(R.id.toggle_pwd_visibility);
+        
 		togglePasswordVisibility.setColorNormal(colorSet.get(Util.Colors.KEY_COLOR_ACCENT));
-		
+        
 		// Add the password EditText in the list
 		editTextToToggleVisibility = new ArrayList<>();
 		editTextToToggleVisibility.add(password);
 				
 		// Fill contents
 		new UpdateUI().execute();
-		
-		// Disable the EditText default style
-		password.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				// TODO make copy on clipboard
-				return true;
-			}
-		});
-		password.setFocusable(false);
 		
 		/*
 		 * Toggle the visibility of the password field
@@ -284,21 +280,45 @@ public class PasswordDetailActivity extends ActionBarActivity {
                 }
 
                 // Set password
-                String pwdPassword = result.getPassword();
+                final String pwdPassword = result.getPassword();
                 if (Util.Strings.isNullOrEmpty(pwdPassword)) {
                     passwordLayout.setVisibility(View.GONE);
                 } else {
                     passwordLayout.setVisibility(View.VISIBLE);
                     password.setText(pwdPassword);
+                    // Disable the EditText default style
+                    password.setOnTouchListener(new OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            // Copy password in the clipboard
+                            ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                            ClipData clip = ClipData.newPlainText("password", pwdPassword);
+                            clipboard.setPrimaryClip(clip);
+                            Toast.makeText(mContext, getString(R.string.action_clipdata_copied), Toast.LENGTH_SHORT).show();
+                            return true;
+                        }
+                    });
+                    password.setFocusable(false);
                 }
 
                 // Set web URL
-                String pwdWebUrl = result.getWebUrl();
+                final String pwdWebUrl = result.getWebUrl();
                 if (Util.Strings.isNullOrEmpty(pwdWebUrl)) {
                     webUrlLayout.setVisibility(View.GONE);
                 } else {
                     webUrlLayout.setVisibility(View.VISIBLE);
                     webUrl.setText(pwdWebUrl);
+                    openLink.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String url = pwdWebUrl;
+                            if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                                url = "http://" + url;
+                            }
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                            startActivity(browserIntent);
+                        }
+                    });
                 }
 
                 // Set description
@@ -343,7 +363,6 @@ public class PasswordDetailActivity extends ActionBarActivity {
 		mAnswerEditText.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				// TODO make copy on clipboard
 				return true;
 			}
 		});
