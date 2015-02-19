@@ -8,7 +8,8 @@
 
     <Preference
         android:key="pref_bug"
-        android:title="@string/about_bug" />
+        android:title="@string/about_bug"
+        android:summary="@string/about_credits_email" />
 
     <Preference
         android:key="pref_rate"

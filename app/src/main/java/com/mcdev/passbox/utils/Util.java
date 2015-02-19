@@ -25,6 +25,7 @@ import com.mcdev.passbox.views.FilePicker;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -591,7 +592,8 @@ public class Util {
                                                 context.getString(R.string.export_ko_exception_1))
                                         .setPositiveButton(context.getString(R.string.the_end),
                                                 new DialogInterface.OnClickListener() {
-                                                    public void onClick(DialogInterface dialog, int which) {}
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                    }
                                                 }
                                         ).show();
                                 break;
@@ -602,7 +604,8 @@ public class Util {
                                                 context.getString(R.string.export_ko_exception_1))
                                         .setPositiveButton(context.getString(R.string.the_end),
                                                 new DialogInterface.OnClickListener() {
-                                                    public void onClick(DialogInterface dialog, int which) {}
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                    }
                                                 }
                                         ).show();
                                 break;
@@ -624,7 +627,8 @@ public class Util {
                                                 context.getString(R.string.export_ko_exception_1))
                                         .setPositiveButton(context.getString(R.string.the_end),
                                                 new DialogInterface.OnClickListener() {
-                                                    public void onClick(DialogInterface dialog, int which) {}
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                    }
                                                 }
                                         ).show();
                                 break;
