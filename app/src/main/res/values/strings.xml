@@ -15,7 +15,7 @@
     
     <string name="preferences_category_security">Sicurezza</string>
     <string name="preferences_change_main_key">Cambia la main password</string>
-    <string name="preferences_change_main_key_summary">Definisci una nuova MAIN PASSWORD da sostituire a quella attuale.</string>
+    <string name="preferences_change_main_key_summary">Definisci una nuova main password da sostituire a quella attuale.</string>
     <string name="preferences_category_database">Database</string>
     <string name="preferences_export">Esporta</string>
     <string name="preferences_export_summary">Esporta in un file di backup criptato tutte le password salvate finora.</string>
@@ -30,23 +30,26 @@
 
     <string name="export_default_message">Questa operazione creerà un file di backup criptato che potrai utilizzare in futuro per importare tutte le password salvate finora.</string>
     <string name="export_ok_title">Fatto</string>
-    <string name="export_ok_message">Backup eseguito con successo. Puoi trovare il file "Passbox.db" nella cartella "Passbox" e spostarlo su qualsiasi Cloud Storage come Dropbox per poi trovarlo su qualsiasi altro dispositivo.</string>
+    <string name="export_ok_message">Ora puoi trovare il file "Passbox.db" nella cartella "Passbox". Puoi caricarlo su qualunque Cloud Storage come Dropbox o Google Drive, per poi usarlo quando ne hai il bisogno su qualsiasi dispositivo, ma attenzione a non dimenticare la main password attuale, altrimenti non potrai importarlo correttamente.</string>
     <string name="export_ko_title">Ops&#8230;</string>
     <string name="export_ko_message">Backup fallito. </string>
     <string name="export_ko_exception_1">La memoria esterna del dispositivo non è abilitata per essere scritta da un\'applicazione.</string>
     <string name="export_ko_exception_2">L cartella </string>
     <string name="export_ko_exception_3">Backup fallito. </string>
 
-    <string name="import_default_message">Importa tutte le tue password da un file di backup creato in precedenza.</string>
+    <string name="import_default_message">Importa tutte le tue password da un file di backup creato in precedenza. È necessario conoscere la main password utilizzata per creare il file di backup.</string>
     <string name="import_ok_title">Fatto</string>
-    <string name="import_ok_message">Backup eseguito con successo. Puoi trovare il file "Passbox.db" nella cartella "Passbox" e spostarlo su qualsiasi CLoud Storage come Dropbox per poi trovarlo su qualsiasi altro dispositivo.</string>
+    <string name="import_ok_message">Ottimo lavoro! Ora ricorda che la main password è la stessa di quando hai creato il backup.</string>
     <string name="import_ko_title">Ops&#8230;</string>
     <string name="import_ko_message">Backup fallito. </string>
-    <string name="import_ko_exception_1">La memoria esterna del dispositivo non è abilitata per essere scritta da un\'applicazione.</string>
+    <string name="import_ko_exception_1">La memoria esterna del dispositivo non è abilitata per essere letta da un\'applicazione.</string>
     <string name="import_ko_exception_2">L cartella </string>
     <string name="import_ko_exception_3">Backup fallito. </string>
+    <string name="import_choose_file">Scegli il file di backup</string>
+    <string name="import_choose_file_up">Torna alla cartella precedente&#8230;</string>
+    <string name="import_choose_directory">Seleziona cartella</string>
 
-    <string name="restore_default_message">ATTENZIONE: Tutte le password salvate finora andranno perse per sempre. Se non vuoi perderle effettua prima un backup dalla sezione "Importa"</string>
+    <string name="restore_default_message">ATTENZIONE: Tutte le password salvate finora andranno perse per sempre. Se non vuoi perderle crea prima un backup dalla sezione "Esporta"</string>
     <string name="restore_ok_title">Fatto</string>
     <string name="restore_ok_message">Ora il tuo database è vuoto. Puoi riempirlo inserendo una a una le tue password o puoi importarle tutte insieme da un backup (se ne hai uno). Buon lavoro ;)</string>
 
@@ -54,6 +57,7 @@
     <string name="about_bug">Segnala un bug</string>
     <string name="about_rate">Vota l\'app sul Play Store</string>
     <string name="about_credits">Credits</string>
+    <string name="about_credits_email">corvagliamattia@gmail.com</string>
     <string name="about_credits_message">Passbox\nL\'applicazione ideale per gestire le tue password. La prima app che ti consente di aggiungere chiavi di recupero, PIN, PUK e qualsiasi altro codice relativo ad una password, la più sicura grazie alla cifratura AES 256, che ti garantisce un livello di sicurezza affidabile e ottimizzato. Inoltre grazie al sistema di visualizzazione HOLD-TO-READ sarai al sicuro anche dagli spioni :) Grafica curata e funzionalità utili come il backup e il ripristino offrono tutto ciò che un manager di password deve avere.\n\nAutore:\nMattia Corvaglia\ncorvagliamattia@gmail.com\nhttp://www.mattiacorvaglia.com</string>
 
     <string name="action_settings">Impostazioni</string>
@@ -65,25 +69,22 @@
     
     <string name="error_add_pwd">Devi inserire una password</string>
     <string name="error_add_title">Devi inserire un\'etichetta</string>
-    <string name="error_add_question">Devi inserire una domanda</string>
-    <string name="error_add_answer">Devi inserire una risposta</string>
+    <string name="error_add_question">Devi inserire un\'etichetta</string>
+    <string name="error_add_answer">Devi inserire un codice</string>
     <string name="error_encryption">Errore nel criptare la password</string>
     <string name="error_decryption">Errore nel decriptare la password</string>
     <string name="error_storing">Errore nel salvare le modifiche nel database</string>
     <string name="error_get_login">Il database è compromesso. Effettua la pulizia dei dati dalla pagina delle informazioni dell\'app.</string>
+    <string name="error_recrypt">Il database è compromesso. Effettua la pulizia dei dati dalla pagina delle informazioni dell\'app.</string>
 
-    <string name="content_placeholder">\@Mattia Corvaglia\n\n\nPASSBOX\n\nPersonal Password Manager</string>
-    <string name="content_placeholder_preference">Impostazioni e preferenze</string>
-	<string name="ciao">Ciao</string>
-	
-	<string name="title">Etichetta</string>
+	<string name="title">Nome</string>
 	<string name="description">Descrizione</string>
 	<string name="username">Username</string>
 	<string name="password">Password</string>
 	<string name="web_url">Website</string>
 	<string name="note">Note</string>
-	<string name="question">Domanda</string>
-	<string name="answer">Risposta segreta</string>
+	<string name="question">Etichetta</string>
+	<string name="answer">Codice</string>
 
 	<string name="login">Accedi</string>
 	
@@ -101,11 +102,11 @@
 	<string name="welcome">Benvenuto</string>
 	<string name="confirm">Conferma</string>
 	<string name="save">Salva</string>
-	<string name="set_auth_code">Imposta subito la tua password generale. Ti servirà a custodire tutti i tuoi codici segreti!</string>
-	<string name="set_password">Scegli la tua password. Deve avere almeno 4 o massimo 8 cifre.</string>
+	<string name="set_auth_code">È ora di scegliere la tua main password. Basterà ricordare solo questa per trovare tutte le altre!</string>
+	<string name="set_password">Può avere da 4 a 8 cifre.</string>
 	<string name="repeat_password">Ripeti la password per confermarla.</string>
-	<string name="repeat_process">Hai scritto due password diverse. Ripeti il procedimento. La password deve avere almeno 4 o massimo 8 cifre.</string>
-	<string name="ok_password">Congratulazioni. Sei al sicuro!</string>
+	<string name="repeat_process">Hai inserito due password diverse. Ripeti l\'operazione. La password può avere da 4 a 8 cifre.</string>
+	<string name="ok_password">Congratulazioni. Ora le tue password sono al sicuro!</string>
 	<string name="wrong_password">Password errata. Riprova.</string>
 	<string name="empty_collection">Nessuna password salvata.</string>
 	

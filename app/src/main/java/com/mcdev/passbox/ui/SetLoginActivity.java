@@ -128,8 +128,8 @@ public class SetLoginActivity extends Activity {
 		
 		// Show the AlertDialog
 		new AlertDialog.Builder(this)
-            .setTitle(getResources().getString(R.string.welcome))
-            .setMessage(getResources().getString(R.string.set_auth_code))
+            .setTitle(getString(R.string.welcome))
+            .setMessage(getString(R.string.set_auth_code))
             .setCancelable(false)
             .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {}
@@ -188,8 +188,8 @@ public class SetLoginActivity extends Activity {
 			preconfirmed = "";
 			preconfirmed = newPin.toString();
 			resetPin();
-			repeatText.setText(getResources().getString(R.string.repeat_password));
-			saveButton.setText(getResources().getString(R.string.confirm));
+			repeatText.setText(getString(R.string.repeat_password));
+			saveButton.setText(getString(R.string.confirm));
 			saveButton.setVisibility(View.INVISIBLE);
 		} else if (steps  == 2) {
 			if (newPin.toString().equals(preconfirmed)) {
@@ -200,7 +200,7 @@ public class SetLoginActivity extends Activity {
                     LoginDao.getInstance(mContext).close();
                     if (idPwd != -1) {
                         Loginer.getInstance(mContext).setLogged();
-                        repeatText.setText(getResources().getString(R.string.ok_password));
+                        repeatText.setText("");
                         saveButton.setVisibility(View.INVISIBLE);
                         Intent mIntent = new Intent(mContext, MainActivity.class);
                         startActivity(mIntent);
@@ -215,8 +215,8 @@ public class SetLoginActivity extends Activity {
                 resetPin();
                 steps = 0;
 			} else {
-				repeatText.setText(getResources().getString(R.string.repeat_process));
-				saveButton.setText(getResources().getString(R.string.save));
+				repeatText.setText(getString(R.string.repeat_process));
+				saveButton.setText(getString(R.string.save));
 				saveButton.setVisibility(View.INVISIBLE);
 				resetPin();
 				steps = 0;

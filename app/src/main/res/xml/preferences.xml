@@ -31,7 +31,7 @@
             android:key="pref_export"
             android:title="@string/preferences_import"
             android:summary="@string/preferences_import_summary"
-            android:dialogMessage="@string/preferences_import_summary"
+            android:dialogMessage="@string/import_default_message"
             android:positiveButtonText="@string/preferences_import"
             android:negativeButtonText="@string/cancel" />
 

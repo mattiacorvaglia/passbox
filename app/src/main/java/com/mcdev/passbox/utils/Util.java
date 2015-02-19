@@ -20,8 +20,11 @@ import java.util.Map;
 
 import com.mcdev.passbox.R;
 import com.mcdev.passbox.content.PassboxDbHelper;
+import com.mcdev.passbox.views.FilePicker;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -484,6 +487,7 @@ public class Util {
         private static final String APP_PACKAGE     = "com.mcdev.passbox";
         private static final String PATH_DATABASE   = "/databases/";
         private static final String PATH_BACKUP     = "/Passbox/";
+        private static final String DB_EXTENSION    = ".db";
 
         public static final int EXPORT_COMPLETED        = 1;
         public static final int EXPORT_CANNOT_WRITE_SD  = 2;
@@ -553,40 +557,124 @@ public class Util {
         }
 
         /**
+         * Launch a dialog to pick the backup file
+         * @param context The context
+         */
+        public static void chooseBackup(final Context context) {
+
+            File sd = Environment.getExternalStorageDirectory();
+            if (sd.canWrite()) {
+                File mPath = new File(sd + PATH_BACKUP);
+                FilePicker filePicker = new FilePicker(context, mPath);
+                filePicker.setFileEndsWith(DB_EXTENSION);
+                filePicker.addFileListener(new FilePicker.FileSelectedListener() {
+                    public void fileSelected(File file) {
+                        Log.d(Constants.TAG_APPLICATION_LOG, "Selected file: " + file.toString());
+                        // Import
+                        int res = importDB(file);
+                        // Check the operation result
+                        switch (res) {
+                            case IMPORT_COMPLETED:
+                                new AlertDialog.Builder(context)
+                                        .setTitle(context.getString(R.string.export_ok_title))
+                                        .setMessage(context.getString(R.string.export_ok_message))
+                                        .setPositiveButton(context.getString(R.string.the_end),
+                                                new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {}
+                                                }
+                                        ).show();
+                                break;
+                            case IMPORT_FNF_EXCEPTION:
+                                new AlertDialog.Builder(context)
+                                        .setTitle(context.getString(R.string.export_ko_title))
+                                        .setMessage(context.getString(R.string.export_ko_message) +
+                                                context.getString(R.string.export_ko_exception_1))
+                                        .setPositiveButton(context.getString(R.string.the_end),
+                                                new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {}
+                                                }
+                                        ).show();
+                                break;
+                            case IMPORT_IO_EXCEPTION:
+                                new AlertDialog.Builder(context)
+                                        .setTitle(context.getString(R.string.export_ko_title))
+                                        .setMessage(context.getString(R.string.export_ko_message) +
+                                                context.getString(R.string.export_ko_exception_1))
+                                        .setPositiveButton(context.getString(R.string.the_end),
+                                                new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {}
+                                                }
+                                        ).show();
+                                break;
+                            case IMPORT_EXCEPTION:
+                                new AlertDialog.Builder(context)
+                                        .setTitle(context.getString(R.string.export_ko_title))
+                                        .setMessage(context.getString(R.string.export_ko_message) +
+                                                context.getString(R.string.export_ko_exception_1))
+                                        .setPositiveButton(context.getString(R.string.the_end),
+                                                new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {}
+                                                }
+                                        ).show();
+                                break;
+                            default:
+                                new AlertDialog.Builder(context)
+                                        .setTitle(context.getString(R.string.export_ko_title))
+                                        .setMessage(context.getString(R.string.export_ko_message) +
+                                                context.getString(R.string.export_ko_exception_1))
+                                        .setPositiveButton(context.getString(R.string.the_end),
+                                                new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {}
+                                                }
+                                        ).show();
+                                break;
+                        }
+                    }
+                });
+                filePicker.showDialog();
+            } else {
+                Log.e(Constants.TAG_APPLICATION_LOG, "DB not exported, cannot read the external storage");
+                new AlertDialog.Builder(context)
+                        .setTitle(context.getString(R.string.export_ko_title))
+                        .setMessage(context.getString(R.string.export_ko_message) +
+                                context.getString(R.string.export_ko_exception_1))
+                        .setPositiveButton(context.getString(R.string.the_end),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {}
+                                }
+                        ).show();
+            }
+        }
+        
+        /**
          * Import the database from a backup copy stored
          * in the external storage of the device
          *
+         * @param file the file to import
          * @return The result code of the operation
          */
-        public static int importDB() {
+        public static int importDB(File file) {
 
             try {
-
-                File sd     = Environment.getExternalStorageDirectory();
+                
                 File data   = Environment.getDataDirectory();
 
-                if (sd.canWrite()) {
-                    String currentDBPath    = PATH_DATA + APP_PACKAGE + PATH_DATABASE +
-                                              PassboxDbHelper.DATABASE_NAME;
-                    String backupDBPath     = PATH_BACKUP + PassboxDbHelper.DATABASE_NAME;
+                String currentDBPath    = PATH_DATA + APP_PACKAGE + PATH_DATABASE +
+                        PassboxDbHelper.DATABASE_NAME;
+//                String backupDBPath     = PATH_BACKUP + PassboxDbHelper.DATABASE_NAME;
 
-                    File currentDB  = new File(sd, backupDBPath);
-                    File backupDB   = new File(data, currentDBPath);
+//                File currentDB  = new File(sd, backupDBPath);
+                File backupDB   = new File(data, currentDBPath);
 
-                    FileChannel src = new FileInputStream(currentDB).getChannel();
-                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                FileChannel src = new FileInputStream(file).getChannel();
+                FileChannel dst = new FileOutputStream(backupDB).getChannel();
 
-                    dst.transferFrom(src, 0, src.size());
+                dst.transferFrom(src, 0, src.size());
 
-                    src.close();
-                    dst.close();
+                src.close();
+                dst.close();
 
-                    return IMPORT_COMPLETED;
-
-                } else {
-                    Log.e(Constants.TAG_APPLICATION_LOG, "DB not exported, cannot read the external storage");
-                    return IMPORT_CANNOT_READ_SD;
-                }
+                return IMPORT_COMPLETED;
 
             } catch (FileNotFoundException fnfe) {
                 Log.e(Constants.TAG_APPLICATION_LOG, "DB not exported, FileNotFoundException");

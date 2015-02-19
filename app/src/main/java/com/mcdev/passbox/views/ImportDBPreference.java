@@ -35,41 +35,11 @@ public class ImportDBPreference extends DialogPreference {
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int result = Util.Files.importDB();
-
-                switch (result) {
-                    case 1:
-                        dialog.setTitle(getContext().getString(R.string.export_ok_title));
-                        dialog.setMessage(getContext().getString(R.string.export_ok_message));
-                        dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setVisibility(View.GONE);
-                        Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-                        positiveButton.setText(getContext().getString(R.string.the_end));
-                        positiveButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.dismiss();
-                            }
-                        });
-                        break;
-                    case 2:
-                        dialog.setTitle(getContext().getString(R.string.export_ko_title));
-                        dialog.setMessage(getContext().getString(R.string.export_ko_message) +
-                                getContext().getString(R.string.export_ko_exception_1));
-                        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setText(getContext().getString(R.string.retry));
-                        break;
-                    case 3:
-                        dialog.setTitle(getContext().getString(R.string.export_ko_title));
-                        dialog.setMessage(getContext().getString(R.string.export_ko_message) +
-                                getContext().getString(R.string.export_ko_exception_1));
-                        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setText(getContext().getString(R.string.retry));
-                        break;
-                    default:
-                        dialog.setTitle(getContext().getString(R.string.export_ko_title));
-                        dialog.setMessage(getContext().getString(R.string.export_ko_message) +
-                                getContext().getString(R.string.export_ko_exception_1));
-                        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setText(getContext().getString(R.string.retry));
-                        break;
-                }
+                /**
+                 * Perform the import
+                 */
+                Util.Files.chooseBackup(getContext());
+                dialog.dismiss();
             }
         });
     }

@@ -36,7 +36,7 @@ public class ExportDBPreference extends DialogPreference {
                 int result = Util.Files.exportDB();
 
                 switch (result) {
-                    case 1:
+                    case Util.Files.EXPORT_COMPLETED:
                         dialog.setTitle(getContext().getString(R.string.export_ok_title));
                         dialog.setMessage(getContext().getString(R.string.export_ok_message));
                         dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setVisibility(View.GONE);
@@ -49,13 +49,19 @@ public class ExportDBPreference extends DialogPreference {
                             }
                         });
                         break;
-                    case 2:
+                    case Util.Files.EXPORT_CANNOT_WRITE_SD:
                         dialog.setTitle(getContext().getString(R.string.export_ko_title));
                         dialog.setMessage(getContext().getString(R.string.export_ko_message) +
                                 getContext().getString(R.string.export_ko_exception_1));
                         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setText(getContext().getString(R.string.retry));
                         break;
-                    case 3:
+                    case Util.Files.EXPORT_IO_EXCEPTION:
+                        dialog.setTitle(getContext().getString(R.string.export_ko_title));
+                        dialog.setMessage(getContext().getString(R.string.export_ko_message) +
+                                getContext().getString(R.string.export_ko_exception_1));
+                        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setText(getContext().getString(R.string.retry));
+                        break;
+                    case Util.Files.EXPORT_EXCEPTION:
                         dialog.setTitle(getContext().getString(R.string.export_ko_title));
                         dialog.setMessage(getContext().getString(R.string.export_ko_message) +
                                 getContext().getString(R.string.export_ko_exception_1));

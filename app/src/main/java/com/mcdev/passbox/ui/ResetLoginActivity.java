@@ -216,7 +216,7 @@ public class ResetLoginActivity extends Activity {
                     int affRows = LoginDao.getInstance(mContext).updateLogin(newPin.toString());
                     LoginDao.getInstance(mContext).close();
                     if (affRows == 1) {
-                        repeatText.setText(getString(R.string.ok_password));
+                        repeatText.setText("");
                         saveButton.setVisibility(View.INVISIBLE);
                         /**
                          * Re-encrypt all the passwords stored in the database
@@ -228,14 +228,14 @@ public class ResetLoginActivity extends Activity {
                             startActivity(mIntent);
                             finish();
                         } else {
-                            Toast.makeText(mContext, getString(R.string.error_add_pwd), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, getString(R.string.error_recrypt), Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(mContext, getString(R.string.error_add_pwd), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, getString(R.string.error_recrypt), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Toast.makeText(mContext, getString(R.string.error_add_pwd), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, getString(R.string.error_recrypt), Toast.LENGTH_SHORT).show();
                 }
                 resetPin();
                 steps = 0;
@@ -288,7 +288,8 @@ public class ResetLoginActivity extends Activity {
                 }
                 return true;
             } else {
-                return false;
+                // Return true also if there aren't any passwords in stored in the database
+                return true;
             }
         } catch (NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException |
                 InvalidKeyException | InvalidAlgorithmParameterException |
