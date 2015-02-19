@@ -65,7 +65,7 @@
     <string name="action_remove">Elimina</string>
     <string name="action_color_picker">Cambia colore</string>
     <string name="action_done">Salva</string>
-    <string name="action_add_recovery">Aggiungi una recovery password</string>
+    <string name="action_add_recovery">Aggiungi una chiave</string>
     <string name="action_choose_email_client">Scegli quale client email usare</string>
     <string name="action_clipdata_copied">Password copiata negli appunti.</string>
 

@@ -265,15 +265,14 @@
             app:rv_zoom="true"
             app:rv_zoomScale="1.1"
             app:rv_alpha="120"
-            app:rv_rippleDuration="120"
-            app:rv_type="doubleRipple" >
+            app:rv_rippleDuration="120" >
             <Button
                 android:id="@+id/save_pin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/save"
-                android:background="@android:color/transparent"
-                android:textColor="@android:color/white"
+                android:background="@color/pink_500"
+                android:textColor="@color/white"
                 android:visibility="invisible" />
         </com.mcdev.passbox.views.RippleView>
 	    

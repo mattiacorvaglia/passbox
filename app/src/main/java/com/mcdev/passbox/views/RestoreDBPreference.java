@@ -36,6 +36,7 @@ public class RestoreDBPreference extends DialogPreference {
                 PasswordDao.getInstance(getContext().getApplicationContext()).close();
 
                 dialog.setTitle(getContext().getString(R.string.restore_ok_title));
+                dialog.setMessage(getContext().getString(R.string.restore_ok_message));
                 dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setVisibility(View.GONE);
                 Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
                 positiveButton.setText(getContext().getString(R.string.the_end));

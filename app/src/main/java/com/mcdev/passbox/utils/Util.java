@@ -577,8 +577,8 @@ public class Util {
                         switch (res) {
                             case IMPORT_COMPLETED:
                                 new AlertDialog.Builder(context)
-                                        .setTitle(context.getString(R.string.export_ok_title))
-                                        .setMessage(context.getString(R.string.export_ok_message))
+                                        .setTitle(context.getString(R.string.import_ok_title))
+                                        .setMessage(context.getString(R.string.import_ok_message))
                                         .setPositiveButton(context.getString(R.string.the_end),
                                                 new DialogInterface.OnClickListener() {
                                                     public void onClick(DialogInterface dialog, int which) {}
@@ -588,8 +588,8 @@ public class Util {
                             case IMPORT_FNF_EXCEPTION:
                                 new AlertDialog.Builder(context)
                                         .setTitle(context.getString(R.string.export_ko_title))
-                                        .setMessage(context.getString(R.string.export_ko_message) +
-                                                context.getString(R.string.export_ko_exception_1))
+                                        .setMessage(context.getString(R.string.import_ko_message) +
+                                                context.getString(R.string.import_ko_exception_1))
                                         .setPositiveButton(context.getString(R.string.the_end),
                                                 new DialogInterface.OnClickListener() {
                                                     public void onClick(DialogInterface dialog, int which) {
@@ -599,9 +599,9 @@ public class Util {
                                 break;
                             case IMPORT_IO_EXCEPTION:
                                 new AlertDialog.Builder(context)
-                                        .setTitle(context.getString(R.string.export_ko_title))
-                                        .setMessage(context.getString(R.string.export_ko_message) +
-                                                context.getString(R.string.export_ko_exception_1))
+                                        .setTitle(context.getString(R.string.import_ko_title))
+                                        .setMessage(context.getString(R.string.import_ko_message) +
+                                                context.getString(R.string.import_ko_exception_1))
                                         .setPositiveButton(context.getString(R.string.the_end),
                                                 new DialogInterface.OnClickListener() {
                                                     public void onClick(DialogInterface dialog, int which) {
@@ -611,9 +611,9 @@ public class Util {
                                 break;
                             case IMPORT_EXCEPTION:
                                 new AlertDialog.Builder(context)
-                                        .setTitle(context.getString(R.string.export_ko_title))
-                                        .setMessage(context.getString(R.string.export_ko_message) +
-                                                context.getString(R.string.export_ko_exception_1))
+                                        .setTitle(context.getString(R.string.import_ko_title))
+                                        .setMessage(context.getString(R.string.import_ko_message) +
+                                                context.getString(R.string.import_ko_exception_1))
                                         .setPositiveButton(context.getString(R.string.the_end),
                                                 new DialogInterface.OnClickListener() {
                                                     public void onClick(DialogInterface dialog, int which) {}
@@ -622,9 +622,9 @@ public class Util {
                                 break;
                             default:
                                 new AlertDialog.Builder(context)
-                                        .setTitle(context.getString(R.string.export_ko_title))
-                                        .setMessage(context.getString(R.string.export_ko_message) +
-                                                context.getString(R.string.export_ko_exception_1))
+                                        .setTitle(context.getString(R.string.import_ko_title))
+                                        .setMessage(context.getString(R.string.import_ko_message) +
+                                                context.getString(R.string.import_ko_exception_1))
                                         .setPositiveButton(context.getString(R.string.the_end),
                                                 new DialogInterface.OnClickListener() {
                                                     public void onClick(DialogInterface dialog, int which) {
