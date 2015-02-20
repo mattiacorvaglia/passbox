@@ -4,15 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
+    android:paddingTop="80dp"
     android:background="@color/pink_500" >
     
     <RelativeLayout
         android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:padding="24dp"
-	    android:gravity="center"
-	    android:layout_marginTop="80dp" >
+	    android:gravity="center" >
 	    
         <TextView
             android:id="@+id/repeat_text"
